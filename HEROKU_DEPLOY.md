@@ -1,43 +1,32 @@
-# Heroku Deployment Instructions for consignment-site
+# Heroku Deployment - consignment-site
 
-## Status: Code pushed to GitHub ✓
+## Status: ✅ DEPLOYED AND LIVE
 
-The code has been pushed to GitHub (AGWU662/consignment-site) and is ready for deployment.
+**App URL**: https://consignment-site-2ac0cae70da0.herokuapp.com/
 
-## Step 1: Add Buildpack (Heroku Dashboard)
-- Go to Settings tab
-- Click "Add buildpack"
-- Select: heroku/python
+## Configuration Checklist
 
-## Step 2: Add Config Vars (Heroku Dashboard)
-- Go to Settings tab → Config Vars → Reveal Config Vars
-- Add these variables:
+### Config Vars (Settings → Config Vars)
+Make sure these are set correctly:
 
 | KEY | VALUE |
 |-----|-------|
-| SECRET_KEY | RI0ZmY9XMlHLKod(F)-Q(8x672iKjrGE3Ikzz9YSnKT4@a(%eG |
-| DEBUG | False |
+| `SECRET_KEY` | `dj-prod-x9k2m5n8p1q4r7t0w3y6z` |
+| `DEBUG` | `False` |
 
-## Step 3: Deploy (Heroku Dashboard)
-- Go to Deploy tab
-- Under "Manual deploy", select branch: main
-- Click "Deploy Branch"
+### Create Admin User
+In Heroku Dashboard: **More → Run console** → type `bash`
 
-## Step 4: After Deploy - Run Migrations
-In Heroku Dashboard: More → Run console → Enter: bash
-
-Then run these commands:
-`ash
-python manage.py migrate
-python manage.py collectstatic --noinput
+```bash
 python manage.py createsuperuser
-`
+```
 
-## App URL
-https://consignment-site-2ac0cae70da0.herokuapp.com/
+Then login at: https://consignment-site-2ac0cae70da0.herokuapp.com/admin/
 
-## What was added in this update:
-- Heroku deployment configuration (Procfile, runtime.txt)
-- Production settings (whitenoise, postgres, security)
+## Features Deployed
+- Heroku deployment with auto-deploy from GitHub
+- Release phase runs migrations automatically
+- WhiteNoise for static files
+- PostgreSQL database ready
 - Driver history page with search and pagination
 - Improved driver portal with statistics
