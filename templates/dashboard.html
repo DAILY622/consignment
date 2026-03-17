@@ -11,30 +11,72 @@
 <!-- Stats Cards -->
 <div class="grid md:grid-cols-4 gap-6 mb-8">
     <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow p-6 border border-primary-100">
-        <p class="text-primary-500 text-sm">Total Packages</p>
-        <p class="text-3xl font-bold text-primary-800">{{ stats.total }}</p>
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-primary-500 text-sm">Total Packages</p>
+                <p class="text-3xl font-bold text-primary-800">{{ stats.total }}</p>
+            </div>
+            <img src="https://img.icons8.com/color/48/package.png" alt="Total" class="w-12 h-12 opacity-70">
+        </div>
     </div>
     <div class="bg-yellow-50 rounded-xl shadow p-6 border border-yellow-200">
-        <p class="text-yellow-600 text-sm">Pending</p>
-        <p class="text-3xl font-bold text-yellow-700">{{ stats.pending }}</p>
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-yellow-600 text-sm">Pending</p>
+                <p class="text-3xl font-bold text-yellow-700">{{ stats.pending }}</p>
+            </div>
+            <img src="https://img.icons8.com/color/48/clock--v1.png" alt="Pending" class="w-12 h-12 opacity-70">
+        </div>
     </div>
     <div class="bg-blue-50 rounded-xl shadow p-6 border border-blue-200">
-        <p class="text-blue-600 text-sm">In Transit</p>
-        <p class="text-3xl font-bold text-blue-700">{{ stats.in_transit }}</p>
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-blue-600 text-sm">In Transit</p>
+                <p class="text-3xl font-bold text-blue-700">{{ stats.in_transit }}</p>
+            </div>
+            <img src="https://img.icons8.com/color/48/delivery-truck.png" alt="Transit" class="w-12 h-12 opacity-70">
+        </div>
     </div>
     <div class="bg-green-50 rounded-xl shadow p-6 border border-green-200">
-        <p class="text-green-600 text-sm">Delivered</p>
-        <p class="text-3xl font-bold text-green-700">{{ stats.delivered }}</p>
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-green-600 text-sm">Delivered</p>
+                <p class="text-3xl font-bold text-green-700">{{ stats.delivered }}</p>
+            </div>
+            <img src="https://img.icons8.com/color/48/checked--v1.png" alt="Delivered" class="w-12 h-12 opacity-70">
+        </div>
+    </div>
+</div>
+
+<!-- Live Map Overview -->
+<div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border border-gray-100">
+    <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-indigo-50 to-purple-50">
+        <h3 class="font-bold text-gray-800 flex items-center">
+            <img src="https://img.icons8.com/color/24/map-marker.png" alt="Map" class="w-6 h-6 mr-2">
+            Live Package Locations
+            <span class="ml-2 w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+        </h3>
+        <span class="text-sm text-gray-500">Showing {{ active_packages|length|default:"0" }} active shipments</span>
+    </div>
+    <div id="dashboard-map" style="height: 350px;"></div>
+    <div class="p-3 bg-gray-50 border-t flex items-center justify-between text-xs">
+        <div class="flex items-center space-x-4">
+            <span class="flex items-center"><span class="w-3 h-3 bg-yellow-500 rounded-full mr-1"></span> Pending</span>
+            <span class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-1"></span> In Transit</span>
+            <span class="flex items-center"><span class="w-3 h-3 bg-orange-500 rounded-full mr-1"></span> Out for Delivery</span>
+            <span class="flex items-center"><span class="w-3 h-3 bg-green-500 rounded-full mr-1"></span> Delivered</span>
+        </div>
+        <a href="{% url 'track' %}" class="text-indigo-600 hover:underline">Open Full Tracker →</a>
     </div>
 </div>
 
 <!-- Actions & Search -->
 <div class="flex flex-col md:flex-row gap-4 mb-8">
-    <a href="{% url 'create_package' %}" class="bg-gradient-to-r from-primary-600 to-accent-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-accent-700 transition text-center">
-        + Create New Shipment
+    <a href="{% url 'create_package' %}" class="bg-gradient-to-r from-primary-600 to-accent-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-accent-700 transition text-center flex items-center justify-center gap-2">
+        <img src="https://img.icons8.com/color/24/plus-math.png" alt="Add" class="w-5 h-5"> Create New Shipment
     </a>
-    <a href="{% url 'profile' %}" class="bg-primary-100 text-primary-700 px-6 py-3 rounded-lg font-semibold hover:bg-primary-200 transition text-center">
-        👤 My Profile
+    <a href="{% url 'profile' %}" class="bg-primary-100 text-primary-700 px-6 py-3 rounded-lg font-semibold hover:bg-primary-200 transition text-center flex items-center justify-center gap-2">
+        <img src="https://img.icons8.com/color/24/user.png" alt="Profile" class="w-5 h-5"> My Profile
     </a>
     
     <!-- Search & Filter -->
@@ -60,59 +102,74 @@
 </div>
 
 <!-- Recent Packages -->
-<div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg overflow-hidden border border-primary-100">
-    <div class="p-6 border-b border-primary-200">
-        <h2 class="text-xl font-bold text-primary-800">Your Shipments</h2>
+<div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+    <div class="p-6 border-b bg-gradient-to-r from-gray-50 to-white">
+        <h2 class="text-xl font-bold text-gray-800 flex items-center">
+            <img src="https://img.icons8.com/color/24/cardboard-box.png" alt="Packages" class="w-6 h-6 mr-2">
+            Your Shipments
+        </h2>
     </div>
     
     <div class="overflow-x-auto">
         <table class="w-full">
-            <thead class="bg-primary-100">
+            <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-primary-600 uppercase">Tracking #</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-primary-600 uppercase">Receiver</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-primary-600 uppercase">Destination</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-primary-600 uppercase">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-primary-600 uppercase">Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-primary-600 uppercase">Actions</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Tracking #</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Receiver</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Destination</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-primary-100 bg-white">
+            <tbody class="divide-y divide-gray-100">
                 {% for package in packages %}
-                <tr class="hover:bg-primary-50">
+                <tr class="hover:bg-indigo-50 transition">
                     <td class="px-6 py-4">
-                        <a href="{% url 'package_detail' package.id %}" class="text-primary-600 font-mono font-semibold hover:underline">
+                        <a href="{% url 'package_detail' package.id %}" class="text-indigo-600 font-mono font-semibold hover:underline">
                             {{ package.tracking_number }}
                         </a>
                     </td>
-                    <td class="px-6 py-4 text-primary-800">{{ package.receiver_name }}</td>
-                    <td class="px-6 py-4 text-primary-600">{{ package.receiver_city }}</td>
+                    <td class="px-6 py-4 text-gray-800">{{ package.receiver_name }}</td>
+                    <td class="px-6 py-4 text-gray-600">{{ package.receiver_city }}</td>
                     <td class="px-6 py-4">
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold status-{{ package.status }}">
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold
+                            {% if package.status == 'delivered' %}bg-green-100 text-green-700
+                            {% elif package.status == 'in_transit' %}bg-blue-100 text-blue-700
+                            {% elif package.status == 'out_for_delivery' %}bg-orange-100 text-orange-700
+                            {% elif package.status == 'pending' %}bg-yellow-100 text-yellow-700
+                            {% elif package.status == 'cancelled' %}bg-red-100 text-red-700
+                            {% else %}bg-gray-100 text-gray-700{% endif %}">
                             {{ package.get_status_display }}
                         </span>
                     </td>
-                    <td class="px-6 py-4 text-primary-500 text-sm">{{ package.created_at|date:"M j, Y" }}</td>
+                    <td class="px-6 py-4 text-gray-500 text-sm">{{ package.created_at|date:"M j, Y" }}</td>
                     <td class="px-6 py-4">
                         <div class="flex gap-2">
-                            <a href="{% url 'package_detail' package.id %}" class="text-primary-600 hover:text-primary-800" title="View">👁️</a>
-                            <a href="{% url 'track' %}?q={{ package.tracking_number }}" class="text-primary-600 hover:text-primary-800" title="Track">📍</a>
+                            <a href="{% url 'package_detail' package.id %}" class="p-2 hover:bg-indigo-100 rounded-lg transition" title="View">
+                                <img src="https://img.icons8.com/color/20/visible.png" alt="View">
+                            </a>
+                            <a href="{% url 'track' %}?q={{ package.tracking_number }}" class="p-2 hover:bg-indigo-100 rounded-lg transition" title="Track">
+                                <img src="https://img.icons8.com/color/20/marker.png" alt="Track">
+                            </a>
                             {% if package.status == 'pending' %}
-                            <a href="{% url 'package_edit' package.id %}" class="text-primary-600 hover:text-primary-800" title="Edit">✏️</a>
+                            <a href="{% url 'package_edit' package.id %}" class="p-2 hover:bg-indigo-100 rounded-lg transition" title="Edit">
+                                <img src="https://img.icons8.com/color/20/edit--v1.png" alt="Edit">
+                            </a>
                             {% endif %}
                         </div>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" class="px-6 py-12 text-center text-primary-500">
-                        <div class="text-4xl mb-2">📦</div>
+                    <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                        <img src="https://img.icons8.com/color/64/empty-box.png" alt="No packages" class="mx-auto mb-4">
                         {% if search or status_filter %}
                         <p>No packages found matching your criteria.</p>
-                        <a href="{% url 'dashboard' %}" class="text-primary-600 hover:underline">Clear filters</a>
+                        <a href="{% url 'dashboard' %}" class="text-indigo-600 hover:underline">Clear filters</a>
                         {% else %}
                         <p>No shipments yet.</p>
-                        <a href="{% url 'create_package' %}" class="text-primary-600 hover:underline">Create your first shipment</a>
+                        <a href="{% url 'create_package' %}" class="text-indigo-600 hover:underline">Create your first shipment</a>
                         {% endif %}
                     </td>
                 </tr>
@@ -123,25 +180,111 @@
     
     <!-- Pagination -->
     {% if packages.has_other_pages %}
-    <div class="p-4 border-t border-primary-200 flex justify-center gap-2">
+    <div class="p-4 border-t flex justify-center gap-2">
         {% if packages.has_previous %}
         <a href="?page={{ packages.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}" 
-           class="px-4 py-2 bg-primary-100 text-primary-700 rounded-lg hover:bg-primary-200 transition">
+           class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
             ← Previous
         </a>
         {% endif %}
         
-        <span class="px-4 py-2 text-primary-600">
+        <span class="px-4 py-2 text-gray-600">
             Page {{ packages.number }} of {{ packages.paginator.num_pages }}
         </span>
         
         {% if packages.has_next %}
         <a href="?page={{ packages.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}" 
-           class="px-4 py-2 bg-primary-100 text-primary-700 rounded-lg hover:bg-primary-200 transition">
+           class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
             Next →
         </a>
         {% endif %}
     </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // UK city coordinates
+    var ukCities = {
+        'London': [51.5074, -0.1278], 'Manchester': [53.4808, -2.2426], 'Birmingham': [52.4862, -1.8904],
+        'Leeds': [53.8008, -1.5491], 'Glasgow': [55.8642, -4.2518], 'Edinburgh': [55.9533, -3.1883],
+        'Liverpool': [53.4084, -2.9916], 'Bristol': [51.4545, -2.5879], 'Cardiff': [51.4816, -3.1791],
+        'Belfast': [54.5973, -5.9301], 'Sheffield': [53.3811, -1.4701], 'Newcastle': [54.9783, -1.6178],
+        'Nottingham': [52.9548, -1.1581], 'Southampton': [50.9097, -1.4044], 'Plymouth': [50.3755, -4.1427]
+    };
+    
+    // Initialize dashboard map
+    var dashMap = L.map('dashboard-map').setView([54.0, -2.0], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(dashMap);
+    
+    // Status colors
+    var statusColors = {
+        'pending': '#eab308',
+        'processing': '#8b5cf6',
+        'in_transit': '#3b82f6',
+        'out_for_delivery': '#f97316',
+        'delivered': '#22c55e',
+        'cancelled': '#ef4444'
+    };
+    
+    // Package icon creator
+    function createPackageIcon(status, trackingNum) {
+        var color = statusColors[status] || '#6b7280';
+        return L.divIcon({
+            className: 'package-marker',
+            html: `<div style="position:relative;">
+                <div style="background:${color};width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+                    <span style="font-size:18px;">📦</span>
+                </div>
+                <div style="position:absolute;top:-8px;right:-8px;background:#ef4444;color:white;font-size:10px;padding:2px 5px;border-radius:10px;font-weight:bold;">
+                    ${trackingNum.slice(-4)}
+                </div>
+            </div>`,
+            iconSize: [36, 36],
+            iconAnchor: [18, 18]
+        });
+    }
+    
+    // Add markers for each package
+    var bounds = [];
+    {% for package in packages %}
+    (function() {
+        var city = '{{ package.receiver_city }}';
+        var coords = ukCities[city];
+        if (!coords) {
+            // Try to find partial match
+            for (var c in ukCities) {
+                if (city.toLowerCase().includes(c.toLowerCase()) || c.toLowerCase().includes(city.toLowerCase())) {
+                    coords = ukCities[c];
+                    break;
+                }
+            }
+        }
+        if (!coords) coords = [51.5 + (Math.random()-0.5)*2, -1.5 + (Math.random()-0.5)*2]; // Random UK location
+        
+        var icon = createPackageIcon('{{ package.status }}', '{{ package.tracking_number }}');
+        var marker = L.marker(coords, {icon: icon}).addTo(dashMap);
+        marker.bindPopup(`
+            <div style="min-width:200px;">
+                <strong style="font-size:14px;">📦 {{ package.tracking_number }}</strong><br>
+                <span style="color:#666;">To: {{ package.receiver_name }}</span><br>
+                <span style="color:#666;">{{ package.receiver_city }}</span><br>
+                <span style="display:inline-block;margin-top:5px;padding:3px 8px;border-radius:10px;font-size:11px;background:${statusColors['{{ package.status }}']};color:white;">
+                    {{ package.get_status_display }}
+                </span><br>
+                <a href="{% url 'track' %}?q={{ package.tracking_number }}" style="color:#4f46e5;font-size:12px;">View Details →</a>
+            </div>
+        `);
+        bounds.push(coords);
+    })();
+    {% endfor %}
+    
+    // Fit map to show all markers
+    if (bounds.length > 0) {
+        dashMap.fitBounds(bounds, {padding: [30, 30], maxZoom: 10});
+    }
+</script>
 {% endblock %}

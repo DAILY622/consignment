@@ -94,21 +94,55 @@
     
     <!-- Live Map -->
     <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-        <div class="p-4 border-b flex justify-between items-center">
+        <div class="p-4 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-gradient-to-r from-indigo-50 to-purple-50">
             <h3 class="font-bold text-gray-800 flex items-center">
                 <span class="w-3 h-3 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                <img src="https://img.icons8.com/color/24/map-marker.png" alt="Map" class="w-6 h-6 mr-2">
                 Live Package Location
             </h3>
-            <span class="text-sm text-gray-500">Last updated: {% now "M j, g:i A" %}</span>
+            <div class="flex items-center gap-4">
+                <span class="text-sm text-gray-500">Last updated: {% now "M j, g:i A" %}</span>
+                <button onclick="centerOnPackage()" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full hover:bg-indigo-200 transition">
+                    📍 Center on Package
+                </button>
+            </div>
         </div>
-        <div id="map" style="height: 450px;"></div>
+        <div class="map-container relative">
+            <div id="map"></div>
+            <!-- Custom Map Controls -->
+            <div class="map-controls">
+                <button class="map-btn" onclick="map.zoomIn()" title="Zoom In">+</button>
+                <button class="map-btn" onclick="map.zoomOut()" title="Zoom Out">−</button>
+                <button class="map-btn" onclick="centerOnPackage()" title="Center Package">📦</button>
+                <button class="map-btn" onclick="fitAllMarkers()" title="Show All">🗺️</button>
+                <button class="map-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+            </div>
+            <!-- Package Info Overlay -->
+            <div class="absolute bottom-4 left-4 bg-white/95 backdrop-blur rounded-xl shadow-lg p-3 z-[1000] max-w-xs">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">📦</span>
+                        </div>
+                        <span class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></span>
+                    </div>
+                    <div>
+                        <p class="font-mono font-bold text-indigo-600 text-sm">{{ package.tracking_number }}</p>
+                        <p class="text-xs text-gray-500">{{ package.get_status_display }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="p-4 bg-gray-50 border-t">
-            <div class="flex items-center justify-between text-sm">
-                <div class="flex items-center space-x-6">
+            <div class="flex flex-wrap items-center justify-between gap-4 text-sm">
+                <div class="flex flex-wrap items-center gap-4">
                     <span class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-1"></span> Origin</span>
                     <span class="flex items-center"><span class="w-3 h-3 bg-indigo-500 rounded-full mr-1"></span> Route</span>
                     <span class="flex items-center"><span class="w-3 h-3 bg-green-500 rounded-full mr-1"></span> Destination</span>
-                    <span class="flex items-center"><span class="w-3 h-3 bg-red-500 rounded-full mr-1"></span> Current</span>
+                    <span class="flex items-center"><span class="w-3 h-3 bg-orange-500 rounded-full mr-1 animate-pulse"></span> Package</span>
+                </div>
+                <div class="text-gray-500 text-xs">
+                    <span id="distance-info">Calculating route...</span>
                 </div>
             </div>
         </div>
@@ -195,121 +229,238 @@
 {% if package %}
 {% block extra_js %}
 <script>
-    // UK city coordinates for demo
+    // UK city coordinates database
     var ukCities = {
-        'London': [51.5074, -0.1278],
-        'Manchester': [53.4808, -2.2426],
-        'Birmingham': [52.4862, -1.8904],
-        'Leeds': [53.8008, -1.5491],
-        'Glasgow': [55.8642, -4.2518],
-        'Edinburgh': [55.9533, -3.1883],
-        'Liverpool': [53.4084, -2.9916],
-        'Bristol': [51.4545, -2.5879],
-        'Cardiff': [51.4816, -3.1791],
-        'Belfast': [54.5973, -5.9301],
-        'Sheffield': [53.3811, -1.4701],
-        'Newcastle': [54.9783, -1.6178],
+        'London': [51.5074, -0.1278], 'Manchester': [53.4808, -2.2426], 'Birmingham': [52.4862, -1.8904],
+        'Leeds': [53.8008, -1.5491], 'Glasgow': [55.8642, -4.2518], 'Edinburgh': [55.9533, -3.1883],
+        'Liverpool': [53.4084, -2.9916], 'Bristol': [51.4545, -2.5879], 'Cardiff': [51.4816, -3.1791],
+        'Belfast': [54.5973, -5.9301], 'Sheffield': [53.3811, -1.4701], 'Newcastle': [54.9783, -1.6178],
+        'Nottingham': [52.9548, -1.1581], 'Southampton': [50.9097, -1.4044], 'Plymouth': [50.3755, -4.1427],
+        'Leicester': [52.6369, -1.1398], 'Coventry': [52.4068, -1.5197], 'Hull': [53.7676, -0.3274],
+        'Bradford': [53.7960, -1.7594], 'Stoke': [53.0027, -2.1794], 'Wolverhampton': [52.5870, -2.1288],
+        'Derby': [52.9225, -1.4746], 'Swansea': [51.6214, -3.9436], 'Preston': [53.7632, -2.7031],
+        'York': [53.9591, -1.0815], 'Aberdeen': [57.1497, -2.0943], 'Dundee': [56.4620, -2.9707],
+        'Oxford': [51.7520, -1.2577], 'Cambridge': [52.2053, 0.1218], 'Brighton': [50.8225, -0.1372],
+        'Reading': [51.4543, -0.9781], 'Milton Keynes': [52.0406, -0.7594], 'Swindon': [51.5558, -1.7797]
     };
     
-    // Get coordinates for cities
+    // Get coordinates (with fuzzy matching)
+    function getCoords(cityName) {
+        if (ukCities[cityName]) return ukCities[cityName];
+        for (var city in ukCities) {
+            if (cityName.toLowerCase().includes(city.toLowerCase()) || city.toLowerCase().includes(cityName.toLowerCase())) {
+                return ukCities[city];
+            }
+        }
+        return [51.5 + (Math.random()-0.5)*3, -1.5 + (Math.random()-0.5)*3]; // Random UK location
+    }
+    
     var senderCity = '{{ package.sender_city }}';
     var receiverCity = '{{ package.receiver_city }}';
-    var senderCoords = ukCities[senderCity] || [51.5, -0.1];
-    var receiverCoords = ukCities[receiverCity] || [53.5, -2.2];
+    var senderCoords = getCoords(senderCity);
+    var receiverCoords = getCoords(receiverCity);
     
-    // Initialize map
-    var map = L.map('map').setView([53.0, -1.5], 6);
+    // Initialize map with better tile layer
+    var map = L.map('map', {
+        zoomControl: false, // We'll use custom controls
+        scrollWheelZoom: true
+    }).setView([53.0, -1.5], 6);
     
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+    // Use a better looking map tile
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap © CARTO',
+        maxZoom: 19
     }).addTo(map);
     
-    // Custom icons
+    // Add zoom control to bottom right
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    
+    // Custom Package Sticker Icon
+    var packageIcon = L.divIcon({
+        className: 'package-marker-animated',
+        html: `
+            <div style="position:relative;">
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(249,115,22,0.3);border-radius:50%;animation:pulse 2s infinite;"></div>
+                <div style="position:relative;background:linear-gradient(135deg,#f97316,#ea580c);width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 15px rgba(249,115,22,0.5);transform:rotate(-5deg);">
+                    <span style="font-size:26px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.2));">📦</span>
+                </div>
+                <div style="position:absolute;top:-8px;right:-8px;background:#ef4444;color:white;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:bold;border:2px solid white;">LIVE</div>
+            </div>
+        `,
+        iconSize: [50, 50],
+        iconAnchor: [25, 25]
+    });
+    
+    // Origin Icon
     var originIcon = L.divIcon({
-        className: 'custom-div-icon',
-        html: "<div style='background-color:#3b82f6;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.3);'><span style='font-size:14px;'>📤</span></div>",
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
+        className: 'origin-marker',
+        html: `
+            <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 3px 10px rgba(59,130,246,0.4);">
+                <span style="font-size:18px;">📤</span>
+            </div>
+        `,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18]
     });
     
+    // Destination Icon
     var destIcon = L.divIcon({
-        className: 'custom-div-icon',
-        html: "<div style='background-color:#22c55e;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.3);'><span style='font-size:14px;'>📥</span></div>",
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
+        className: 'dest-marker',
+        html: `
+            <div style="background:linear-gradient(135deg,#22c55e,#16a34a);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 3px 10px rgba(34,197,94,0.4);">
+                <span style="font-size:18px;">📥</span>
+            </div>
+        `,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18]
     });
     
-    var truckIcon = L.divIcon({
-        className: 'custom-div-icon',
-        html: "<div style='background-color:#ef4444;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 10px rgba(0,0,0,0.4);animation:pulse 2s infinite;'><span style='font-size:20px;'>🚚</span></div>",
-        iconSize: [40, 40],
-        iconAnchor: [20, 20]
-    });
+    // Add origin marker
+    var originMarker = L.marker(senderCoords, {icon: originIcon}).addTo(map)
+        .bindPopup(`
+            <div style="min-width:180px;">
+                <div style="font-weight:bold;color:#3b82f6;margin-bottom:5px;">📤 Origin</div>
+                <div style="font-weight:bold;">${senderCity}</div>
+                <div style="font-size:12px;color:#666;">{{ package.sender_name }}</div>
+                <div style="font-size:11px;color:#999;">{{ package.sender_postcode }}</div>
+            </div>
+        `);
     
-    // Add markers
-    L.marker(senderCoords, {icon: originIcon})
-        .addTo(map)
-        .bindPopup('<strong>Origin</strong><br>{{ package.sender_city }}');
-    
-    L.marker(receiverCoords, {icon: destIcon})
-        .addTo(map)
-        .bindPopup('<strong>Destination</strong><br>{{ package.receiver_city }}');
+    // Add destination marker
+    var destMarker = L.marker(receiverCoords, {icon: destIcon}).addTo(map)
+        .bindPopup(`
+            <div style="min-width:180px;">
+                <div style="font-weight:bold;color:#22c55e;margin-bottom:5px;">📥 Destination</div>
+                <div style="font-weight:bold;">${receiverCity}</div>
+                <div style="font-size:12px;color:#666;">{{ package.receiver_name }}</div>
+                <div style="font-size:11px;color:#999;">{{ package.receiver_postcode }}</div>
+            </div>
+        `);
     
     // Calculate current position based on status
-    var progress = {% if package.status == 'pending' %}0.1{% elif package.status == 'processing' %}0.25{% elif package.status == 'in_transit' %}0.5{% elif package.status == 'out_for_delivery' %}0.85{% elif package.status == 'delivered' %}1.0{% else %}0{% endif %};
+    var progress = {% if package.status == 'pending' %}0.05{% elif package.status == 'processing' %}0.15{% elif package.status == 'in_transit' %}0.5{% elif package.status == 'out_for_delivery' %}0.85{% elif package.status == 'delivered' %}1.0{% else %}0{% endif %};
     
     var currentLat = senderCoords[0] + (receiverCoords[0] - senderCoords[0]) * progress;
     var currentLng = senderCoords[1] + (receiverCoords[1] - senderCoords[1]) * progress;
     
+    // Override with actual GPS coordinates if available
     {% if latest_location and latest_location.latitude %}
     currentLat = {{ latest_location.latitude }};
     currentLng = {{ latest_location.longitude }};
     {% endif %}
     
-    // Add truck marker at current position
-    var truckMarker = L.marker([currentLat, currentLng], {icon: truckIcon})
-        .addTo(map)
-        .bindPopup('<strong>Current Location</strong><br>{{ package.get_status_display }}<br><small>{{ latest_location.location|default:"En route" }}</small>')
+    // Add package marker
+    var packageMarker = L.marker([currentLat, currentLng], {icon: packageIcon}).addTo(map)
+        .bindPopup(`
+            <div style="min-width:220px;padding:5px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                    <div style="background:linear-gradient(135deg,#f97316,#ea580c);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                        <span style="font-size:22px;">📦</span>
+                    </div>
+                    <div>
+                        <div style="font-weight:bold;color:#333;">{{ package.tracking_number }}</div>
+                        <div style="font-size:11px;color:#666;">{{ package.get_status_display }}</div>
+                    </div>
+                </div>
+                <div style="background:#f3f4f6;padding:8px;border-radius:8px;font-size:12px;">
+                    <div>📍 {{ latest_location.location|default:"En route" }}</div>
+                    <div style="color:#666;margin-top:4px;">Last update: {% now "M j, g:i A" %}</div>
+                </div>
+            </div>
+        `)
         .openPopup();
     
-    // Draw route line
-    var routePoints = [senderCoords];
-    
-    // Add tracking history points
-    {% for event in tracking_history reversed %}
-    {% if event.latitude and event.longitude %}
-    routePoints.push([{{ event.latitude }}, {{ event.longitude }}]);
-    {% endif %}
-    {% endfor %}
-    
-    if (routePoints.length == 1) {
-        routePoints.push([currentLat, currentLng]);
-    }
-    routePoints.push(receiverCoords);
-    
-    // Animated dashed line for remaining route
-    L.polyline([senderCoords, receiverCoords], {
+    // Draw route with animation
+    var dashedRoute = L.polyline([senderCoords, receiverCoords], {
         color: '#c7d2fe',
         weight: 4,
         dashArray: '10, 10',
-        opacity: 0.7
+        opacity: 0.8
     }).addTo(map);
     
     // Solid line for completed route
-    L.polyline(routePoints.slice(0, -1), {
+    var completedRoute = L.polyline([senderCoords, [currentLat, currentLng]], {
         color: '#4f46e5',
         weight: 5,
         opacity: 0.9
     }).addTo(map);
     
+    // Add tracking history points as small dots
+    {% for event in tracking_history reversed %}
+    {% if event.latitude and event.longitude %}
+    L.circleMarker([{{ event.latitude }}, {{ event.longitude }}], {
+        radius: 6,
+        fillColor: '#6366f1',
+        color: '#fff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.8
+    }).addTo(map).bindPopup(`
+        <div style="font-size:12px;">
+            <strong>{{ event.status }}</strong><br>
+            📍 {{ event.location }}<br>
+            <small style="color:#666;">{{ event.timestamp|date:"M j, g:i A" }}</small>
+        </div>
+    `);
+    {% endif %}
+    {% endfor %}
+    
     // Fit bounds to show all markers
     var bounds = L.latLngBounds([senderCoords, receiverCoords, [currentLat, currentLng]]);
-    map.fitBounds(bounds, {padding: [50, 50]});
+    map.fitBounds(bounds, {padding: [60, 60], maxZoom: 12});
     
-    // Add animation style
-    var style = document.createElement('style');
-    style.textContent = '@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }';
-    document.head.appendChild(style);
+    // Calculate distance
+    function calcDistance(lat1, lon1, lat2, lon2) {
+        var R = 6371; // km
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLon = (lon2 - lon1) * Math.PI / 180;
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    }
+    
+    var totalDist = calcDistance(senderCoords[0], senderCoords[1], receiverCoords[0], receiverCoords[1]);
+    var remainingDist = calcDistance(currentLat, currentLng, receiverCoords[0], receiverCoords[1]);
+    document.getElementById('distance-info').innerHTML = 
+        `Total: ${totalDist.toFixed(1)} km | Remaining: ${remainingDist.toFixed(1)} km | Progress: ${Math.round((1 - remainingDist/totalDist) * 100)}%`;
+    
+    // Helper functions for controls
+    function centerOnPackage() {
+        map.setView([currentLat, currentLng], 12, {animate: true});
+        packageMarker.openPopup();
+    }
+    
+    function fitAllMarkers() {
+        map.fitBounds(bounds, {padding: [60, 60], maxZoom: 12, animate: true});
+    }
+    
+    function toggleFullscreen() {
+        var mapEl = document.querySelector('.map-container');
+        if (!document.fullscreenElement) {
+            mapEl.requestFullscreen();
+            document.getElementById('map').style.height = '100vh';
+        } else {
+            document.exitFullscreen();
+            document.getElementById('map').style.height = '450px';
+        }
+        setTimeout(function() { map.invalidateSize(); }, 100);
+    }
+    
+    // Responsive map resize
+    window.addEventListener('resize', function() { map.invalidateSize(); });
+    
+    // Simulate live updates (demo)
+    {% if package.status != 'delivered' and package.status != 'cancelled' %}
+    setInterval(function() {
+        // Small random movement to simulate live tracking
+        var jitter = 0.001;
+        var newLat = currentLat + (Math.random() - 0.5) * jitter;
+        var newLng = currentLng + (Math.random() - 0.5) * jitter;
+        packageMarker.setLatLng([newLat, newLng]);
+    }, 3000);
+    {% endif %}
 </script>
 {% endblock %}
 {% endif %}
