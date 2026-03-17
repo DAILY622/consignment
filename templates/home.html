@@ -1,57 +1,259 @@
 {% extends 'base.html' %}
 
-{% block title %}E-Cognite - UK Parcel Delivery{% endblock %}
+{% block title %}E-Cognite - UK Parcel Delivery & Tracking{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white p-12 mb-12">
-    <div class="max-w-3xl">
-        <h1 class="text-5xl font-bold mb-4">Fast, Reliable Parcel Delivery</h1>
-        <p class="text-xl text-indigo-100 mb-8">Track your packages in real-time with GPS. Serving all of the UK with next-day delivery options.</p>
-        <div class="flex space-x-4">
-            <a href="{% url 'track' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition">Track Package</a>
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white p-12 mb-12 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 right-10 text-9xl">📦</div>
+        <div class="absolute bottom-10 left-1/2 text-7xl">🚚</div>
+    </div>
+    <div class="max-w-3xl relative z-10">
+        <span class="bg-white/20 text-sm px-4 py-1 rounded-full mb-4 inline-block">🏆 #1 Rated UK Delivery Service</span>
+        <h1 class="text-5xl font-bold mb-4">Fast, Reliable Parcel Delivery Across the UK</h1>
+        <p class="text-xl text-indigo-100 mb-8">Track your packages in real-time with GPS. Same-day, next-day, and standard delivery options available.</p>
+        <div class="flex flex-wrap gap-4">
+            <a href="{% url 'track' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition shadow-lg">📍 Track Package</a>
             {% if not user.is_authenticated %}
-                <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Get Started</a>
+                <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Get Started Free</a>
             {% else %}
-                <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Send Package</a>
+                <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">+ Send Package</a>
             {% endif %}
+            <a href="#quote" class="bg-indigo-500 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-400 transition">💷 Get a Quote</a>
         </div>
     </div>
 </div>
 
 <!-- Quick Track -->
-<div class="bg-white rounded-xl shadow-lg p-8 mb-12">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Track</h2>
-    <form action="{% url 'track' %}" method="GET" class="flex gap-4">
+<div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 mb-12 border border-primary-100">
+    <h2 class="text-2xl font-bold text-primary-800 mb-4">🔍 Quick Track</h2>
+    <form action="{% url 'track' %}" method="GET" class="flex flex-col md:flex-row gap-4">
         <input type="text" name="q" placeholder="Enter tracking number (e.g., ECG-XXXXXXXX)" 
-               class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-        <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
-            Track
+               class="flex-1 px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white">
+        <button type="submit" class="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition">
+            Track Now
         </button>
     </form>
 </div>
 
+<!-- Trust Badges -->
+<div class="bg-primary-50/80 backdrop-blur rounded-xl p-6 mb-12 border border-primary-100">
+    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+        <div class="flex items-center gap-2 text-primary-700">
+            <span class="text-2xl">🔒</span>
+            <span class="font-semibold">SSL Secured</span>
+        </div>
+        <div class="flex items-center gap-2 text-primary-700">
+            <span class="text-2xl">✅</span>
+            <span class="font-semibold">GDPR Compliant</span>
+        </div>
+        <div class="flex items-center gap-2 text-primary-700">
+            <span class="text-2xl">🛡️</span>
+            <span class="font-semibold">Insured Delivery</span>
+        </div>
+        <div class="flex items-center gap-2 text-primary-700">
+            <span class="text-2xl">⭐</span>
+            <span class="font-semibold">4.9/5 Rating</span>
+        </div>
+        <div class="flex items-center gap-2 text-primary-700">
+            <span class="text-2xl">🏅</span>
+            <span class="font-semibold">ISO Certified</span>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works -->
+<div class="mb-16">
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">How It Works</h2>
+        <p class="text-gray-600">Send your parcels in 3 simple steps</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="relative">
+            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-primary-100">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-3xl">📝</span>
+                </div>
+                <div class="absolute -top-3 -left-3 w-10 h-10 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+                <h3 class="text-xl font-bold text-primary-800 mb-2">Book Online</h3>
+                <p class="text-primary-600">Enter pickup & delivery details. Get instant pricing and choose your delivery speed.</p>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-primary-100">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-3xl">🚚</span>
+                </div>
+                <div class="absolute -top-3 -left-3 w-10 h-10 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+                <h3 class="text-xl font-bold text-primary-800 mb-2">We Collect</h3>
+                <p class="text-primary-600">Our driver picks up your parcel from your door. Track every step in real-time.</p>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-primary-100">
+                <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-3xl">📬</span>
+                </div>
+                <div class="absolute -top-3 -left-3 w-10 h-10 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+                <h3 class="text-xl font-bold text-primary-800 mb-2">Delivered</h3>
+                <p class="text-primary-600">Package delivered with photo proof & signature. You'll get instant confirmation.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Services & Pricing -->
+<div class="mb-16" id="services">
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Our Services</h2>
+        <p class="text-gray-600">Choose the delivery speed that suits your needs</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+        <!-- Standard -->
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border-2 border-transparent hover:border-primary-200">
+            <div class="bg-primary-100 p-6 text-center">
+                <span class="text-4xl">📦</span>
+                <h3 class="text-2xl font-bold text-primary-800 mt-2">Standard</h3>
+                <p class="text-primary-600">2-3 Business Days</p>
+            </div>
+            <div class="p-6 bg-white/50">
+                <div class="text-center mb-6">
+                    <span class="text-4xl font-bold text-primary-800">£4.99</span>
+                    <span class="text-primary-600">/parcel</span>
+                </div>
+                <ul class="space-y-3 mb-6">
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Up to 20kg</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> GPS Tracking</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Email Updates</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> £50 Cover Included</li>
+                </ul>
+                <a href="{% url 'register' %}" class="block text-center bg-primary-700 text-white py-3 rounded-lg font-semibold hover:bg-primary-800 transition">Select Standard</a>
+            </div>
+        </div>
+        
+        <!-- Express - Featured -->
+        <div class="bg-gradient-to-br from-primary-100 to-accent-100 rounded-xl shadow-xl overflow-hidden border-2 border-primary-500 transform md:-translate-y-4">
+            <div class="bg-gradient-to-r from-primary-600 to-accent-600 text-white p-6 text-center relative">
+                <span class="absolute top-2 right-2 bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded-full font-bold">POPULAR</span>
+                <span class="text-4xl">🚀</span>
+                <h3 class="text-2xl font-bold mt-2">Express</h3>
+                <p class="text-primary-200">Next Business Day</p>
+            </div>
+            <div class="p-6 bg-white/70">
+                <div class="text-center mb-6">
+                    <span class="text-4xl font-bold text-primary-800">£8.99</span>
+                    <span class="text-primary-600">/parcel</span>
+                </div>
+                <ul class="space-y-3 mb-6">
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Up to 30kg</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Live GPS Tracking</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> SMS + Email Updates</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> £100 Cover Included</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Priority Handling</li>
+                </ul>
+                <a href="{% url 'register' %}" class="block text-center bg-gradient-to-r from-primary-600 to-accent-600 text-white py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-accent-700 transition">Select Express</a>
+            </div>
+        </div>
+        
+        <!-- Same Day -->
+        <div class="bg-gradient-to-br from-accent-50 to-primary-50 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border-2 border-transparent hover:border-accent-200">
+            <div class="bg-gradient-to-r from-accent-500 to-pink-500 text-white p-6 text-center">
+                <span class="text-4xl">⚡</span>
+                <h3 class="text-2xl font-bold mt-2">Same Day</h3>
+                <p class="text-accent-200">Delivered Today</p>
+            </div>
+            <div class="p-6 bg-white/50">
+                <div class="text-center mb-6">
+                    <span class="text-4xl font-bold text-primary-800">£14.99</span>
+                    <span class="text-primary-600">/parcel</span>
+                </div>
+                <ul class="space-y-3 mb-6">
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Up to 30kg</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Real-Time Tracking</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Instant Notifications</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> £200 Cover Included</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Dedicated Driver</li>
+                </ul>
+                <a href="{% url 'register' %}" class="block text-center bg-accent-600 text-white py-3 rounded-lg font-semibold hover:bg-accent-700 transition">Select Same Day</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quote Calculator -->
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 mb-16" id="quote">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-white mb-2">💷 Get an Instant Quote</h2>
+            <p class="text-indigo-200">Calculate your shipping cost in seconds</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-xl">
+            <div class="grid md:grid-cols-4 gap-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">From (Postcode)</label>
+                    <input type="text" id="quote-from" placeholder="e.g., SW1A 1AA" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">To (Postcode)</label>
+                    <input type="text" id="quote-to" placeholder="e.g., M1 1AD" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
+                    <input type="number" id="quote-weight" placeholder="e.g., 5" min="0.1" step="0.1"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Service</label>
+                    <select id="quote-service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        <option value="standard">Standard (2-3 days)</option>
+                        <option value="express" selected>Express (Next day)</option>
+                        <option value="sameday">Same Day</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <button onclick="calculateQuote()" class="w-full md:w-auto bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                    Calculate Price
+                </button>
+                <div id="quote-result" class="text-center md:text-right">
+                    <p class="text-sm text-gray-500">Estimated Price</p>
+                    <p class="text-3xl font-bold text-indigo-600">£--</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Features -->
-<div class="grid md:grid-cols-3 gap-8 mb-12">
-    <div class="bg-white rounded-xl shadow p-6 text-center">
-        <div class="text-4xl mb-4">📍</div>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">Real-Time GPS Tracking</h3>
-        <p class="text-gray-600">Know exactly where your package is at any moment with live map updates.</p>
+<div class="grid md:grid-cols-3 gap-8 mb-16">
+    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow p-6 text-center hover:shadow-lg transition border border-primary-100">
+        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-3xl">📍</span>
+        </div>
+        <h3 class="text-xl font-bold text-primary-800 mb-2">Real-Time GPS Tracking</h3>
+        <p class="text-primary-600">Know exactly where your package is at any moment with live map updates and notifications.</p>
     </div>
-    <div class="bg-white rounded-xl shadow p-6 text-center">
-        <div class="text-4xl mb-4">🚚</div>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">UK-Wide Coverage</h3>
-        <p class="text-gray-600">From London to Edinburgh, we deliver to every corner of the United Kingdom.</p>
+    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow p-6 text-center hover:shadow-lg transition border border-primary-100">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-3xl">🚚</span>
+        </div>
+        <h3 class="text-xl font-bold text-primary-800 mb-2">UK-Wide Coverage</h3>
+        <p class="text-primary-600">From London to Edinburgh, we deliver to every corner of the United Kingdom, including remote areas.</p>
     </div>
-    <div class="bg-white rounded-xl shadow p-6 text-center">
-        <div class="text-4xl mb-4">📱</div>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">Proof of Delivery</h3>
-        <p class="text-gray-600">Photos and signatures captured on delivery for your peace of mind.</p>
+    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow p-6 text-center hover:shadow-lg transition border border-primary-100">
+        <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-3xl">📱</span>
+        </div>
+        <h3 class="text-xl font-bold text-primary-800 mb-2">Proof of Delivery</h3>
+        <p class="text-primary-600">Photos and digital signatures captured on delivery for your complete peace of mind.</p>
     </div>
 </div>
 
 <!-- Stats -->
-<div class="bg-gray-800 rounded-xl text-white p-8 mb-12">
+<div class="bg-gray-800 rounded-xl text-white p-8 mb-16">
     <div class="grid md:grid-cols-4 gap-8 text-center">
         <div>
             <div class="text-4xl font-bold text-indigo-400">50K+</div>
@@ -72,62 +274,254 @@
     </div>
 </div>
 
-<!-- Popular Routes -->
-<div class="mb-12">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Popular Delivery Routes</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {% for route in popular_routes %}
-        <div class="bg-white rounded-lg shadow p-4 flex items-center">
-            <span class="text-2xl mr-3">🚛</span>
-            <div>
-                <div class="font-semibold text-gray-800">{{ route.from }} → {{ route.to }}</div>
-                <div class="text-sm text-gray-500">{{ route.time }}</div>
+<!-- Testimonials -->
+<div class="mb-16">
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-primary-800 mb-2">What Our Customers Say</h2>
+        <p class="text-primary-600">Trusted by thousands of businesses and individuals</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-primary-100">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-primary-200 rounded-full flex items-center justify-center mr-4">
+                    <span class="text-xl font-bold text-primary-700">JD</span>
+                </div>
+                <div>
+                    <p class="font-semibold text-primary-800">James Davidson</p>
+                    <p class="text-sm text-primary-500">E-commerce Owner</p>
+                </div>
             </div>
+            <div class="flex text-yellow-400 mb-3">★★★★★</div>
+            <p class="text-primary-700 italic">"E-Cognite has transformed our shipping. Real-time tracking keeps our customers happy, and the same-day option is a game-changer for urgent orders."</p>
         </div>
-        {% empty %}
-        <div class="bg-white rounded-lg shadow p-4 flex items-center">
-            <span class="text-2xl mr-3">🚛</span>
-            <div>
-                <div class="font-semibold text-gray-800">London → Manchester</div>
-                <div class="text-sm text-gray-500">Next day delivery</div>
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-primary-100">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center mr-4">
+                    <span class="text-xl font-bold text-green-700">SP</span>
+                </div>
+                <div>
+                    <p class="font-semibold text-primary-800">Sarah Patel</p>
+                    <p class="text-sm text-primary-500">Small Business</p>
+                </div>
             </div>
+            <div class="flex text-yellow-400 mb-3">★★★★★</div>
+            <p class="text-primary-700 italic">"Best delivery service I've used. The GPS tracking is brilliant - I can see exactly where my parcels are. Highly recommend for any business!"</p>
         </div>
-        <div class="bg-white rounded-lg shadow p-4 flex items-center">
-            <span class="text-2xl mr-3">🚛</span>
-            <div>
-                <div class="font-semibold text-gray-800">Birmingham → Leeds</div>
-                <div class="text-sm text-gray-500">Next day delivery</div>
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-primary-100">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-accent-200 rounded-full flex items-center justify-center mr-4">
+                    <span class="text-xl font-bold text-accent-700">MT</span>
+                </div>
+                <div>
+                    <p class="font-semibold text-primary-800">Michael Thompson</p>
+                    <p class="text-sm text-primary-500">Regular Customer</p>
+                </div>
             </div>
+            <div class="flex text-yellow-400 mb-3">★★★★★</div>
+            <p class="text-primary-700 italic">"I ship parcels to my family across the UK regularly. E-Cognite's prices are fair and their express service always delivers on time. Excellent!"</p>
         </div>
-        <div class="bg-white rounded-lg shadow p-4 flex items-center">
-            <span class="text-2xl mr-3">🚛</span>
-            <div>
-                <div class="font-semibold text-gray-800">Edinburgh → Glasgow</div>
-                <div class="text-sm text-gray-500">Same day available</div>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg shadow p-4 flex items-center">
-            <span class="text-2xl mr-3">🚛</span>
-            <div>
-                <div class="font-semibold text-gray-800">Cardiff → Bristol</div>
-                <div class="text-sm text-gray-500">Same day available</div>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg shadow p-4 flex items-center">
-            <span class="text-2xl mr-3">🚛</span>
-            <div>
-                <div class="font-semibold text-gray-800">Liverpool → Sheffield</div>
-                <div class="text-sm text-gray-500">Next day delivery</div>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg shadow p-4 flex items-center">
-            <span class="text-2xl mr-3">🚛</span>
-            <div>
-                <div class="font-semibold text-gray-800">Belfast → Dublin</div>
-                <div class="text-sm text-gray-500">2-3 days</div>
-            </div>
-        </div>
-        {% endfor %}
     </div>
 </div>
+
+<!-- Business Section -->
+<div class="bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl p-8 md:p-12 mb-16 text-white">
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div>
+            <span class="bg-indigo-500 text-sm px-4 py-1 rounded-full mb-4 inline-block">FOR BUSINESS</span>
+            <h2 class="text-3xl font-bold mb-4">Corporate & Business Solutions</h2>
+            <p class="text-gray-300 mb-6">Partner with E-Cognite for your business shipping needs. Volume discounts, dedicated account managers, API integration, and priority support.</p>
+            <ul class="space-y-3 mb-6">
+                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Volume discounts up to 40%</li>
+                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Dedicated account manager</li>
+                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> API integration available</li>
+                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Custom invoicing & reporting</li>
+                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Priority customer support</li>
+            </ul>
+            <a href="mailto:business@ecognite.co.uk" class="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">Contact Sales Team</a>
+        </div>
+        <div class="hidden md:block text-center">
+            <div class="text-9xl opacity-20">🏢</div>
+        </div>
+    </div>
+</div>
+
+<!-- Popular Routes -->
+<div class="mb-16">
+    <h2 class="text-3xl font-bold text-primary-800 mb-6">Popular Delivery Routes</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-lg shadow p-4 flex items-center hover:shadow-md transition border border-primary-100">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-primary-800">London → Manchester</div>
+                <div class="text-sm text-primary-500">Next day delivery</div>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-lg shadow p-4 flex items-center hover:shadow-md transition border border-primary-100">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-primary-800">Birmingham → Leeds</div>
+                <div class="text-sm text-primary-500">Next day delivery</div>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-lg shadow p-4 flex items-center hover:shadow-md transition border border-primary-100">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-primary-800">Edinburgh → Glasgow</div>
+                <div class="text-sm text-primary-500">Same day available</div>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-lg shadow p-4 flex items-center hover:shadow-md transition border border-primary-100">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-primary-800">Cardiff → Bristol</div>
+                <div class="text-sm text-primary-500">Same day available</div>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-lg shadow p-4 flex items-center hover:shadow-md transition border border-primary-100">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-primary-800">Liverpool → Sheffield</div>
+                <div class="text-sm text-primary-500">Next day delivery</div>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-lg shadow p-4 flex items-center hover:shadow-md transition border border-primary-100">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-primary-800">Belfast → Dublin</div>
+                <div class="text-sm text-primary-500">2-3 days</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="mb-16" id="faq">
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-primary-800 mb-2">Frequently Asked Questions</h2>
+        <p class="text-primary-600">Got questions? We've got answers</p>
+    </div>
+    <div class="max-w-3xl mx-auto space-y-4">
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow border border-primary-100">
+            <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                <span class="font-semibold text-primary-800">How do I track my package?</span>
+                <span class="text-primary-600 transform transition-transform">▼</span>
+            </button>
+            <div class="px-6 pb-4 hidden">
+                <p class="text-primary-700">Simply enter your tracking number (e.g., ECG-XXXXXXXX) in the tracking box on our homepage or tracking page. You'll see real-time updates including GPS location, status changes, and estimated delivery time.</p>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow border border-primary-100">
+            <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                <span class="font-semibold text-primary-800">What are your delivery times?</span>
+                <span class="text-primary-600 transform transition-transform">▼</span>
+            </button>
+            <div class="px-6 pb-4 hidden">
+                <p class="text-primary-700">We offer three service levels: <strong>Standard</strong> (2-3 business days), <strong>Express</strong> (next business day), and <strong>Same Day</strong> (delivered within hours, subject to booking time and location).</p>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow border border-primary-100">
+            <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                <span class="font-semibold text-primary-800">What's the maximum weight you accept?</span>
+                <span class="text-primary-600 transform transition-transform">▼</span>
+            </button>
+            <div class="px-6 pb-4 hidden">
+                <p class="text-primary-700">Standard service accepts up to 20kg, while Express and Same Day services accept up to 30kg per parcel. For heavier items, please contact our business team for custom solutions.</p>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow border border-primary-100">
+            <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                <span class="font-semibold text-primary-800">Are my parcels insured?</span>
+                <span class="text-primary-600 transform transition-transform">▼</span>
+            </button>
+            <div class="px-6 pb-4 hidden">
+                <p class="text-primary-700">Yes! All shipments include insurance cover: Standard (£50), Express (£100), and Same Day (£200). Additional cover up to £1,000 can be purchased at checkout for valuable items.</p>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow border border-primary-100">
+            <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                <span class="font-semibold text-primary-800">Can I change the delivery address?</span>
+                <span class="text-primary-600 transform transition-transform">▼</span>
+            </button>
+            <div class="px-6 pb-4 hidden">
+                <p class="text-primary-700">Yes, you can redirect your parcel before it goes out for delivery. Log into your account, go to your dashboard, and select the package to modify. Redirection fees may apply.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Newsletter Section -->
+<div class="bg-gradient-to-r from-primary-100 to-accent-100 rounded-2xl p-8 md:p-12 mb-16 border border-primary-200">
+    <div class="max-w-2xl mx-auto text-center">
+        <span class="text-4xl mb-4 block">📧</span>
+        <h2 class="text-3xl font-bold text-primary-800 mb-2">Stay Updated</h2>
+        <p class="text-primary-600 mb-6">Subscribe to our newsletter for exclusive deals, shipping tips, and service updates.</p>
+        <form class="flex flex-col sm:flex-row gap-4 justify-center">
+            <input type="email" placeholder="Enter your email address" 
+                   class="flex-1 max-w-md px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+            <button type="submit" class="bg-gradient-to-r from-primary-600 to-accent-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-accent-700 transition">
+                Subscribe
+            </button>
+        </form>
+        <p class="text-xs text-primary-500 mt-4">By subscribing, you agree to our Privacy Policy. Unsubscribe anytime.</p>
+    </div>
+</div>
+
+<!-- Final CTA -->
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 md:p-12 text-white text-center mb-8">
+    <h2 class="text-3xl font-bold mb-4">Ready to Ship?</h2>
+    <p class="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">Join thousands of happy customers. Send your first parcel today and experience the E-Cognite difference.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+        {% if not user.is_authenticated %}
+            <a href="{% url 'register' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition shadow-lg">Create Free Account</a>
+        {% else %}
+            <a href="{% url 'create_package' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition shadow-lg">+ Send a Package</a>
+        {% endif %}
+        <a href="{% url 'track' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Track Package</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// FAQ Toggle
+function toggleFaq(button) {
+    const content = button.nextElementSibling;
+    const arrow = button.querySelector('span:last-child');
+    content.classList.toggle('hidden');
+    arrow.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+// Quote Calculator
+function calculateQuote() {
+    const from = document.getElementById('quote-from').value;
+    const to = document.getElementById('quote-to').value;
+    const weight = parseFloat(document.getElementById('quote-weight').value) || 0;
+    const service = document.getElementById('quote-service').value;
+    
+    if (!from || !to || weight <= 0) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
+    // Base prices
+    let basePrice = {
+        'standard': 4.99,
+        'express': 8.99,
+        'sameday': 14.99
+    }[service];
+    
+    // Weight surcharge (£0.50 per kg over 5kg)
+    let weightSurcharge = weight > 5 ? (weight - 5) * 0.50 : 0;
+    
+    // Calculate total
+    let total = basePrice + weightSurcharge;
+    
+    // Display result
+    document.getElementById('quote-result').innerHTML = `
+        <p class="text-sm text-gray-500">Estimated Price</p>
+        <p class="text-3xl font-bold text-indigo-600">£${total.toFixed(2)}</p>
+        <p class="text-xs text-gray-400">${weight}kg via ${service}</p>
+    `;
+}
+</script>
 {% endblock %}

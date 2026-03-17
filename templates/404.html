@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found - E-Cognite{% endblock %}
+
+{% block content %}
+<div class="min-h-[60vh] flex items-center justify-center">
+    <div class="text-center">
+        <div class="text-9xl mb-4">📦</div>
+        <h1 class="text-6xl font-bold text-primary-800 mb-4">404</h1>
+        <h2 class="text-2xl font-semibold text-primary-600 mb-4">Package Not Found!</h2>
+        <p class="text-primary-500 mb-8 max-w-md mx-auto">
+            Looks like this page got lost in transit. Don't worry, we'll help you find your way.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'home' %}" class="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition">
+                ← Back to Home
+            </a>
+            <a href="{% url 'track' %}" class="bg-primary-100 text-primary-700 px-6 py-3 rounded-lg font-semibold hover:bg-primary-200 transition">
+                Track Package
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

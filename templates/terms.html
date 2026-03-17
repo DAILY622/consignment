@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Terms of Service - E-Cognite{% endblock %}
+
+{% block content %}
+<!-- Navigation -->
+<div class="flex justify-between items-center mb-8">
+    <a href="{% url 'home' %}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
+        <span class="mr-2">←</span> Back to Home
+    </a>
+    <a href="{% url 'privacy' %}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
+        Privacy Policy <span class="ml-2">→</span>
+    </a>
+</div>
+
+<div class="max-w-4xl mx-auto">
+    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-8 md:p-12 border border-primary-100">
+        <h1 class="text-4xl font-bold text-primary-800 mb-2">Terms of Service</h1>
+        <p class="text-primary-500 mb-8">Last updated: March 2026</p>
+        
+        <div class="prose prose-primary max-w-none space-y-8">
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">1. Acceptance of Terms</h2>
+                <p class="text-primary-600">
+                    By accessing and using E-Cognite's services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
+                </p>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">2. Description of Services</h2>
+                <p class="text-primary-600 mb-4">E-Cognite provides parcel delivery services across the United Kingdom, including:</p>
+                <ul class="list-disc pl-6 text-primary-600 space-y-2">
+                    <li>Standard delivery (2-3 business days)</li>
+                    <li>Express delivery (next business day)</li>
+                    <li>Same-day delivery (selected areas)</li>
+                    <li>Real-time GPS tracking</li>
+                    <li>Proof of delivery with photo confirmation</li>
+                </ul>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">3. User Accounts</h2>
+                <p class="text-primary-600 mb-4">
+                    To use our services, you must create an account and provide accurate, complete information. You are responsible for:
+                </p>
+                <ul class="list-disc pl-6 text-primary-600 space-y-2">
+                    <li>Maintaining the confidentiality of your account credentials</li>
+                    <li>All activities that occur under your account</li>
+                    <li>Notifying us immediately of any unauthorized use</li>
+                </ul>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">4. Prohibited Items</h2>
+                <p class="text-primary-600 mb-4">The following items are prohibited from shipping:</p>
+                <ul class="list-disc pl-6 text-primary-600 space-y-2">
+                    <li>Illegal substances or contraband</li>
+                    <li>Hazardous materials (explosives, flammable liquids, etc.)</li>
+                    <li>Weapons and ammunition</li>
+                    <li>Perishable goods (without proper packaging)</li>
+                    <li>Live animals</li>
+                    <li>Currency, jewellery, or precious metals over £500 value</li>
+                </ul>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">5. Pricing and Payment</h2>
+                <p class="text-primary-600">
+                    All prices are displayed in British Pounds (GBP) and are subject to change. Payment is required at the time of booking. We accept major credit/debit cards and bank transfers for business accounts.
+                </p>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">6. Delivery and Liability</h2>
+                <p class="text-primary-600 mb-4">
+                    While we strive to deliver all packages on time, delivery times are estimates and not guaranteed. Our liability for lost or damaged items is limited to:
+                </p>
+                <ul class="list-disc pl-6 text-primary-600 space-y-2">
+                    <li>Standard service: £50 per parcel</li>
+                    <li>Express service: £100 per parcel</li>
+                    <li>Same-day service: £200 per parcel</li>
+                </ul>
+                <p class="text-primary-600 mt-4">Additional insurance coverage is available for purchase.</p>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">7. Cancellation and Refunds</h2>
+                <p class="text-primary-600">
+                    You may cancel a shipment before it is collected for a full refund. Once collected, cancellation fees may apply. Refunds for service issues are handled on a case-by-case basis.
+                </p>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">8. Changes to Terms</h2>
+                <p class="text-primary-600">
+                    We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of the new terms.
+                </p>
+            </section>
+            
+            <section>
+                <h2 class="text-2xl font-bold text-primary-800 mb-4">9. Contact</h2>
+                <p class="text-primary-600">
+                    For questions about these Terms of Service, please contact us at:<br>
+                    Email: legal@ecognite.co.uk<br>
+                    Phone: 0800 123 4567
+                </p>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Package - E-Cognite{% endblock %}
+
+{% block content %}
+<!-- Navigation -->
+<div class="flex justify-between items-center mb-8">
+    <a href="{% url 'package_detail' package.id %}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
+        <span class="mr-2">←</span> Back to Package
+    </a>
+</div>
+
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-primary-800 mb-2">Edit Package</h1>
+    <p class="text-primary-600 mb-8">Tracking: <span class="font-mono font-bold">{{ package.tracking_number }}</span></p>
+    
+    {% if messages %}
+        {% for message in messages %}
+        <div class="mb-6 p-4 rounded-xl {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-primary-100 text-primary-700{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="POST" class="space-y-8">
+        {% csrf_token %}
+        
+        <!-- Receiver Information (editable) -->
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl p-6 border border-primary-100">
+            <h2 class="text-xl font-bold text-primary-800 mb-4">📥 Receiver Information</h2>
+            <p class="text-primary-500 text-sm mb-4">You can update the receiver details before the package is dispatched.</p>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-primary-700 mb-1">Receiver Name *</label>
+                    <input type="text" name="receiver_name" value="{{ package.receiver_name }}" required
+                           class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-primary-700 mb-1">Phone *</label>
+                    <input type="tel" name="receiver_phone" value="{{ package.receiver_phone }}" required
+                           class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-primary-700 mb-1">Address *</label>
+                    <textarea name="receiver_address" rows="2" required
+                              class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">{{ package.receiver_address }}</textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-primary-700 mb-1">City *</label>
+                    <input type="text" name="receiver_city" value="{{ package.receiver_city }}" required
+                           class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-primary-700 mb-1">Postcode *</label>
+                    <input type="text" name="receiver_postcode" value="{{ package.receiver_postcode }}" required
+                           class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Package Description -->
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl p-6 border border-primary-100">
+            <h2 class="text-xl font-bold text-primary-800 mb-4">📦 Package Description</h2>
+            <textarea name="description" rows="3"
+                      class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">{{ package.description }}</textarea>
+        </div>
+        
+        <!-- Non-editable Info -->
+        <div class="bg-gray-100 rounded-xl p-6 border border-gray-200">
+            <h2 class="text-xl font-bold text-gray-700 mb-4">📤 Sender Information (Read-only)</h2>
+            <div class="text-gray-600">
+                <p><strong>{{ package.sender_name }}</strong></p>
+                <p>{{ package.sender_address }}</p>
+                <p>{{ package.sender_city }}, {{ package.sender_postcode }}</p>
+            </div>
+        </div>
+        
+        <div class="flex gap-4">
+            <button type="submit" class="bg-gradient-to-r from-primary-600 to-accent-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-accent-700 transition">
+                Save Changes
+            </button>
+            <a href="{% url 'package_detail' package.id %}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

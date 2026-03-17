@@ -60,7 +60,7 @@ python manage.py seed_data
 python manage.py runserver
 ```
 
-## Demo Accounts
+## Default Accounts
 
 | Role | Username | Password |
 |------|----------|----------|

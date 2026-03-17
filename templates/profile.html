@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile - E-Cognite{% endblock %}
+
+{% block content %}
+<!-- Navigation -->
+<div class="flex justify-between items-center mb-8">
+    <a href="{% url 'dashboard' %}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
+        <span class="mr-2">←</span> Back to Dashboard
+    </a>
+</div>
+
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-primary-800 mb-8">My Profile</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+        <div class="mb-6 p-4 rounded-xl {% if message.tags == 'success' %}bg-green-100 text-green-700 border border-green-200{% else %}bg-red-100 text-red-700 border border-red-200{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="grid md:grid-cols-3 gap-8">
+        <!-- Profile Summary -->
+        <div class="md:col-span-1">
+            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-6 border border-primary-100 text-center">
+                <div class="w-24 h-24 bg-primary-200 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span class="text-4xl font-bold text-primary-700">
+                        {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper|default:user.username|slice:":2"|upper }}
+                    </span>
+                </div>
+                <h2 class="text-xl font-bold text-primary-800">{{ user.get_full_name|default:user.username }}</h2>
+                <p class="text-primary-500">{{ user.email }}</p>
+                <div class="mt-4 inline-block px-4 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold">
+                    {{ user.get_role_display }}
+                </div>
+                <div class="mt-4 pt-4 border-t border-primary-200 text-sm text-primary-500">
+                    Member since {{ user.date_joined|date:"M Y" }}
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-6 border border-primary-100 mt-6">
+                <h3 class="font-bold text-primary-800 mb-4">Your Stats</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-primary-600">Total Packages</span>
+                        <span class="font-bold text-primary-800">{{ stats.total }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-primary-600">Delivered</span>
+                        <span class="font-bold text-green-600">{{ stats.delivered }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-primary-600">In Transit</span>
+                        <span class="font-bold text-primary-600">{{ stats.in_transit }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Edit Profile Form -->
+        <div class="md:col-span-2">
+            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-8 border border-primary-100">
+                <h2 class="text-2xl font-bold text-primary-800 mb-6">Edit Profile</h2>
+                
+                <form method="POST" action="{% url 'profile' %}" class="space-y-6">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_profile">
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-primary-700 mb-1">First Name</label>
+                            <input type="text" name="first_name" value="{{ user.first_name }}"
+                                   class="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-primary-700 mb-1">Last Name</label>
+                            <input type="text" name="last_name" value="{{ user.last_name }}"
+                                   class="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-primary-700 mb-1">Email Address</label>
+                        <input type="email" name="email" value="{{ user.email }}" required
+                               class="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-primary-700 mb-1">Phone Number</label>
+                        <input type="tel" name="phone" value="{{ user.phone }}"
+                               class="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-primary-700 mb-1">Address</label>
+                        <textarea name="address" rows="3"
+                                  class="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">{{ user.address }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-gradient-to-r from-primary-600 to-accent-600 text-white py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-accent-700 transition">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Change Password -->
+            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-8 border border-primary-100 mt-6">
+                <h2 class="text-2xl font-bold text-primary-800 mb-6">Change Password</h2>
+                
+                <form method="POST" action="{% url 'profile' %}" class="space-y-4">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="change_password">
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-primary-700 mb-1">Current Password</label>
+                        <input type="password" name="current_password" required
+                               class="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-primary-700 mb-1">New Password</label>
+                        <input type="password" name="new_password" required minlength="8"
+                               class="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-primary-700 mb-1">Confirm New Password</label>
+                        <input type="password" name="confirm_password" required minlength="8"
+                               class="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition">
+                        Update Password
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Danger Zone -->
+            <div class="bg-red-50 rounded-2xl p-8 border border-red-200 mt-6">
+                <h2 class="text-2xl font-bold text-red-800 mb-4">Danger Zone</h2>
+                <p class="text-red-600 mb-4">Once you delete your account, there is no going back. Please be certain.</p>
+                <form method="POST" action="{% url 'profile' %}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_account">
+                    <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition">
+                        Delete My Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

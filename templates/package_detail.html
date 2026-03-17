@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ package.tracking_number }} - E-Cognite{% endblock %}
+
+{% block content %}
+<!-- Navigation -->
+<div class="flex justify-between items-center mb-8">
+    <a href="{% url 'dashboard' %}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
+        <span class="mr-2">←</span> Back to Dashboard
+    </a>
+    <a href="{% url 'track' %}?q={{ package.tracking_number }}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
+        Public Tracking <span class="ml-2">→</span>
+    </a>
+</div>
+
+<div class="max-w-4xl mx-auto">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="mb-6 p-4 rounded-xl {% if message.tags == 'success' %}bg-green-100 text-green-700 border border-green-200{% elif message.tags == 'error' %}bg-red-100 text-red-700 border border-red-200{% else %}bg-primary-100 text-primary-700 border border-primary-200{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- Package Header -->
+    <div class="bg-gradient-to-r from-primary-600 to-accent-600 rounded-2xl text-white p-8 mb-8">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-primary-200 text-sm">Tracking Number</p>
+                <h1 class="text-3xl font-bold font-mono">{{ package.tracking_number }}</h1>
+                <p class="text-primary-200 mt-2">Created {{ package.created_at|date:"M j, Y" }}</p>
+            </div>
+            <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white/20 backdrop-blur">
+                {{ package.get_status_display }}
+            </span>
+        </div>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-8">
+        <!-- Sender Info -->
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl p-6 border border-primary-100">
+            <h2 class="text-lg font-bold text-primary-800 mb-4 flex items-center">
+                <span class="mr-2">📤</span> Sender Information
+            </h2>
+            <div class="space-y-2 text-primary-700">
+                <p><strong>{{ package.sender_name }}</strong></p>
+                <p>{{ package.sender_address }}</p>
+                <p>{{ package.sender_city }}, {{ package.sender_postcode }}</p>
+                <p>📞 {{ package.sender_phone }}</p>
+            </div>
+        </div>
+        
+        <!-- Receiver Info -->
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl p-6 border border-primary-100">
+            <h2 class="text-lg font-bold text-primary-800 mb-4 flex items-center">
+                <span class="mr-2">📥</span> Receiver Information
+            </h2>
+            <div class="space-y-2 text-primary-700">
+                <p><strong>{{ package.receiver_name }}</strong></p>
+                <p>{{ package.receiver_address }}</p>
+                <p>{{ package.receiver_city }}, {{ package.receiver_postcode }}</p>
+                <p>📞 {{ package.receiver_phone }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Package Details -->
+    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl p-6 border border-primary-100 mt-8">
+        <h2 class="text-lg font-bold text-primary-800 mb-4 flex items-center">
+            <span class="mr-2">📦</span> Package Details
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+                <p class="text-primary-500 text-sm">Weight</p>
+                <p class="text-primary-800 font-semibold">{{ package.weight }} kg</p>
+            </div>
+            {% if package.length %}
+            <div>
+                <p class="text-primary-500 text-sm">Dimensions</p>
+                <p class="text-primary-800 font-semibold">{{ package.length }}×{{ package.width }}×{{ package.height }} cm</p>
+            </div>
+            {% endif %}
+            <div>
+                <p class="text-primary-500 text-sm">Estimated Delivery</p>
+                <p class="text-primary-800 font-semibold">{{ package.estimated_delivery|date:"M j, Y"|default:"Pending" }}</p>
+            </div>
+            <div>
+                <p class="text-primary-500 text-sm">Driver</p>
+                <p class="text-primary-800 font-semibold">{{ package.assigned_driver.get_full_name|default:"Not assigned" }}</p>
+            </div>
+        </div>
+        {% if package.description %}
+        <div class="mt-4 pt-4 border-t border-primary-200">
+            <p class="text-primary-500 text-sm">Description</p>
+            <p class="text-primary-700">{{ package.description }}</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Tracking History -->
+    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl p-6 border border-primary-100 mt-8">
+        <h2 class="text-lg font-bold text-primary-800 mb-6 flex items-center">
+            <span class="mr-2">📋</span> Tracking History
+        </h2>
+        
+        <div class="space-y-1">
+            {% for event in tracking_history %}
+            <div class="flex group">
+                <div class="flex flex-col items-center mr-4">
+                    <div class="w-4 h-4 rounded-full {% if forloop.first %}bg-primary-600 ring-4 ring-primary-100{% else %}bg-primary-300{% endif %}"></div>
+                    {% if not forloop.last %}
+                    <div class="w-0.5 h-16 bg-primary-200"></div>
+                    {% endif %}
+                </div>
+                <div class="pb-6 flex-1">
+                    <div class="bg-white rounded-lg p-4 group-hover:bg-primary-100 transition border border-primary-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-semibold text-primary-800">{{ event.status }}</p>
+                                <p class="text-primary-600">📍 {{ event.location }}</p>
+                            </div>
+                            <p class="text-sm text-primary-400">{{ event.timestamp|date:"M j, g:i A" }}</p>
+                        </div>
+                        {% if event.notes %}
+                        <p class="text-sm text-primary-500 mt-2">{{ event.notes }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center text-primary-500 py-4">No tracking history yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Actions -->
+    {% if package.status == 'pending' %}
+    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl p-6 border border-primary-100 mt-8">
+        <h2 class="text-lg font-bold text-primary-800 mb-4">Actions</h2>
+        <div class="flex flex-wrap gap-4">
+            <a href="{% url 'package_edit' package.id %}" class="bg-primary-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-700 transition">
+                ✏️ Edit Details
+            </a>
+            <form method="POST" action="{% url 'package_cancel' package.id %}" class="inline" onsubmit="return confirm('Are you sure you want to cancel this package?');">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition">
+                    ❌ Cancel Package
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if package.status == 'delivered' and package.proof_of_delivery %}
+    <!-- Proof of Delivery -->
+    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200 mt-8">
+        <h2 class="text-lg font-bold text-green-800 mb-4 flex items-center">
+            <span class="mr-2">✅</span> Proof of Delivery
+        </h2>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div>
+                <p class="text-green-700"><strong>Received by:</strong> {{ package.proof_of_delivery.recipient_name }}</p>
+                <p class="text-green-700"><strong>Delivered at:</strong> {{ package.proof_of_delivery.delivered_at|date:"M j, Y g:i A" }}</p>
+                {% if package.proof_of_delivery.notes %}
+                <p class="text-green-700 mt-2"><strong>Notes:</strong> {{ package.proof_of_delivery.notes }}</p>
+                {% endif %}
+            </div>
+            {% if package.proof_of_delivery.photo %}
+            <div>
+                <img src="{{ package.proof_of_delivery.photo.url }}" alt="Delivery Photo" class="rounded-lg max-h-48 object-cover">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
