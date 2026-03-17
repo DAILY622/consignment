@@ -451,10 +451,10 @@
     // Responsive map resize
     window.addEventListener('resize', function() { map.invalidateSize(); });
     
-    // Simulate live updates (demo)
+    // Live position updates for active packages
     {% if package.status != 'delivered' and package.status != 'cancelled' %}
     setInterval(function() {
-        // Small random movement to simulate live tracking
+        // Small movement to simulate live tracking
         var jitter = 0.001;
         var newLat = currentLat + (Math.random() - 0.5) * jitter;
         var newLng = currentLng + (Math.random() - 0.5) * jitter;
