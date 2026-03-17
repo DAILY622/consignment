@@ -27,13 +27,22 @@
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-primary-200 text-sm">Tracking Number</p>
-                <h1 class="text-3xl font-bold font-mono">{{ package.tracking_number }}</h1>
+                <a href="{% url 'track' %}?q={{ package.tracking_number }}" class="text-3xl font-bold font-mono hover:underline flex items-center gap-2">
+                    {{ package.tracking_number }}
+                    <img src="https://img.icons8.com/fluency/32/external-link.png" alt="Open" class="w-6 h-6 opacity-70">
+                </a>
                 <p class="text-primary-200 mt-2">Created {{ package.created_at|date:"M j, Y" }}</p>
             </div>
             <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white/20 backdrop-blur">
                 {{ package.get_status_display }}
             </span>
         </div>
+        
+        <!-- Track on Map Button -->
+        <a href="{% url 'track' %}?q={{ package.tracking_number }}" class="mt-6 inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition">
+            <img src="https://img.icons8.com/color/24/map-marker.png" alt="Map" class="w-6 h-6">
+            Track on Live Map
+        </a>
     </div>
     
     <div class="grid md:grid-cols-2 gap-8">
