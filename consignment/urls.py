@@ -9,7 +9,7 @@ from django.conf.urls.static import static
 from .admin import admin_site
 from accounts.views import register, profile, about, contact, terms, privacy
 from packages.views import home, track, dashboard, create_package, package_detail, package_edit, package_cancel
-from drivers.views import driver_portal
+from drivers.views import driver_portal, driver_history
 
 urlpatterns = [
     path('admin/', admin_site.urls),
@@ -55,6 +55,7 @@ urlpatterns = [
     
     # Driver portal
     path('driver/', driver_portal, name='driver_portal'),
+    path('driver/history/', driver_history, name='driver_history'),
 ]
 
 if settings.DEBUG:
