@@ -132,6 +132,26 @@ def privacy(request):
     return render(request, 'privacy.html')
 
 
+def services(request):
+    return render(request, 'services.html')
+
+
+def fleet(request):
+    return render(request, 'fleet.html')
+
+
+def pricing(request):
+    return render(request, 'pricing.html')
+
+
+def faq(request):
+    return render(request, 'faq.html')
+
+
+def careers(request):
+    return render(request, 'careers.html')
+
+
 def password_reset_request(request):
     if request.method == 'POST':
         email = request.POST.get('email', '').strip()

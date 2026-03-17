@@ -7,7 +7,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .admin import admin_site
-from accounts.views import register, profile, about, contact, terms, privacy
+from accounts.views import register, profile, about, contact, terms, privacy, services, fleet, pricing, faq, careers
 from packages.views import home, track, dashboard, create_package, package_detail, package_edit, package_cancel
 from drivers.views import driver_portal, driver_history
 
@@ -21,6 +21,11 @@ urlpatterns = [
     path('contact/', contact, name='contact'),
     path('terms/', terms, name='terms'),
     path('privacy/', privacy, name='privacy'),
+    path('services/', services, name='services'),
+    path('fleet/', fleet, name='fleet'),
+    path('pricing/', pricing, name='pricing'),
+    path('faq/', faq, name='faq'),
+    path('careers/', careers, name='careers'),
     
     # Authentication
     path('login/', auth_views.LoginView.as_view(), name='login'),

@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Fleet - E-Cognite Delivery{% endblock %}
+
+{% block extra_head %}
+<style>
+    .vehicle-card:hover { transform: scale(1.02); }
+    .vehicle-card { transition: all 0.3s ease; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative rounded-2xl overflow-hidden mb-12">
+    <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1600&q=80" alt="Delivery Fleet" class="w-full h-[400px] object-cover">
+    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-indigo-900/70 flex items-center">
+        <div class="px-12">
+            <h1 class="text-5xl font-bold text-white mb-4">Our Fleet & Technology</h1>
+            <p class="text-xl text-gray-200 max-w-2xl">A modern fleet of 500+ vehicles equipped with cutting-edge technology to ensure your deliveries arrive safely and on time.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Fleet Stats -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+    <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6 text-center border border-indigo-100">
+        <img src="https://img.icons8.com/3d-fluency/94/delivery-truck.png" alt="Vehicles" class="w-16 h-16 mx-auto mb-3">
+        <p class="text-4xl font-bold text-indigo-600">500+</p>
+        <p class="text-gray-600">Total Vehicles</p>
+    </div>
+    <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-6 text-center border border-green-100">
+        <img src="https://img.icons8.com/3d-fluency/94/driver.png" alt="Drivers" class="w-16 h-16 mx-auto mb-3">
+        <p class="text-4xl font-bold text-green-600">750+</p>
+        <p class="text-gray-600">Professional Drivers</p>
+    </div>
+    <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 text-center border border-blue-100">
+        <img src="https://img.icons8.com/3d-fluency/94/warehouse.png" alt="Depots" class="w-16 h-16 mx-auto mb-3">
+        <p class="text-4xl font-bold text-blue-600">25</p>
+        <p class="text-gray-600">UK Depots</p>
+    </div>
+    <div class="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl p-6 text-center border border-orange-100">
+        <img src="https://img.icons8.com/3d-fluency/94/partly-cloudy-day.png" alt="24/7" class="w-16 h-16 mx-auto mb-3">
+        <p class="text-4xl font-bold text-orange-600">24/7</p>
+        <p class="text-gray-600">Operations</p>
+    </div>
+</div>
+
+<!-- Vehicle Types -->
+<div class="mb-16">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Vehicle Range</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">From nimble motorbikes for urgent city deliveries to heavy trucks for large freight</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Motorbikes -->
+        <div class="vehicle-card bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Delivery Motorbike" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="https://img.icons8.com/color/48/motorcycle.png" alt="Bike" class="w-10 h-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Motorbikes</h3>
+                        <p class="text-gray-500 text-sm">Urban Express Fleet</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Perfect for urgent same-day deliveries in city centres. Agile and fast, cutting through traffic.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Small parcels</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Documents</span>
+                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">Express</span>
+                </div>
+                <div class="border-t pt-4">
+                    <p class="text-gray-500 text-sm">Max weight: <span class="font-semibold text-gray-700">10kg</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Small Vans -->
+        <div class="vehicle-card bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1586528116493-a029325540fa?w=600&q=80" alt="Small Van" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="https://img.icons8.com/color/48/van.png" alt="Van" class="w-10 h-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Small Vans</h3>
+                        <p class="text-gray-500 text-sm">Compact Delivery</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Ideal for standard parcel deliveries. Versatile enough for urban and suburban routes.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Parcels</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Multiple stops</span>
+                    <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm">Standard</span>
+                </div>
+                <div class="border-t pt-4">
+                    <p class="text-gray-500 text-sm">Max weight: <span class="font-semibold text-gray-700">500kg</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transit Vans -->
+        <div class="vehicle-card bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&q=80" alt="Transit Van" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="https://img.icons8.com/color/48/cargo-ship.png" alt="Transit" class="w-10 h-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Transit Vans</h3>
+                        <p class="text-gray-500 text-sm">Medium Capacity</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Our workhorse vehicles for daily delivery routes. Spacious and reliable for bulk shipments.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Bulk orders</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Business</span>
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">Reliable</span>
+                </div>
+                <div class="border-t pt-4">
+                    <p class="text-gray-500 text-sm">Max weight: <span class="font-semibold text-gray-700">1,200kg</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Box Trucks -->
+        <div class="vehicle-card bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=600&q=80" alt="Box Truck" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="https://img.icons8.com/color/48/truck.png" alt="Truck" class="w-10 h-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Box Trucks</h3>
+                        <p class="text-gray-500 text-sm">Large Capacity</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">For larger items, furniture, and commercial freight. Tail-lift equipped for easy loading.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Furniture</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Pallets</span>
+                    <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">Heavy</span>
+                </div>
+                <div class="border-t pt-4">
+                    <p class="text-gray-500 text-sm">Max weight: <span class="font-semibold text-gray-700">3,500kg</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refrigerated -->
+        <div class="vehicle-card bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=600&q=80" alt="Refrigerated Van" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="https://img.icons8.com/color/48/cold.png" alt="Cold" class="w-10 h-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Refrigerated</h3>
+                        <p class="text-gray-500 text-sm">Temperature Controlled</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Cold chain logistics for pharmaceuticals, food, and perishables. Monitored temperatures.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Medical</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Food</span>
+                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">Cold Chain</span>
+                </div>
+                <div class="border-t pt-4">
+                    <p class="text-gray-500 text-sm">Temp range: <span class="font-semibold text-gray-700">-20°C to +8°C</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- HGV -->
+        <div class="vehicle-card bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&q=80" alt="HGV" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="https://img.icons8.com/color/48/trailer.png" alt="HGV" class="w-10 h-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Articulated (HGV)</h3>
+                        <p class="text-gray-500 text-sm">Heavy Goods</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">For full load distribution and inter-depot transfers. Cross-country freight logistics.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Full loads</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Distribution</span>
+                    <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm">Freight</span>
+                </div>
+                <div class="border-t pt-4">
+                    <p class="text-gray-500 text-sm">Max weight: <span class="font-semibold text-gray-700">26,000kg</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Technology Section -->
+<div class="bg-gradient-to-r from-indigo-900 to-purple-900 rounded-2xl p-12 mb-16 text-white">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">Fleet Technology</h2>
+        <p class="text-indigo-200 max-w-2xl mx-auto">Every vehicle is equipped with state-of-the-art technology for optimal performance and transparency</p>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-8">
+        <div class="text-center">
+            <img src="https://img.icons8.com/3d-fluency/94/gps-device.png" alt="GPS" class="w-20 h-20 mx-auto mb-4">
+            <h3 class="font-bold text-lg mb-2">Live GPS Tracking</h3>
+            <p class="text-indigo-200 text-sm">Real-time location updates every 30 seconds for precise tracking</p>
+        </div>
+        <div class="text-center">
+            <img src="https://img.icons8.com/3d-fluency/94/dashboard.png" alt="Telematics" class="w-20 h-20 mx-auto mb-4">
+            <h3 class="font-bold text-lg mb-2">Telematics</h3>
+            <p class="text-indigo-200 text-sm">Monitor driver behavior, fuel efficiency, and maintenance needs</p>
+        </div>
+        <div class="text-center">
+            <img src="https://img.icons8.com/3d-fluency/94/camera.png" alt="Dashcam" class="w-20 h-20 mx-auto mb-4">
+            <h3 class="font-bold text-lg mb-2">Dashcams</h3>
+            <p class="text-indigo-200 text-sm">Front and rear cameras for safety and evidence</p>
+        </div>
+        <div class="text-center">
+            <img src="https://img.icons8.com/3d-fluency/94/phone.png" alt="Mobile" class="w-20 h-20 mx-auto mb-4">
+            <h3 class="font-bold text-lg mb-2">Driver App</h3>
+            <p class="text-indigo-200 text-sm">Mobile app for route optimization and digital proof of delivery</p>
+        </div>
+    </div>
+</div>
+
+<!-- Driver Section -->
+<div class="mb-16">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+            <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?w=600&q=80" alt="Professional Driver" class="rounded-2xl shadow-xl">
+        </div>
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Professional Drivers</h2>
+            <p class="text-gray-600 mb-6">Our drivers are the face of E-Cognite. Every team member undergoes rigorous training and background checks to ensure the highest service standards.</p>
+            
+            <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                    <img src="https://img.icons8.com/color/48/checked-user-male.png" alt="Verified" class="w-10 h-10">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">DBS Checked</h3>
+                        <p class="text-gray-600 text-sm">All drivers have enhanced background checks</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <img src="https://img.icons8.com/color/48/training.png" alt="Trained" class="w-10 h-10">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Fully Trained</h3>
+                        <p class="text-gray-600 text-sm">Customer service, safe handling, and route efficiency</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <img src="https://img.icons8.com/color/48/identification-documents.png" alt="Licensed" class="w-10 h-10">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Properly Licensed</h3>
+                        <p class="text-gray-600 text-sm">Valid UK driving licenses for all vehicle classes</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <img src="https://img.icons8.com/color/48/rating.png" alt="Rated" class="w-10 h-10">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Customer Rated</h3>
+                        <p class="text-gray-600 text-sm">Performance monitored through customer feedback</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{% url 'careers' %}" class="inline-block mt-8 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition">
+                Join Our Team →
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Coverage Map -->
+<div class="bg-gradient-to-br from-gray-50 to-indigo-50 rounded-2xl p-12 mb-16 border border-gray-200">
+    <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">UK-Wide Coverage</h2>
+        <p class="text-gray-600">25 strategically located depots ensuring next-day delivery across the United Kingdom</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+            <img src="https://img.icons8.com/3d-fluency/94/england.png" alt="England" class="w-16 h-16 mx-auto mb-3">
+            <h3 class="font-bold text-gray-800">England</h3>
+            <p class="text-gray-600">18 depots</p>
+        </div>
+        <div class="text-center">
+            <img src="https://img.icons8.com/3d-fluency/94/scotland.png" alt="Scotland" class="w-16 h-16 mx-auto mb-3">
+            <h3 class="font-bold text-gray-800">Scotland</h3>
+            <p class="text-gray-600">4 depots</p>
+        </div>
+        <div class="text-center">
+            <img src="https://img.icons8.com/3d-fluency/94/wales.png" alt="Wales" class="w-16 h-16 mx-auto mb-3">
+            <h3 class="font-bold text-gray-800">Wales & NI</h3>
+            <p class="text-gray-600">3 depots</p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-12 text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">Need a Custom Fleet Solution?</h2>
+    <p class="text-indigo-100 mb-8 max-w-2xl mx-auto">For businesses requiring dedicated vehicles or specialized logistics, our team can design a bespoke solution.</p>
+    <a href="{% url 'contact' %}" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition">
+        Contact Our Fleet Team →
+    </a>
+</div>
+{% endblock %}

@@ -84,19 +84,36 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <a href="{% url 'home' %}" class="text-2xl font-bold flex items-center gap-2">
-                    <span class="bg-white/20 p-2 rounded-lg">🚚</span>
+                    <img src="https://img.icons8.com/3d-fluency/94/delivery-truck.png" alt="Logo" class="w-10 h-10">
                     <span>E-Cognite</span>
                 </a>
-                <div class="flex items-center space-x-4 md:space-x-6">
-                    <a href="{% url 'track' %}" class="hover:text-primary-200 transition">Track</a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="{% url 'services' %}" class="hover:text-primary-200 transition flex items-center gap-1">
+                        <img src="https://img.icons8.com/fluency/24/service.png" alt="" class="w-5 h-5">Services
+                    </a>
+                    <a href="{% url 'pricing' %}" class="hover:text-primary-200 transition flex items-center gap-1">
+                        <img src="https://img.icons8.com/fluency/24/price-tag.png" alt="" class="w-5 h-5">Pricing
+                    </a>
+                    <a href="{% url 'track' %}" class="hover:text-primary-200 transition flex items-center gap-1">
+                        <img src="https://img.icons8.com/fluency/24/gps-device.png" alt="" class="w-5 h-5">Track
+                    </a>
+                    <a href="{% url 'fleet' %}" class="hover:text-primary-200 transition flex items-center gap-1">
+                        <img src="https://img.icons8.com/fluency/24/van.png" alt="" class="w-5 h-5">Fleet
+                    </a>
                     {% if user.is_authenticated %}
-                        <a href="{% url 'dashboard' %}" class="hover:text-primary-200 transition">Dashboard</a>
+                        <a href="{% url 'dashboard' %}" class="hover:text-primary-200 transition flex items-center gap-1">
+                            <img src="https://img.icons8.com/fluency/24/dashboard.png" alt="" class="w-5 h-5">Dashboard
+                        </a>
                         {% if user.role == 'driver' %}
-                            <a href="{% url 'driver_portal' %}" class="hover:text-primary-200 transition">Deliveries</a>
+                            <a href="{% url 'driver_portal' %}" class="hover:text-primary-200 transition flex items-center gap-1">
+                                <img src="https://img.icons8.com/fluency/24/driver.png" alt="" class="w-5 h-5">Deliveries
+                            </a>
                         {% endif %}
                         {% if user.is_staff %}
                             <a href="{% url 'admin:index' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                                <span>🔧</span> Admin
+                                <img src="https://img.icons8.com/fluency/24/settings.png" alt="" class="w-5 h-5">Admin
                             </a>
                         {% endif %}
                         <div class="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
@@ -109,9 +126,39 @@
                         <a href="{% url 'register' %}" class="bg-white text-primary-600 px-4 py-2 rounded-lg hover:bg-primary-100 transition font-semibold text-sm">Register</a>
                     {% endif %}
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="{% url 'services' %}" class="hover:text-primary-200 transition py-2">Services</a>
+                    <a href="{% url 'pricing' %}" class="hover:text-primary-200 transition py-2">Pricing</a>
+                    <a href="{% url 'track' %}" class="hover:text-primary-200 transition py-2">Track Package</a>
+                    <a href="{% url 'fleet' %}" class="hover:text-primary-200 transition py-2">Our Fleet</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="hover:text-primary-200 transition py-2">Dashboard</a>
+                        <a href="{% url 'logout' %}" class="hover:text-primary-200 transition py-2">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="hover:text-primary-200 transition py-2">Login</a>
+                        <a href="{% url 'register' %}" class="bg-white text-primary-600 px-4 py-2 rounded-lg font-semibold text-center">Register</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
 
     <main class="max-w-7xl mx-auto px-4 py-8">
         {% if messages %}
@@ -125,48 +172,88 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-8 mt-auto">
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12 mt-auto">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
+            <div class="grid md:grid-cols-5 gap-8 mb-8">
+                <div class="md:col-span-2">
                     <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                        <span>🚚</span> E-Cognite
+                        <img src="https://img.icons8.com/3d-fluency/94/delivery-truck.png" alt="Logo" class="w-10 h-10">
+                        E-Cognite
                     </h3>
-                    <p class="text-gray-400 text-sm">Fast, reliable parcel delivery across the UK with real-time GPS tracking.</p>
+                    <p class="text-gray-400 text-sm mb-4">Fast, reliable parcel delivery across the UK with real-time GPS tracking. Trusted by thousands of businesses and individuals.</p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
+                            <img src="https://img.icons8.com/fluency/24/facebook-new.png" alt="Facebook" class="w-5 h-5">
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
+                            <img src="https://img.icons8.com/fluency/24/twitter.png" alt="Twitter" class="w-5 h-5">
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
+                            <img src="https://img.icons8.com/fluency/24/instagram-new.png" alt="Instagram" class="w-5 h-5">
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
+                            <img src="https://img.icons8.com/fluency/24/linkedin.png" alt="LinkedIn" class="w-5 h-5">
+                        </a>
+                    </div>
                 </div>
                 <div>
-                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <h4 class="font-semibold mb-4 flex items-center gap-2">
+                        <img src="https://img.icons8.com/fluency/24/link.png" alt="" class="w-5 h-5">Quick Links
+                    </h4>
                     <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="{% url 'track' %}" class="hover:text-white transition">Track Package</a></li>
-                        <li><a href="{% url 'register' %}" class="hover:text-white transition">Create Account</a></li>
-                        <li><a href="{% url 'about' %}" class="hover:text-white transition">About Us</a></li>
-                        <li><a href="{% url 'contact' %}" class="hover:text-white transition">Contact Us</a></li>
+                        <li><a href="{% url 'track' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/gps-device.png" alt="" class="w-4 h-4">Track Package</a></li>
+                        <li><a href="{% url 'services' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/service.png" alt="" class="w-4 h-4">Our Services</a></li>
+                        <li><a href="{% url 'pricing' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/price-tag.png" alt="" class="w-4 h-4">Pricing</a></li>
+                        <li><a href="{% url 'fleet' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/van.png" alt="" class="w-4 h-4">Our Fleet</a></li>
+                        <li><a href="{% url 'register' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/add-user-male.png" alt="" class="w-4 h-4">Create Account</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold mb-4">Company</h4>
+                    <h4 class="font-semibold mb-4 flex items-center gap-2">
+                        <img src="https://img.icons8.com/fluency/24/company.png" alt="" class="w-5 h-5">Company
+                    </h4>
                     <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="{% url 'about' %}" class="hover:text-white transition">About Us</a></li>
-                        <li><a href="{% url 'terms' %}" class="hover:text-white transition">Terms of Service</a></li>
-                        <li><a href="{% url 'privacy' %}" class="hover:text-white transition">Privacy Policy</a></li>
-                        <li><a href="{% url 'contact' %}" class="hover:text-white transition">Support</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/info.png" alt="" class="w-4 h-4">About Us</a></li>
+                        <li><a href="{% url 'careers' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/career.png" alt="" class="w-4 h-4">Careers</a></li>
+                        <li><a href="{% url 'faq' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/faq.png" alt="" class="w-4 h-4">FAQ</a></li>
+                        <li><a href="{% url 'terms' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/document.png" alt="" class="w-4 h-4">Terms of Service</a></li>
+                        <li><a href="{% url 'privacy' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/privacy.png" alt="" class="w-4 h-4">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold mb-4">Contact</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li>📧 support@ecognite.co.uk</li>
-                        <li>📞 0800 123 4567</li>
-                        <li>🏢 London, United Kingdom</li>
+                    <h4 class="font-semibold mb-4 flex items-center gap-2">
+                        <img src="https://img.icons8.com/fluency/24/headset.png" alt="" class="w-5 h-5">Contact
+                    </h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <img src="https://img.icons8.com/fluency/24/email.png" alt="" class="w-5 h-5">
+                            support@ecognite.co.uk
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <img src="https://img.icons8.com/fluency/24/phone.png" alt="" class="w-5 h-5">
+                            0800 123 4567
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <img src="https://img.icons8.com/fluency/24/company.png" alt="" class="w-5 h-5">
+                            London, UK
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <img src="https://img.icons8.com/fluency/24/clock.png" alt="" class="w-5 h-5">
+                            Mon-Fri 8am-8pm
+                        </li>
                     </ul>
+                    <a href="{% url 'contact' %}" class="inline-block mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
+                        Contact Us →
+                    </a>
                 </div>
             </div>
             <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-400 text-sm">&copy; 2024 E-Cognite Delivery Services. All rights reserved.</p>
-                <div class="flex gap-4 mt-4 md:mt-0 text-gray-400 text-sm">
-                    <a href="{% url 'privacy' %}" class="hover:text-white transition">Privacy Policy</a>
-                    <a href="{% url 'terms' %}" class="hover:text-white transition">Terms of Service</a>
-                    <a href="#" class="hover:text-white transition">Cookie Policy</a>
+                <div class="flex gap-6 mt-4 md:mt-0 text-gray-400 text-sm">
+                    <a href="{% url 'privacy' %}" class="hover:text-white transition">Privacy</a>
+                    <a href="{% url 'terms' %}" class="hover:text-white transition">Terms</a>
+                    <a href="{% url 'faq' %}" class="hover:text-white transition">FAQ</a>
+                    <a href="{% url 'careers' %}" class="hover:text-white transition">Careers</a>
                 </div>
             </div>
         </div>

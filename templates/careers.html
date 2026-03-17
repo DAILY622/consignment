@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+
+{% block title %}Careers - Join E-Cognite{% endblock %}
+
+{% block extra_head %}
+<style>
+    .job-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+    .job-card { transition: all 0.3s ease; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative rounded-2xl overflow-hidden mb-12">
+    <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&q=80" alt="Team" class="w-full h-[450px] object-cover">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/90 to-purple-900/70 flex items-center">
+        <div class="px-12 max-w-3xl">
+            <h1 class="text-5xl font-bold text-white mb-4">Join Our Team</h1>
+            <p class="text-xl text-indigo-100 mb-6">Be part of the UK's fastest-growing delivery network. We're looking for passionate people to help us revolutionize logistics.</p>
+            <a href="#openings" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition">
+                View Open Positions →
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Why Join Us -->
+<div class="mb-16">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Work at E-Cognite?</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">We're more than just a delivery company – we're a technology-driven team shaping the future of logistics.</p>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-8">
+        <div class="text-center">
+            <div class="w-20 h-20 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <img src="https://img.icons8.com/3d-fluency/94/money-bag.png" alt="Pay" class="w-12 h-12">
+            </div>
+            <h3 class="font-bold text-gray-800 mb-2">Competitive Pay</h3>
+            <p class="text-gray-600 text-sm">Above-market salaries with performance bonuses and annual reviews</p>
+        </div>
+        <div class="text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <img src="https://img.icons8.com/3d-fluency/94/hospital.png" alt="Benefits" class="w-12 h-12">
+            </div>
+            <h3 class="font-bold text-gray-800 mb-2">Great Benefits</h3>
+            <p class="text-gray-600 text-sm">Health insurance, pension contributions, and employee discounts</p>
+        </div>
+        <div class="text-center">
+            <div class="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <img src="https://img.icons8.com/3d-fluency/94/career.png" alt="Growth" class="w-12 h-12">
+            </div>
+            <h3 class="font-bold text-gray-800 mb-2">Career Growth</h3>
+            <p class="text-gray-600 text-sm">Training programs, promotions from within, and clear progression paths</p>
+        </div>
+        <div class="text-center">
+            <div class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <img src="https://img.icons8.com/3d-fluency/94/globe.png" alt="Culture" class="w-12 h-12">
+            </div>
+            <h3 class="font-bold text-gray-800 mb-2">Inclusive Culture</h3>
+            <p class="text-gray-600 text-sm">Diverse, supportive team with regular social events and team building</p>
+        </div>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-12 mb-16 text-white">
+    <div class="grid md:grid-cols-4 gap-8 text-center">
+        <div>
+            <p class="text-5xl font-bold mb-2">750+</p>
+            <p class="text-indigo-200">Team Members</p>
+        </div>
+        <div>
+            <p class="text-5xl font-bold mb-2">25</p>
+            <p class="text-indigo-200">UK Locations</p>
+        </div>
+        <div>
+            <p class="text-5xl font-bold mb-2">4.7★</p>
+            <p class="text-indigo-200">Glassdoor Rating</p>
+        </div>
+        <div>
+            <p class="text-5xl font-bold mb-2">92%</p>
+            <p class="text-indigo-200">Employee Satisfaction</p>
+        </div>
+    </div>
+</div>
+
+<!-- Open Positions -->
+<div id="openings" class="mb-16">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Open Positions</h2>
+        <p class="text-gray-600">Find your perfect role at E-Cognite</p>
+    </div>
+
+    <!-- Driver Positions -->
+    <div class="mb-12">
+        <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+            <img src="https://img.icons8.com/3d-fluency/94/driver.png" alt="Driver" class="w-10 h-10">
+            Driver Positions
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="job-card bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800">Multi-Drop Delivery Driver</h4>
+                        <p class="text-gray-500">Multiple Locations</p>
+                    </div>
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">Full-time</span>
+                </div>
+                <p class="text-gray-600 mb-4">Join our fleet of drivers delivering parcels across your local area. Competitive daily rates with performance bonuses.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">£14-18/hr</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Van provided</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Fuel card</span>
+                </div>
+                <a href="{% url 'contact' %}" class="text-indigo-600 font-semibold hover:underline">Apply Now →</a>
+            </div>
+            <div class="job-card bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800">Owner Driver (Self-Employed)</h4>
+                        <p class="text-gray-500">Nationwide</p>
+                    </div>
+                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Contract</span>
+                </div>
+                <p class="text-gray-600 mb-4">Use your own van to deliver with E-Cognite. Flexible hours, great earning potential, and consistent work.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">£150-250/day</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Own van</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Flexible</span>
+                </div>
+                <a href="{% url 'contact' %}" class="text-indigo-600 font-semibold hover:underline">Apply Now →</a>
+            </div>
+            <div class="job-card bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800">HGV Driver (Class 2)</h4>
+                        <p class="text-gray-500">Birmingham, Manchester, London</p>
+                    </div>
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">Full-time</span>
+                </div>
+                <p class="text-gray-600 mb-4">Drive our 18-tonne trucks for inter-depot transfers. Regular routes with home time guaranteed.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">£38-45K</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Class 2 CPC</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Day shifts</span>
+                </div>
+                <a href="{% url 'contact' %}" class="text-indigo-600 font-semibold hover:underline">Apply Now →</a>
+            </div>
+            <div class="job-card bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800">Motorcycle Courier</h4>
+                        <p class="text-gray-500">London, Manchester</p>
+                    </div>
+                    <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">Part-time</span>
+                </div>
+                <p class="text-gray-600 mb-4">Fast-paced same-day deliveries in city centres. Must have own motorcycle and full licence.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">£12-20/hr</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Own bike</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Tips</span>
+                </div>
+                <a href="{% url 'contact' %}" class="text-indigo-600 font-semibold hover:underline">Apply Now →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warehouse Positions -->
+    <div class="mb-12">
+        <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+            <img src="https://img.icons8.com/3d-fluency/94/warehouse.png" alt="Warehouse" class="w-10 h-10">
+            Warehouse & Operations
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="job-card bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800">Warehouse Operative</h4>
+                        <p class="text-gray-500">Multiple UK Depots</p>
+                    </div>
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">Full-time</span>
+                </div>
+                <p class="text-gray-600 mb-4">Sort, scan, and load parcels in our modern distribution centres. Various shifts available.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">£11.50-13/hr</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Shifts</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Training</span>
+                </div>
+                <a href="{% url 'contact' %}" class="text-indigo-600 font-semibold hover:underline">Apply Now →</a>
+            </div>
+            <div class="job-card bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800">Depot Manager</h4>
+                        <p class="text-gray-500">Bristol, Leeds, Glasgow</p>
+                    </div>
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">Full-time</span>
+                </div>
+                <p class="text-gray-600 mb-4">Lead daily operations at one of our regional hubs. Manage team of 20-50 staff.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">£45-55K</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Bonus</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Car</span>
+                </div>
+                <a href="{% url 'contact' %}" class="text-indigo-600 font-semibold hover:underline">Apply Now →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Office Positions -->
+    <div>
+        <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+            <img src="https://img.icons8.com/3d-fluency/94/laptop.png" alt="Office" class="w-10 h-10">
+            Office & Technology
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="job-card bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800">Customer Service Advisor</h4>
+                        <p class="text-gray-500">London (Hybrid)</p>
+                    </div>
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">Full-time</span>
+                </div>
+                <p class="text-gray-600 mb-4">Help customers track parcels, resolve issues, and provide excellent service via phone, email, and chat.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">£24-28K</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Hybrid</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Benefits</span>
+                </div>
+                <a href="{% url 'contact' %}" class="text-indigo-600 font-semibold hover:underline">Apply Now →</a>
+            </div>
+            <div class="job-card bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800">Software Engineer (Python/Django)</h4>
+                        <p class="text-gray-500">London (Remote OK)</p>
+                    </div>
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">Full-time</span>
+                </div>
+                <p class="text-gray-600 mb-4">Build features for our tracking platform, driver app, and internal tools. Modern stack, agile team.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">£55-75K</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Remote</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-sm">Equity</span>
+                </div>
+                <a href="{% url 'contact' %}" class="text-indigo-600 font-semibold hover:underline">Apply Now →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Employee Testimonials -->
+<div class="mb-16">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">What Our Team Says</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+            <div class="flex items-center gap-4 mb-4">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Employee" class="w-14 h-14 rounded-full object-cover">
+                <div>
+                    <p class="font-bold text-gray-800">Marcus Thompson</p>
+                    <p class="text-gray-500 text-sm">Delivery Driver, 2 years</p>
+                </div>
+            </div>
+            <p class="text-gray-600 italic">"Best driving job I've had. The routes are well planned, the van is reliable, and the support team actually helps when you need them. Pay is good too!"</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+            <div class="flex items-center gap-4 mb-4">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Employee" class="w-14 h-14 rounded-full object-cover">
+                <div>
+                    <p class="font-bold text-gray-800">Priya Sharma</p>
+                    <p class="text-gray-500 text-sm">Software Engineer, 1 year</p>
+                </div>
+            </div>
+            <p class="text-gray-600 italic">"The engineering culture here is fantastic. We ship fast, iterate quickly, and actually see our code making real impact on millions of deliveries."</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+            <div class="flex items-center gap-4 mb-4">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" alt="Employee" class="w-14 h-14 rounded-full object-cover">
+                <div>
+                    <p class="font-bold text-gray-800">James O'Brien</p>
+                    <p class="text-gray-500 text-sm">Depot Manager, 3 years</p>
+                </div>
+            </div>
+            <p class="text-gray-600 italic">"Started as a warehouse operative and worked my way up. E-Cognite genuinely invests in people who show initiative. The training programs are excellent."</p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-12 text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">Don't See Your Role?</h2>
+    <p class="text-indigo-100 mb-8 max-w-2xl mx-auto">We're always looking for talented people. Send us your CV and we'll be in touch when a suitable position opens up.</p>
+    <a href="{% url 'contact' %}" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition">
+        Submit Your CV →
+    </a>
+</div>
+{% endblock %}
