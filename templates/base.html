@@ -111,7 +111,7 @@
                                 <img src="https://img.icons8.com/fluency/24/driver.png" alt="" class="w-5 h-5">Deliveries
                             </a>
                         {% endif %}
-                        {% if user.is_staff %}
+                        {% if user.is_superuser %}
                             <a href="{% url 'admin:index' %}" class="hover:text-primary-200 transition flex items-center gap-1">
                                 <img src="https://img.icons8.com/fluency/24/settings.png" alt="" class="w-5 h-5">Admin
                             </a>
