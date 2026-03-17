@@ -2,25 +2,60 @@
 
 {% block title %}E-Cognite - UK Parcel Delivery & Tracking{% endblock %}
 
+{% block extra_head %}
+<style>
+    .hero-bg {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.95) 0%, rgba(124, 58, 237, 0.95) 100%),
+                    url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80') center/cover;
+    }
+    .testimonial-slider { animation: slide 20s infinite; }
+    @keyframes slide { 0%, 30% { transform: translateX(0); } 35%, 65% { transform: translateX(-100%); } 70%, 100% { transform: translateX(-200%); } }
+    .partner-logo { filter: grayscale(100%) brightness(0.6); transition: all 0.3s; }
+    .partner-logo:hover { filter: grayscale(0%) brightness(1); }
+</style>
+{% endblock %}
+
 {% block content %}
-<!-- Hero Section -->
-<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white p-12 mb-12 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-        <div class="absolute top-10 right-10 text-9xl">📦</div>
-        <div class="absolute bottom-10 left-1/2 text-7xl">🚚</div>
-    </div>
-    <div class="max-w-3xl relative z-10">
-        <span class="bg-white/20 text-sm px-4 py-1 rounded-full mb-4 inline-block">🏆 #1 Rated UK Delivery Service</span>
-        <h1 class="text-5xl font-bold mb-4">Fast, Reliable Parcel Delivery Across the UK</h1>
-        <p class="text-xl text-indigo-100 mb-8">Track your packages in real-time with GPS. Same-day, next-day, and standard delivery options available.</p>
-        <div class="flex flex-wrap gap-4">
-            <a href="{% url 'track' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition shadow-lg">📍 Track Package</a>
-            {% if not user.is_authenticated %}
-                <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Get Started Free</a>
-            {% else %}
-                <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">+ Send Package</a>
-            {% endif %}
-            <a href="#quote" class="bg-indigo-500 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-400 transition">💷 Get a Quote</a>
+<!-- Hero Section with Real Background -->
+<div class="hero-bg rounded-2xl text-white p-12 mb-12 relative overflow-hidden min-h-[500px] flex items-center">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/80 to-purple-900/60"></div>
+    <div class="grid md:grid-cols-2 gap-8 items-center relative z-10 w-full">
+        <div>
+            <span class="bg-white/20 backdrop-blur text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2">
+                <img src="https://img.icons8.com/color/24/trophy.png" alt="Trophy" class="w-5 h-5">
+                #1 Rated UK Delivery Service
+            </span>
+            <h1 class="text-5xl font-bold mb-4 leading-tight">Fast, Reliable Parcel Delivery Across the UK</h1>
+            <p class="text-xl text-indigo-100 mb-8">Track your packages in real-time with GPS. Same-day, next-day, and standard delivery options available.</p>
+            <div class="flex flex-wrap gap-4">
+                <a href="{% url 'track' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition shadow-lg flex items-center gap-2">
+                    <img src="https://img.icons8.com/color/24/marker.png" alt="Track" class="w-5 h-5"> Track Package
+                </a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Get Started Free</a>
+                {% else %}
+                    <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">+ Send Package</a>
+                {% endif %}
+                <a href="#quote" class="bg-indigo-500 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-400 transition flex items-center gap-2">
+                    <img src="https://img.icons8.com/color/24/british-pound.png" alt="Quote" class="w-5 h-5"> Get a Quote
+                </a>
+            </div>
+            <!-- Trust Indicators -->
+            <div class="flex items-center gap-6 mt-8 pt-6 border-t border-white/20">
+                <div class="flex -space-x-3">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" class="w-10 h-10 rounded-full border-2 border-white" alt="Customer">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" class="w-10 h-10 rounded-full border-2 border-white" alt="Customer">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" class="w-10 h-10 rounded-full border-2 border-white" alt="Customer">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" class="w-10 h-10 rounded-full border-2 border-white" alt="Customer">
+                </div>
+                <div>
+                    <div class="flex text-yellow-400 text-sm">★★★★★</div>
+                    <p class="text-sm text-indigo-200">Trusted by 50,000+ customers</p>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:block">
+            <img src="https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=600&q=80" alt="Delivery Driver" class="rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
         </div>
     </div>
 </div>
@@ -37,33 +72,45 @@
     </form>
 </div>
 
-<!-- Trust Badges -->
-<div class="bg-primary-50/80 backdrop-blur rounded-xl p-6 mb-12 border border-primary-100">
-    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-        <div class="flex items-center gap-2 text-primary-700">
-            <span class="text-2xl">🔒</span>
-            <span class="font-semibold">SSL Secured</span>
+<!-- Trust Badges with Real Icons -->
+<div class="bg-white rounded-xl p-6 mb-12 shadow-lg border border-gray-100">
+    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+        <div class="flex items-center gap-3">
+            <img src="https://img.icons8.com/color/48/ssl-security.png" alt="SSL" class="w-10 h-10">
+            <span class="font-semibold text-gray-700">SSL Secured</span>
         </div>
-        <div class="flex items-center gap-2 text-primary-700">
-            <span class="text-2xl">✅</span>
-            <span class="font-semibold">GDPR Compliant</span>
+        <div class="flex items-center gap-3">
+            <img src="https://img.icons8.com/color/48/checkmark--v1.png" alt="GDPR" class="w-10 h-10">
+            <span class="font-semibold text-gray-700">GDPR Compliant</span>
         </div>
-        <div class="flex items-center gap-2 text-primary-700">
-            <span class="text-2xl">🛡️</span>
-            <span class="font-semibold">Insured Delivery</span>
+        <div class="flex items-center gap-3">
+            <img src="https://img.icons8.com/color/48/shield--v1.png" alt="Insured" class="w-10 h-10">
+            <span class="font-semibold text-gray-700">Insured Delivery</span>
         </div>
-        <div class="flex items-center gap-2 text-primary-700">
-            <span class="text-2xl">⭐</span>
-            <span class="font-semibold">4.9/5 Rating</span>
+        <div class="flex items-center gap-3">
+            <img src="https://img.icons8.com/color/48/star--v1.png" alt="Rating" class="w-10 h-10">
+            <span class="font-semibold text-gray-700">4.9/5 Rating</span>
         </div>
-        <div class="flex items-center gap-2 text-primary-700">
-            <span class="text-2xl">🏅</span>
-            <span class="font-semibold">ISO Certified</span>
+        <div class="flex items-center gap-3">
+            <img src="https://img.icons8.com/color/48/prize.png" alt="ISO" class="w-10 h-10">
+            <span class="font-semibold text-gray-700">ISO Certified</span>
         </div>
     </div>
 </div>
 
-<!-- How It Works -->
+<!-- Trusted By Section -->
+<div class="mb-12">
+    <p class="text-center text-gray-500 mb-6 text-sm uppercase tracking-wider">Trusted by leading UK businesses</p>
+    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60">
+        <img src="https://img.icons8.com/color/96/amazon.png" alt="Amazon" class="h-8 partner-logo">
+        <img src="https://img.icons8.com/color/96/ebay.png" alt="eBay" class="h-8 partner-logo">
+        <img src="https://img.icons8.com/fluency/96/shopify.png" alt="Shopify" class="h-8 partner-logo">
+        <img src="https://img.icons8.com/color/96/etsy.png" alt="Etsy" class="h-8 partner-logo">
+        <img src="https://img.icons8.com/color/96/woocommerce.png" alt="WooCommerce" class="h-8 partner-logo">
+    </div>
+</div>
+
+<!-- How It Works with Real Images -->
 <div class="mb-16">
     <div class="text-center mb-10">
         <h2 class="text-3xl font-bold text-gray-800 mb-2">How It Works</h2>
@@ -71,33 +118,33 @@
     </div>
     <div class="grid md:grid-cols-3 gap-8">
         <div class="relative">
-            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-primary-100">
-                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="text-3xl">📝</span>
+            <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-gray-100">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <img src="https://img.icons8.com/color/64/edit-property.png" alt="Book" class="w-12 h-12">
                 </div>
-                <div class="absolute -top-3 -left-3 w-10 h-10 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
-                <h3 class="text-xl font-bold text-primary-800 mb-2">Book Online</h3>
-                <p class="text-primary-600">Enter pickup & delivery details. Get instant pricing and choose your delivery speed.</p>
+                <div class="absolute -top-3 -left-3 w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">1</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Book Online</h3>
+                <p class="text-gray-600">Enter pickup & delivery details. Get instant pricing and choose your delivery speed.</p>
             </div>
         </div>
         <div class="relative">
-            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-primary-100">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="text-3xl">🚚</span>
+            <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-gray-100">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <img src="https://img.icons8.com/color/64/delivery-truck.png" alt="Collect" class="w-12 h-12">
                 </div>
-                <div class="absolute -top-3 -left-3 w-10 h-10 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
-                <h3 class="text-xl font-bold text-primary-800 mb-2">We Collect</h3>
-                <p class="text-primary-600">Our driver picks up your parcel from your door. Track every step in real-time.</p>
+                <div class="absolute -top-3 -left-3 w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">2</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">We Collect</h3>
+                <p class="text-gray-600">Our driver picks up your parcel from your door. Track every step in real-time.</p>
             </div>
         </div>
         <div class="relative">
-            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-primary-100">
-                <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="text-3xl">📬</span>
+            <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition border border-gray-100">
+                <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <img src="https://img.icons8.com/color/64/delivered-box.png" alt="Delivered" class="w-12 h-12">
                 </div>
-                <div class="absolute -top-3 -left-3 w-10 h-10 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
-                <h3 class="text-xl font-bold text-primary-800 mb-2">Delivered</h3>
-                <p class="text-primary-600">Package delivered with photo proof & signature. You'll get instant confirmation.</p>
+                <div class="absolute -top-3 -left-3 w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">3</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Delivered</h3>
+                <p class="text-gray-600">Package delivered with photo proof & signature. You'll get instant confirmation.</p>
             </div>
         </div>
     </div>
@@ -227,120 +274,137 @@
     </div>
 </div>
 
-<!-- Features -->
+<!-- Features with Real Icons -->
 <div class="grid md:grid-cols-3 gap-8 mb-16">
-    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow p-6 text-center hover:shadow-lg transition border border-primary-100">
-        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-3xl">📍</span>
+    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition border border-gray-100 group">
+        <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <img src="https://img.icons8.com/color/64/gps-device.png" alt="GPS Tracking" class="w-12 h-12">
         </div>
-        <h3 class="text-xl font-bold text-primary-800 mb-2">Real-Time GPS Tracking</h3>
-        <p class="text-primary-600">Know exactly where your package is at any moment with live map updates and notifications.</p>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Real-Time GPS Tracking</h3>
+        <p class="text-gray-600">Know exactly where your package is at any moment with live map updates and notifications.</p>
     </div>
-    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow p-6 text-center hover:shadow-lg transition border border-primary-100">
-        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-3xl">🚚</span>
+    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition border border-gray-100 group">
+        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <img src="https://img.icons8.com/color/64/united-kingdom.png" alt="UK Coverage" class="w-12 h-12">
         </div>
-        <h3 class="text-xl font-bold text-primary-800 mb-2">UK-Wide Coverage</h3>
-        <p class="text-primary-600">From London to Edinburgh, we deliver to every corner of the United Kingdom, including remote areas.</p>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">UK-Wide Coverage</h3>
+        <p class="text-gray-600">From London to Edinburgh, we deliver to every corner of the United Kingdom, including remote areas.</p>
     </div>
-    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow p-6 text-center hover:shadow-lg transition border border-primary-100">
-        <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-3xl">📱</span>
+    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition border border-gray-100 group">
+        <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <img src="https://img.icons8.com/color/64/camera--v1.png" alt="Proof of Delivery" class="w-12 h-12">
         </div>
-        <h3 class="text-xl font-bold text-primary-800 mb-2">Proof of Delivery</h3>
-        <p class="text-primary-600">Photos and digital signatures captured on delivery for your complete peace of mind.</p>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Proof of Delivery</h3>
+        <p class="text-gray-600">Photos and digital signatures captured on delivery for your complete peace of mind.</p>
     </div>
 </div>
 
-<!-- Stats -->
-<div class="bg-gray-800 rounded-xl text-white p-8 mb-16">
-    <div class="grid md:grid-cols-4 gap-8 text-center">
+<!-- Stats with Background Image -->
+<div class="relative rounded-xl text-white p-8 mb-16 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-800/90"></div>
+    <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1920&q=80" alt="Warehouse" class="absolute inset-0 w-full h-full object-cover -z-10">
+    <div class="grid md:grid-cols-4 gap-8 text-center relative z-10">
         <div>
             <div class="text-4xl font-bold text-indigo-400">50K+</div>
-            <div class="text-gray-400">Packages Delivered</div>
+            <div class="text-gray-300">Packages Delivered</div>
         </div>
         <div>
-            <div class="text-4xl font-bold text-indigo-400">99.2%</div>
-            <div class="text-gray-400">On-Time Delivery</div>
+            <div class="text-4xl font-bold text-green-400">99.2%</div>
+            <div class="text-gray-300">On-Time Delivery</div>
         </div>
         <div>
-            <div class="text-4xl font-bold text-indigo-400">500+</div>
-            <div class="text-gray-400">Active Drivers</div>
+            <div class="text-4xl font-bold text-purple-400">500+</div>
+            <div class="text-gray-300">Active Drivers</div>
         </div>
         <div>
-            <div class="text-4xl font-bold text-indigo-400">24/7</div>
-            <div class="text-gray-400">Customer Support</div>
+            <div class="text-4xl font-bold text-yellow-400">24/7</div>
+            <div class="text-gray-300">Customer Support</div>
         </div>
     </div>
 </div>
 
-<!-- Testimonials -->
+<!-- Testimonials with Real Photos -->
 <div class="mb-16">
     <div class="text-center mb-10">
         <h2 class="text-3xl font-bold text-primary-800 mb-2">What Our Customers Say</h2>
-        <p class="text-primary-600">Trusted by thousands of businesses and individuals</p>
+        <p class="text-primary-600">Trusted by thousands of businesses and individuals across the UK</p>
     </div>
     <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-primary-100">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-primary-200 rounded-full flex items-center justify-center mr-4">
-                    <span class="text-xl font-bold text-primary-700">JD</span>
-                </div>
+        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-gray-100 relative">
+            <div class="absolute -top-4 left-6 text-5xl text-indigo-200">"</div>
+            <div class="flex items-center mb-4 relative z-10">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="James Davidson" class="w-14 h-14 rounded-full border-4 border-indigo-100 mr-4">
                 <div>
-                    <p class="font-semibold text-primary-800">James Davidson</p>
-                    <p class="text-sm text-primary-500">E-commerce Owner</p>
+                    <p class="font-semibold text-gray-800">James Davidson</p>
+                    <p class="text-sm text-gray-500">E-commerce Owner, London</p>
                 </div>
             </div>
             <div class="flex text-yellow-400 mb-3">★★★★★</div>
-            <p class="text-primary-700 italic">"E-Cognite has transformed our shipping. Real-time tracking keeps our customers happy, and the same-day option is a game-changer for urgent orders."</p>
+            <p class="text-gray-600">"E-Cognite has transformed our shipping. Real-time tracking keeps our customers happy, and the same-day option is a game-changer for urgent orders."</p>
+            <div class="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
+                <img src="https://img.icons8.com/color/24/verified-badge.png" alt="Verified" class="w-5 h-5">
+                <span class="text-sm text-gray-500">Verified Customer</span>
+            </div>
         </div>
-        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-primary-100">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center mr-4">
-                    <span class="text-xl font-bold text-green-700">SP</span>
-                </div>
+        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-gray-100 relative">
+            <div class="absolute -top-4 left-6 text-5xl text-indigo-200">"</div>
+            <div class="flex items-center mb-4 relative z-10">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&h=80&fit=crop&crop=face" alt="Sarah Patel" class="w-14 h-14 rounded-full border-4 border-green-100 mr-4">
                 <div>
-                    <p class="font-semibold text-primary-800">Sarah Patel</p>
-                    <p class="text-sm text-primary-500">Small Business</p>
+                    <p class="font-semibold text-gray-800">Sarah Patel</p>
+                    <p class="text-sm text-gray-500">Small Business Owner, Manchester</p>
                 </div>
             </div>
             <div class="flex text-yellow-400 mb-3">★★★★★</div>
-            <p class="text-primary-700 italic">"Best delivery service I've used. The GPS tracking is brilliant - I can see exactly where my parcels are. Highly recommend for any business!"</p>
+            <p class="text-gray-600">"Best delivery service I've used. The GPS tracking is brilliant - I can see exactly where my parcels are. Highly recommend for any business!"</p>
+            <div class="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
+                <img src="https://img.icons8.com/color/24/verified-badge.png" alt="Verified" class="w-5 h-5">
+                <span class="text-sm text-gray-500">Verified Customer</span>
+            </div>
         </div>
-        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-primary-100">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-accent-200 rounded-full flex items-center justify-center mr-4">
-                    <span class="text-xl font-bold text-accent-700">MT</span>
-                </div>
+        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-gray-100 relative">
+            <div class="absolute -top-4 left-6 text-5xl text-indigo-200">"</div>
+            <div class="flex items-center mb-4 relative z-10">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop&crop=face" alt="Michael Thompson" class="w-14 h-14 rounded-full border-4 border-purple-100 mr-4">
                 <div>
-                    <p class="font-semibold text-primary-800">Michael Thompson</p>
-                    <p class="text-sm text-primary-500">Regular Customer</p>
+                    <p class="font-semibold text-gray-800">Michael Thompson</p>
+                    <p class="text-sm text-gray-500">Regular Customer, Edinburgh</p>
                 </div>
             </div>
             <div class="flex text-yellow-400 mb-3">★★★★★</div>
-            <p class="text-primary-700 italic">"I ship parcels to my family across the UK regularly. E-Cognite's prices are fair and their express service always delivers on time. Excellent!"</p>
+            <p class="text-gray-600">"I ship parcels to my family across the UK regularly. E-Cognite's prices are fair and their express service always delivers on time. Excellent!"</p>
+            <div class="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
+                <img src="https://img.icons8.com/color/24/verified-badge.png" alt="Verified" class="w-5 h-5">
+                <span class="text-sm text-gray-500">Verified Customer</span>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Business Section -->
-<div class="bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl p-8 md:p-12 mb-16 text-white">
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+<!-- Business Section with Real Image -->
+<div class="relative rounded-2xl p-8 md:p-12 mb-16 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-800/80"></div>
+    <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1920&q=80" alt="Business Warehouse" class="absolute inset-0 w-full h-full object-cover -z-10">
+    <div class="grid md:grid-cols-2 gap-8 items-center relative z-10">
         <div>
-            <span class="bg-indigo-500 text-sm px-4 py-1 rounded-full mb-4 inline-block">FOR BUSINESS</span>
+            <span class="bg-indigo-500 text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2">
+                <img src="https://img.icons8.com/color/24/business.png" alt="Business" class="w-5 h-5"> FOR BUSINESS
+            </span>
             <h2 class="text-3xl font-bold mb-4">Corporate & Business Solutions</h2>
             <p class="text-gray-300 mb-6">Partner with E-Cognite for your business shipping needs. Volume discounts, dedicated account managers, API integration, and priority support.</p>
             <ul class="space-y-3 mb-6">
-                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Volume discounts up to 40%</li>
-                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Dedicated account manager</li>
-                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> API integration available</li>
-                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Custom invoicing & reporting</li>
-                <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Priority customer support</li>
+                <li class="flex items-center"><img src="https://img.icons8.com/color/24/checkmark--v1.png" class="w-5 h-5 mr-2"> Volume discounts up to 40%</li>
+                <li class="flex items-center"><img src="https://img.icons8.com/color/24/checkmark--v1.png" class="w-5 h-5 mr-2"> Dedicated account manager</li>
+                <li class="flex items-center"><img src="https://img.icons8.com/color/24/checkmark--v1.png" class="w-5 h-5 mr-2"> API integration available</li>
+                <li class="flex items-center"><img src="https://img.icons8.com/color/24/checkmark--v1.png" class="w-5 h-5 mr-2"> Custom invoicing & reporting</li>
+                <li class="flex items-center"><img src="https://img.icons8.com/color/24/checkmark--v1.png" class="w-5 h-5 mr-2"> Priority customer support</li>
             </ul>
-            <a href="mailto:business@ecognite.co.uk" class="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">Contact Sales Team</a>
+            <a href="mailto:business@ecognite.co.uk" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                <img src="https://img.icons8.com/color/24/email.png" class="w-5 h-5"> Contact Sales Team
+            </a>
         </div>
-        <div class="hidden md:block text-center">
-            <div class="text-9xl opacity-20">🏢</div>
+        <div class="hidden md:block">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=80" alt="Business Analytics" class="rounded-xl shadow-2xl">
         </div>
     </div>
 </div>
