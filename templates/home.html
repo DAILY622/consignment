@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}E-Cognite - UK Parcel Delivery{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white p-12 mb-12">
+    <div class="max-w-3xl">
+        <h1 class="text-5xl font-bold mb-4">Fast, Reliable Parcel Delivery</h1>
+        <p class="text-xl text-indigo-100 mb-8">Track your packages in real-time with GPS. Serving all of the UK with next-day delivery options.</p>
+        <div class="flex space-x-4">
+            <a href="{% url 'track' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition">Track Package</a>
+            {% if not user.is_authenticated %}
+                <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Get Started</a>
+            {% else %}
+                <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Send Package</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Quick Track -->
+<div class="bg-white rounded-xl shadow-lg p-8 mb-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Track</h2>
+    <form action="{% url 'track' %}" method="GET" class="flex gap-4">
+        <input type="text" name="q" placeholder="Enter tracking number (e.g., ECG-XXXXXXXX)" 
+               class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+            Track
+        </button>
+    </form>
+</div>
+
+<!-- Features -->
+<div class="grid md:grid-cols-3 gap-8 mb-12">
+    <div class="bg-white rounded-xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">📍</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Real-Time GPS Tracking</h3>
+        <p class="text-gray-600">Know exactly where your package is at any moment with live map updates.</p>
+    </div>
+    <div class="bg-white rounded-xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">🚚</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">UK-Wide Coverage</h3>
+        <p class="text-gray-600">From London to Edinburgh, we deliver to every corner of the United Kingdom.</p>
+    </div>
+    <div class="bg-white rounded-xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">📱</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Proof of Delivery</h3>
+        <p class="text-gray-600">Photos and signatures captured on delivery for your peace of mind.</p>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="bg-gray-800 rounded-xl text-white p-8 mb-12">
+    <div class="grid md:grid-cols-4 gap-8 text-center">
+        <div>
+            <div class="text-4xl font-bold text-indigo-400">50K+</div>
+            <div class="text-gray-400">Packages Delivered</div>
+        </div>
+        <div>
+            <div class="text-4xl font-bold text-indigo-400">99.2%</div>
+            <div class="text-gray-400">On-Time Delivery</div>
+        </div>
+        <div>
+            <div class="text-4xl font-bold text-indigo-400">500+</div>
+            <div class="text-gray-400">Active Drivers</div>
+        </div>
+        <div>
+            <div class="text-4xl font-bold text-indigo-400">24/7</div>
+            <div class="text-gray-400">Customer Support</div>
+        </div>
+    </div>
+</div>
+
+<!-- Popular Routes -->
+<div class="mb-12">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Popular Delivery Routes</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for route in popular_routes %}
+        <div class="bg-white rounded-lg shadow p-4 flex items-center">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-gray-800">{{ route.from }} → {{ route.to }}</div>
+                <div class="text-sm text-gray-500">{{ route.time }}</div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="bg-white rounded-lg shadow p-4 flex items-center">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-gray-800">London → Manchester</div>
+                <div class="text-sm text-gray-500">Next day delivery</div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 flex items-center">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-gray-800">Birmingham → Leeds</div>
+                <div class="text-sm text-gray-500">Next day delivery</div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 flex items-center">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-gray-800">Edinburgh → Glasgow</div>
+                <div class="text-sm text-gray-500">Same day available</div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 flex items-center">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-gray-800">Cardiff → Bristol</div>
+                <div class="text-sm text-gray-500">Same day available</div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 flex items-center">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-gray-800">Liverpool → Sheffield</div>
+                <div class="text-sm text-gray-500">Next day delivery</div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 flex items-center">
+            <span class="text-2xl mr-3">🚛</span>
+            <div>
+                <div class="font-semibold text-gray-800">Belfast → Dublin</div>
+                <div class="text-sm text-gray-500">2-3 days</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

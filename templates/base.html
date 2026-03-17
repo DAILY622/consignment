@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Cognite Delivery{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        .status-pending { background-color: #fef3c7; color: #92400e; }
+        .status-processing { background-color: #dbeafe; color: #1e40af; }
+        .status-in_transit { background-color: #e0e7ff; color: #3730a3; }
+        .status-out_for_delivery { background-color: #fce7f3; color: #9d174d; }
+        .status-delivered { background-color: #d1fae5; color: #065f46; }
+        .status-cancelled { background-color: #fee2e2; color: #991b1b; }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="{% url 'home' %}" class="text-2xl font-bold">🚚 E-Cognite</a>
+                <div class="flex items-center space-x-6">
+                    <a href="{% url 'track' %}" class="hover:text-indigo-200">Track Package</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="hover:text-indigo-200">Dashboard</a>
+                        {% if user.is_admin %}
+                            <a href="{% url 'admin:index' %}" class="hover:text-indigo-200">Admin</a>
+                        {% endif %}
+                        {% if user.is_driver %}
+                            <a href="{% url 'driver_portal' %}" class="hover:text-indigo-200">Driver Portal</a>
+                        {% endif %}
+                        <span class="text-indigo-200">{{ user.username }}</span>
+                        <a href="{% url 'logout' %}" class="bg-indigo-500 px-4 py-2 rounded hover:bg-indigo-400">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="hover:text-indigo-200">Login</a>
+                        <a href="{% url 'register' %}" class="bg-white text-indigo-600 px-4 py-2 rounded hover:bg-indigo-100">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 p-4 rounded {% if message.tags == 'error' %}bg-red-100 text-red-700{% elif message.tags == 'success' %}bg-green-100 text-green-700{% else %}bg-blue-100 text-blue-700{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p>&copy; 2024 E-Cognite Delivery Services. All rights reserved.</p>
+            <p class="text-gray-400 mt-2">UK-wide parcel delivery with real-time GPS tracking</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

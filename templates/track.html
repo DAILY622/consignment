@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+
+{% block title %}Track Package - E-Cognite{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Track Your Package</h1>
+    
+    <!-- Search Form -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <form method="GET" class="flex gap-4">
+            <input type="text" name="q" value="{{ query }}" placeholder="Enter tracking number (e.g., ECG-XXXXXXXX)" 
+                   class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+            <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700">
+                Track
+            </button>
+        </form>
+    </div>
+    
+    {% if package %}
+    <!-- Package Info Card -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-indigo-200 text-sm">Tracking Number</p>
+                    <h2 class="text-3xl font-bold font-mono">{{ package.tracking_number }}</h2>
+                </div>
+                <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white/20 backdrop-blur">
+                    {{ package.get_status_display }}
+                </span>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <!-- Route visualization -->
+            <div class="flex items-center justify-between mb-6 px-4">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <span class="text-2xl">📤</span>
+                    </div>
+                    <p class="font-semibold text-gray-800">{{ package.sender_city }}</p>
+                    <p class="text-xs text-gray-500">Origin</p>
+                </div>
+                
+                <div class="flex-1 mx-4">
+                    <div class="h-2 bg-gray-200 rounded-full relative">
+                        <div class="h-2 bg-indigo-600 rounded-full transition-all duration-500" 
+                             style="width: {% if package.status == 'pending' %}10{% elif package.status == 'processing' %}25{% elif package.status == 'in_transit' %}50{% elif package.status == 'out_for_delivery' %}75{% elif package.status == 'delivered' %}100{% else %}0{% endif %}%"></div>
+                        <div class="absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 transition-all duration-500"
+                             style="left: {% if package.status == 'pending' %}10{% elif package.status == 'processing' %}25{% elif package.status == 'in_transit' %}50{% elif package.status == 'out_for_delivery' %}75{% elif package.status == 'delivered' %}100{% else %}0{% endif %}%">
+                            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg">
+                                <span class="text-white text-sm">🚚</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <span class="text-2xl">📥</span>
+                    </div>
+                    <p class="font-semibold text-gray-800">{{ package.receiver_city }}</p>
+                    <p class="text-xs text-gray-500">Destination</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">📤 From</h3>
+                    <p class="font-semibold text-gray-800">{{ package.sender_name }}</p>
+                    <p class="text-gray-600">{{ package.sender_address }}</p>
+                    <p class="text-gray-600">{{ package.sender_city }}, {{ package.sender_postcode }}</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">📥 To</h3>
+                    <p class="font-semibold text-gray-800">{{ package.receiver_name }}</p>
+                    <p class="text-gray-600">{{ package.receiver_address }}</p>
+                    <p class="text-gray-600">{{ package.receiver_city }}, {{ package.receiver_postcode }}</p>
+                </div>
+            </div>
+            
+            {% if package.estimated_delivery %}
+            <div class="bg-indigo-50 rounded-lg p-4 flex items-center">
+                <span class="text-2xl mr-3">📅</span>
+                <div>
+                    <p class="text-sm text-indigo-600">Estimated Delivery</p>
+                    <p class="text-lg font-bold text-indigo-800">{{ package.estimated_delivery|date:"l, F j, Y" }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Live Map -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+        <div class="p-4 border-b flex justify-between items-center">
+            <h3 class="font-bold text-gray-800 flex items-center">
+                <span class="w-3 h-3 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                Live Package Location
+            </h3>
+            <span class="text-sm text-gray-500">Last updated: {% now "M j, g:i A" %}</span>
+        </div>
+        <div id="map" style="height: 450px;"></div>
+        <div class="p-4 bg-gray-50 border-t">
+            <div class="flex items-center justify-between text-sm">
+                <div class="flex items-center space-x-6">
+                    <span class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-1"></span> Origin</span>
+                    <span class="flex items-center"><span class="w-3 h-3 bg-indigo-500 rounded-full mr-1"></span> Route</span>
+                    <span class="flex items-center"><span class="w-3 h-3 bg-green-500 rounded-full mr-1"></span> Destination</span>
+                    <span class="flex items-center"><span class="w-3 h-3 bg-red-500 rounded-full mr-1"></span> Current</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tracking Timeline -->
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <span class="mr-2">📋</span> Tracking History
+        </h3>
+        
+        <div class="space-y-1">
+            {% for event in tracking_history %}
+            <div class="flex group">
+                <div class="flex flex-col items-center mr-4">
+                    <div class="w-4 h-4 rounded-full {% if forloop.first %}bg-indigo-600 ring-4 ring-indigo-100{% else %}bg-gray-300{% endif %}"></div>
+                    {% if not forloop.last %}
+                    <div class="w-0.5 h-16 bg-gray-200"></div>
+                    {% endif %}
+                </div>
+                <div class="pb-6 flex-1">
+                    <div class="bg-gray-50 rounded-lg p-4 group-hover:bg-indigo-50 transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-semibold text-gray-800">{{ event.status }}</p>
+                                <p class="text-gray-600 flex items-center">
+                                    <span class="mr-1">📍</span> {{ event.location }}
+                                </p>
+                            </div>
+                            <p class="text-sm text-gray-400">{{ event.timestamp|date:"M j, g:i A" }}</p>
+                        </div>
+                        {% if event.notes %}
+                        <p class="text-sm text-gray-500 mt-2 italic">{{ event.notes }}</p>
+                        {% endif %}
+                        {% if event.latitude and event.longitude %}
+                        <p class="text-xs text-gray-400 mt-1">GPS: {{ event.latitude }}, {{ event.longitude }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-8 text-gray-500">
+                <span class="text-4xl">📭</span>
+                <p class="mt-2">No tracking history available yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    {% elif query %}
+    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-8 text-center">
+        <span class="text-5xl">🔍</span>
+        <p class="text-yellow-800 text-xl mt-4">No package found with tracking number:</p>
+        <p class="font-mono font-bold text-yellow-900 text-2xl mt-2">{{ query }}</p>
+        <p class="text-yellow-600 mt-4">Please check the tracking number and try again.</p>
+    </div>
+    {% else %}
+    <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-12 text-center">
+        <div class="text-7xl mb-4">📦</div>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">Enter a Tracking Number</h3>
+        <p class="text-gray-600 max-w-md mx-auto">Enter your tracking number above to see real-time location and status updates for your package.</p>
+        
+        <div class="mt-8 grid md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <div class="bg-white rounded-lg p-4 shadow">
+                <span class="text-2xl">🗺️</span>
+                <p class="font-semibold mt-2">Live Map</p>
+                <p class="text-sm text-gray-500">Real-time GPS tracking</p>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow">
+                <span class="text-2xl">📱</span>
+                <p class="font-semibold mt-2">Status Updates</p>
+                <p class="text-sm text-gray-500">Every step of the way</p>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow">
+                <span class="text-2xl">🔔</span>
+                <p class="font-semibold mt-2">Delivery ETA</p>
+                <p class="text-sm text-gray-500">Know when to expect it</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% if package %}
+{% block extra_js %}
+<script>
+    // UK city coordinates for demo
+    var ukCities = {
+        'London': [51.5074, -0.1278],
+        'Manchester': [53.4808, -2.2426],
+        'Birmingham': [52.4862, -1.8904],
+        'Leeds': [53.8008, -1.5491],
+        'Glasgow': [55.8642, -4.2518],
+        'Edinburgh': [55.9533, -3.1883],
+        'Liverpool': [53.4084, -2.9916],
+        'Bristol': [51.4545, -2.5879],
+        'Cardiff': [51.4816, -3.1791],
+        'Belfast': [54.5973, -5.9301],
+        'Sheffield': [53.3811, -1.4701],
+        'Newcastle': [54.9783, -1.6178],
+    };
+    
+    // Get coordinates for cities
+    var senderCity = '{{ package.sender_city }}';
+    var receiverCity = '{{ package.receiver_city }}';
+    var senderCoords = ukCities[senderCity] || [51.5, -0.1];
+    var receiverCoords = ukCities[receiverCity] || [53.5, -2.2];
+    
+    // Initialize map
+    var map = L.map('map').setView([53.0, -1.5], 6);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    
+    // Custom icons
+    var originIcon = L.divIcon({
+        className: 'custom-div-icon',
+        html: "<div style='background-color:#3b82f6;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.3);'><span style='font-size:14px;'>📤</span></div>",
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+    
+    var destIcon = L.divIcon({
+        className: 'custom-div-icon',
+        html: "<div style='background-color:#22c55e;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.3);'><span style='font-size:14px;'>📥</span></div>",
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+    
+    var truckIcon = L.divIcon({
+        className: 'custom-div-icon',
+        html: "<div style='background-color:#ef4444;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 10px rgba(0,0,0,0.4);animation:pulse 2s infinite;'><span style='font-size:20px;'>🚚</span></div>",
+        iconSize: [40, 40],
+        iconAnchor: [20, 20]
+    });
+    
+    // Add markers
+    L.marker(senderCoords, {icon: originIcon})
+        .addTo(map)
+        .bindPopup('<strong>Origin</strong><br>{{ package.sender_city }}');
+    
+    L.marker(receiverCoords, {icon: destIcon})
+        .addTo(map)
+        .bindPopup('<strong>Destination</strong><br>{{ package.receiver_city }}');
+    
+    // Calculate current position based on status
+    var progress = {% if package.status == 'pending' %}0.1{% elif package.status == 'processing' %}0.25{% elif package.status == 'in_transit' %}0.5{% elif package.status == 'out_for_delivery' %}0.85{% elif package.status == 'delivered' %}1.0{% else %}0{% endif %};
+    
+    var currentLat = senderCoords[0] + (receiverCoords[0] - senderCoords[0]) * progress;
+    var currentLng = senderCoords[1] + (receiverCoords[1] - senderCoords[1]) * progress;
+    
+    {% if latest_location and latest_location.latitude %}
+    currentLat = {{ latest_location.latitude }};
+    currentLng = {{ latest_location.longitude }};
+    {% endif %}
+    
+    // Add truck marker at current position
+    var truckMarker = L.marker([currentLat, currentLng], {icon: truckIcon})
+        .addTo(map)
+        .bindPopup('<strong>Current Location</strong><br>{{ package.get_status_display }}<br><small>{{ latest_location.location|default:"En route" }}</small>')
+        .openPopup();
+    
+    // Draw route line
+    var routePoints = [senderCoords];
+    
+    // Add tracking history points
+    {% for event in tracking_history reversed %}
+    {% if event.latitude and event.longitude %}
+    routePoints.push([{{ event.latitude }}, {{ event.longitude }}]);
+    {% endif %}
+    {% endfor %}
+    
+    if (routePoints.length == 1) {
+        routePoints.push([currentLat, currentLng]);
+    }
+    routePoints.push(receiverCoords);
+    
+    // Animated dashed line for remaining route
+    L.polyline([senderCoords, receiverCoords], {
+        color: '#c7d2fe',
+        weight: 4,
+        dashArray: '10, 10',
+        opacity: 0.7
+    }).addTo(map);
+    
+    // Solid line for completed route
+    L.polyline(routePoints.slice(0, -1), {
+        color: '#4f46e5',
+        weight: 5,
+        opacity: 0.9
+    }).addTo(map);
+    
+    // Fit bounds to show all markers
+    var bounds = L.latLngBounds([senderCoords, receiverCoords, [currentLat, currentLng]]);
+    map.fitBounds(bounds, {padding: [50, 50]});
+    
+    // Add animation style
+    var style = document.createElement('style');
+    style.textContent = '@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }';
+    document.head.appendChild(style);
+</script>
+{% endblock %}
+{% endif %}
+{% endblock %}

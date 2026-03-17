@@ -1,0 +1,229 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Update Location - {{ package.tracking_number }}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    #location-map { height: 500px; border-radius: 8px; }
+    .location-form { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+    <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">
+        📍 Update Location for {{ package.tracking_number }}
+    </h1>
+    
+    <div style="display: grid; grid-template-columns: 1fr 400px; gap: 20px;">
+        <!-- Map -->
+        <div class="location-form">
+            <h2 style="font-weight: bold; margin-bottom: 10px;">Click on map to set location</h2>
+            <div id="location-map"></div>
+            <p style="margin-top: 10px; color: #666; font-size: 14px;">
+                Click anywhere on the map to update the package location. The coordinates will be filled automatically.
+            </p>
+        </div>
+        
+        <!-- Form -->
+        <div class="location-form">
+            <h2 style="font-weight: bold; margin-bottom: 15px;">📦 Package Details</h2>
+            
+            <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <p><strong>Tracking:</strong> {{ package.tracking_number }}</p>
+                <p><strong>Status:</strong> {{ package.get_status_display }}</p>
+                <p><strong>From:</strong> {{ package.sender_city }}</p>
+                <p><strong>To:</strong> {{ package.receiver_city }}</p>
+            </div>
+            
+            <form method="POST" id="location-form">
+                {% csrf_token %}
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 5px;">Status *</label>
+                    <select name="status" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                        <option value="pending" {% if package.status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="processing" {% if package.status == 'processing' %}selected{% endif %}>Processing</option>
+                        <option value="in_transit" {% if package.status == 'in_transit' %}selected{% endif %}>In Transit</option>
+                        <option value="out_for_delivery" {% if package.status == 'out_for_delivery' %}selected{% endif %}>Out for Delivery</option>
+                        <option value="delivered" {% if package.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                        <option value="cancelled" {% if package.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 5px;">Location Name *</label>
+                    <input type="text" name="location" id="location-name" required
+                           placeholder="e.g., Manchester Distribution Centre"
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; font-weight: 500; margin-bottom: 5px;">Latitude</label>
+                        <input type="text" name="latitude" id="latitude" readonly
+                               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: #f9fafb;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: 500; margin-bottom: 5px;">Longitude</label>
+                        <input type="text" name="longitude" id="longitude" readonly
+                               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: #f9fafb;">
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 5px;">Notes</label>
+                    <textarea name="notes" rows="3" placeholder="Add any notes..."
+                              style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h3 style="font-weight: 500; margin-bottom: 10px;">Quick Locations (UK)</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                        <button type="button" onclick="setLocation(51.5074, -0.1278, 'London')" 
+                                style="padding: 5px 10px; background: #e0e7ff; border: none; border-radius: 4px; cursor: pointer;">London</button>
+                        <button type="button" onclick="setLocation(53.4808, -2.2426, 'Manchester')"
+                                style="padding: 5px 10px; background: #e0e7ff; border: none; border-radius: 4px; cursor: pointer;">Manchester</button>
+                        <button type="button" onclick="setLocation(52.4862, -1.8904, 'Birmingham')"
+                                style="padding: 5px 10px; background: #e0e7ff; border: none; border-radius: 4px; cursor: pointer;">Birmingham</button>
+                        <button type="button" onclick="setLocation(53.8008, -1.5491, 'Leeds')"
+                                style="padding: 5px 10px; background: #e0e7ff; border: none; border-radius: 4px; cursor: pointer;">Leeds</button>
+                        <button type="button" onclick="setLocation(55.9533, -3.1883, 'Edinburgh')"
+                                style="padding: 5px 10px; background: #e0e7ff; border: none; border-radius: 4px; cursor: pointer;">Edinburgh</button>
+                        <button type="button" onclick="setLocation(55.8642, -4.2518, 'Glasgow')"
+                                style="padding: 5px 10px; background: #e0e7ff; border: none; border-radius: 4px; cursor: pointer;">Glasgow</button>
+                        <button type="button" onclick="setLocation(51.4545, -2.5879, 'Bristol')"
+                                style="padding: 5px 10px; background: #e0e7ff; border: none; border-radius: 4px; cursor: pointer;">Bristol</button>
+                        <button type="button" onclick="setLocation(51.4816, -3.1791, 'Cardiff')"
+                                style="padding: 5px 10px; background: #e0e7ff; border: none; border-radius: 4px; cursor: pointer;">Cardiff</button>
+                    </div>
+                </div>
+                
+                <button type="submit" style="width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                    📍 Update Location
+                </button>
+            </form>
+            
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                <a href="{% url 'admin:packages_package_change' package.pk %}" 
+                   style="color: #4f46e5; text-decoration: none;">← Back to Package</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Tracking History -->
+    <div class="location-form" style="margin-top: 20px;">
+        <h2 style="font-weight: bold; margin-bottom: 15px;">📋 Recent Tracking History</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #f3f4f6;">
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #e5e7eb;">Status</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #e5e7eb;">Location</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #e5e7eb;">Coordinates</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #e5e7eb;">Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in tracking_history %}
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">{{ event.status }}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">{{ event.location }}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">
+                        {% if event.latitude %}{{ event.latitude }}, {{ event.longitude }}{% else %}-{% endif %}
+                    </td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">{{ event.timestamp|date:"M j, g:i A" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="padding: 20px; text-align: center; color: #666;">No tracking history yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var map = L.map('location-map').setView([54.0, -2.0], 6);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+    
+    var marker = null;
+    
+    // UK Cities coordinates
+    var ukCities = {
+        'London': [51.5074, -0.1278],
+        'Manchester': [53.4808, -2.2426],
+        'Birmingham': [52.4862, -1.8904],
+        'Leeds': [53.8008, -1.5491],
+        'Glasgow': [55.8642, -4.2518],
+        'Edinburgh': [55.9533, -3.1883],
+        'Liverpool': [53.4084, -2.9916],
+        'Bristol': [51.4545, -2.5879],
+        'Cardiff': [51.4816, -3.1791],
+        'Belfast': [54.5973, -5.9301],
+    };
+    
+    var senderCity = '{{ package.sender_city }}';
+    var receiverCity = '{{ package.receiver_city }}';
+    var senderCoords = ukCities[senderCity] || [51.5, -0.1];
+    var receiverCoords = ukCities[receiverCity] || [53.5, -2.2];
+    
+    L.marker(senderCoords, {opacity: 0.6})
+        .addTo(map)
+        .bindPopup('Origin: {{ package.sender_city }}');
+    
+    L.marker(receiverCoords, {opacity: 0.6})
+        .addTo(map)
+        .bindPopup('Destination: {{ package.receiver_city }}');
+    
+    // Draw route line
+    L.polyline([senderCoords, receiverCoords], {color: '#c7d2fe', weight: 3, dashArray: '10, 10'}).addTo(map);
+    
+    // Add existing tracking points
+    {% for event in tracking_history %}
+    {% if event.latitude and event.longitude %}
+    L.circleMarker([{{ event.latitude }}, {{ event.longitude }}], {
+        radius: 6,
+        fillColor: '#4f46e5',
+        color: '#fff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.8
+    }).addTo(map).bindPopup('{{ event.status }}<br>{{ event.location }}');
+    {% endif %}
+    {% endfor %}
+    
+    function setLocation(lat, lng, name) {
+        document.getElementById('latitude').value = lat.toFixed(7);
+        document.getElementById('longitude').value = lng.toFixed(7);
+        document.getElementById('location-name').value = name + ' Distribution Centre';
+        
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        marker = L.marker([lat, lng], {
+            icon: L.divIcon({
+                className: 'custom-div-icon',
+                html: "<div style='background-color:#ef4444;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.3);'><span style='font-size:14px;'>📍</span></div>",
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            })
+        }).addTo(map);
+        map.setView([lat, lng], 10);
+    }
+    
+    map.on('click', function(e) {
+        setLocation(e.latlng.lat, e.latlng.lng, 'Custom Location');
+        document.getElementById('location-name').value = '';
+        document.getElementById('location-name').focus();
+    });
+</script>
+{% endblock %}
