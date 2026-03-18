@@ -5,9 +5,9 @@
 
 {% block extrahead %}
 {{ block.super }}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="{% static 'css/leaflet.min.css' %}" />
+<script src="{% static 'js/leaflet.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}">
 <style>
     #location-map { height: 500px; border-radius: 8px; }
     .location-form { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }

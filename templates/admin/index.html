@@ -5,9 +5,9 @@
 
 {% block extrahead %}
 {{ block.super }}
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/leaflet.min.css' %}" />
+<script src="{% static 'js/leaflet.min.js' %}"></script>
 <style>
     #admin-map { height: 400px; border-radius: 8px; }
     .stat-card { transition: transform 0.2s; }

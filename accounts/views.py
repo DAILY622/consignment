@@ -113,7 +113,7 @@ def profile(request):
                 
         elif action == 'delete_account':
             confirm_password = request.POST.get('confirm_delete_password', '')
-            if not user.check_password(confirm_password):
+            if not confirm_password or not user.check_password(confirm_password):
                 messages.error(request, 'Incorrect password. Account not deleted.')
                 return redirect('profile')
             user.delete()

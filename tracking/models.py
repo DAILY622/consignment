@@ -16,7 +16,7 @@ class TrackingHistory(models.Model):
         ordering = ['-timestamp']
         verbose_name_plural = 'Tracking histories'
         indexes = [
-            models.Index(fields=['timestamp']),
+            models.Index(fields=['-timestamp']),
         ]
     
     def __str__(self):

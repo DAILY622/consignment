@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Contact Us - E-Cognite{% endblock %}
 
@@ -79,7 +80,7 @@
                 <div class="space-y-6">
                     <div class="flex items-start">
                         <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                            <img src="https://img.icons8.com/3d-fluency/94/email.png" alt="Email" class="w-8 h-8">
+                            <img src="{% static 'icons/icons8-3d-fluency-94-email.svg' %}" alt="Email" class="w-8 h-8">
                         </div>
                         <div>
                             <h3 class="font-semibold text-primary-800">Email</h3>
@@ -89,7 +90,7 @@
                     </div>
                     <div class="flex items-start">
                         <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                            <img src="https://img.icons8.com/3d-fluency/94/phone.png" alt="Phone" class="w-8 h-8">
+                            <img src="{% static 'icons/icons8-3d-fluency-94-phone.svg' %}" alt="Phone" class="w-8 h-8">
                         </div>
                         <div>
                             <h3 class="font-semibold text-primary-800">Phone</h3>
@@ -99,7 +100,7 @@
                     </div>
                     <div class="flex items-start">
                         <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                            <img src="https://img.icons8.com/3d-fluency/94/company.png" alt="Office" class="w-8 h-8">
+                            <img src="{% static 'icons/icons8-3d-fluency-94-company.svg' %}" alt="Office" class="w-8 h-8">
                         </div>
                         <div>
                             <h3 class="font-semibold text-primary-800">Head Office</h3>
@@ -113,19 +114,19 @@
                 <h2 class="text-2xl font-bold text-primary-800 mb-4">Quick Help</h2>
                 <div class="space-y-3">
                     <a href="{% url 'track' %}" class="flex items-center justify-between p-3 bg-white rounded-lg hover:bg-primary-100 transition">
-                        <span class="text-primary-700 flex items-center gap-2"><img src="https://img.icons8.com/fluency/24/gps-device.png" alt="" class="w-5 h-5">Track a Package</span>
+                        <span class="text-primary-700 flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-24-gps-device.svg' %}" alt="" class="w-5 h-5">Track a Package</span>
                         <span class="text-primary-400">→</span>
                     </a>
                     <a href="{% url 'faq' %}" class="flex items-center justify-between p-3 bg-white rounded-lg hover:bg-primary-100 transition">
-                        <span class="text-primary-700 flex items-center gap-2"><img src="https://img.icons8.com/fluency/24/faq.png" alt="" class="w-5 h-5">FAQs</span>
+                        <span class="text-primary-700 flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-24-faq.svg' %}" alt="" class="w-5 h-5">FAQs</span>
                         <span class="text-primary-400">→</span>
                     </a>
                     <a href="{% url 'services' %}" class="flex items-center justify-between p-3 bg-white rounded-lg hover:bg-primary-100 transition">
-                        <span class="text-primary-700 flex items-center gap-2"><img src="https://img.icons8.com/fluency/24/in-transit.png" alt="" class="w-5 h-5">Our Services</span>
+                        <span class="text-primary-700 flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-24-in-transit.svg' %}" alt="" class="w-5 h-5">Our Services</span>
                         <span class="text-primary-400">→</span>
                     </a>
                     <a href="{% url 'pricing' %}" class="flex items-center justify-between p-3 bg-white rounded-lg hover:bg-primary-100 transition">
-                        <span class="text-primary-700 flex items-center gap-2"><img src="https://img.icons8.com/fluency/24/price-tag.png" alt="" class="w-5 h-5">Pricing</span>
+                        <span class="text-primary-700 flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-24-price-tag.svg' %}" alt="" class="w-5 h-5">Pricing</span>
                         <span class="text-primary-400">→</span>
                     </a>
                 </div>

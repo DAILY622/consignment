@@ -1,50 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}E-Cognite Delivery{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            200: '#c7d2fe',
-                            300: '#a5b4fc',
-                            400: '#818cf8',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            800: '#3730a3',
-                            900: '#312e81',
-                        },
-                        accent: {
-                            50: '#fdf4ff',
-                            100: '#fae8ff',
-                            200: '#f5d0fe',
-                            300: '#f0abfc',
-                            400: '#e879f9',
-                            500: '#d946ef',
-                            600: '#c026d3',
-                            700: '#a21caf',
-                            800: '#86198f',
-                            900: '#701a75',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}">
     <!-- Leaflet CSS & JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <link rel="stylesheet" href="{% static 'css/leaflet.min.css' %}" />
+    <script src="{% static 'js/leaflet.min.js' %}"></script>
     <!-- Leaflet Routing Machine for real routes -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="{% static 'css/leaflet-routing-machine.css' %}" />
+    <script src="{% static 'js/leaflet-routing-machine.js' %}"></script>
     <style>
         .status-pending { background-color: #fef3c7; color: #92400e; }
         .status-processing { background-color: #dbeafe; color: #1e40af; }
@@ -53,6 +20,20 @@
         .status-delivered { background-color: #d1fae5; color: #065f46; }
         .status-cancelled { background-color: #fee2e2; color: #991b1b; }
         body { background: linear-gradient(135deg, #eef2ff 0%, #fdf4ff 50%, #eef2ff 100%); }
+        
+        /* Local SVG icons: make nav/footer icons white, content icons indigo */
+        nav img[src*="/icons/"], footer img[src*="/icons/"] {
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+        /* Large content/feature icons – indigo tint */
+        main img[src*="/icons/icons8-3d"],
+        main img[src*="/icons/icons8-color"],
+        main img[src*="/icons/icons8-fluency"] {
+            filter: invert(31%) sepia(82%) saturate(1604%) hue-rotate(225deg) brightness(90%) contrast(93%);
+        }
+        /* Placeholder images */
+        img[src*="/images/photo-"] { object-fit: cover; }
         
         /* Map Styles */
         .leaflet-container { font-family: inherit; }
@@ -84,36 +65,36 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <a href="{% url 'home' %}" class="text-2xl font-bold flex items-center gap-2">
-                    <img src="https://img.icons8.com/3d-fluency/94/delivery-truck.png" alt="Logo" class="w-10 h-10">
+                    <img src="{% static 'icons/icons8-3d-fluency-94-delivery-truck.svg' %}" alt="Logo" class="w-10 h-10">
                     <span>E-Cognite</span>
                 </a>
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="{% url 'services' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                        <img src="https://img.icons8.com/fluency/24/service.png" alt="" class="w-5 h-5">Services
+                        <img src="{% static 'icons/icons8-fluency-24-service.svg' %}" alt="" class="w-5 h-5">Services
                     </a>
                     <a href="{% url 'pricing' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                        <img src="https://img.icons8.com/fluency/24/price-tag.png" alt="" class="w-5 h-5">Pricing
+                        <img src="{% static 'icons/icons8-fluency-24-price-tag.svg' %}" alt="" class="w-5 h-5">Pricing
                     </a>
                     <a href="{% url 'track' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                        <img src="https://img.icons8.com/fluency/24/gps-device.png" alt="" class="w-5 h-5">Track
+                        <img src="{% static 'icons/icons8-fluency-24-gps-device.svg' %}" alt="" class="w-5 h-5">Track
                     </a>
                     <a href="{% url 'fleet' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                        <img src="https://img.icons8.com/fluency/24/van.png" alt="" class="w-5 h-5">Fleet
+                        <img src="{% static 'icons/icons8-fluency-24-van.svg' %}" alt="" class="w-5 h-5">Fleet
                     </a>
                     {% if user.is_authenticated %}
                         <a href="{% url 'dashboard' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                            <img src="https://img.icons8.com/fluency/24/dashboard.png" alt="" class="w-5 h-5">Dashboard
+                            <img src="{% static 'icons/icons8-fluency-24-dashboard.svg' %}" alt="" class="w-5 h-5">Dashboard
                         </a>
                         {% if user.role == 'driver' %}
                             <a href="{% url 'driver_portal' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                                <img src="https://img.icons8.com/fluency/24/driver.png" alt="" class="w-5 h-5">Deliveries
+                                <img src="{% static 'icons/icons8-fluency-24-driver.svg' %}" alt="" class="w-5 h-5">Deliveries
                             </a>
                         {% endif %}
                         {% if user.is_superuser %}
                             <a href="{% url 'admin:index' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                                <img src="https://img.icons8.com/fluency/24/settings.png" alt="" class="w-5 h-5">Admin
+                                <img src="{% static 'icons/icons8-fluency-24-settings.svg' %}" alt="" class="w-5 h-5">Admin
                             </a>
                         {% endif %}
                         <div class="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
@@ -179,68 +160,68 @@
             <div class="grid md:grid-cols-5 gap-8 mb-8">
                 <div class="md:col-span-2">
                     <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                        <img src="https://img.icons8.com/3d-fluency/94/delivery-truck.png" alt="Logo" class="w-10 h-10">
+                        <img src="{% static 'icons/icons8-3d-fluency-94-delivery-truck.svg' %}" alt="Logo" class="w-10 h-10">
                         E-Cognite
                     </h3>
                     <p class="text-gray-400 text-sm mb-4">Fast, reliable parcel delivery across the UK with real-time GPS tracking. Trusted by thousands of businesses and individuals.</p>
                     <div class="flex gap-3">
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
-                            <img src="https://img.icons8.com/fluency/24/facebook-new.png" alt="Facebook" class="w-5 h-5">
+                            <img src="{% static 'icons/icons8-fluency-24-facebook-new.svg' %}" alt="Facebook" class="w-5 h-5">
                         </a>
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
-                            <img src="https://img.icons8.com/fluency/24/twitter.png" alt="Twitter" class="w-5 h-5">
+                            <img src="{% static 'icons/icons8-fluency-24-twitter.svg' %}" alt="Twitter" class="w-5 h-5">
                         </a>
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
-                            <img src="https://img.icons8.com/fluency/24/instagram-new.png" alt="Instagram" class="w-5 h-5">
+                            <img src="{% static 'icons/icons8-fluency-24-instagram-new.svg' %}" alt="Instagram" class="w-5 h-5">
                         </a>
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
-                            <img src="https://img.icons8.com/fluency/24/linkedin.png" alt="LinkedIn" class="w-5 h-5">
+                            <img src="{% static 'icons/icons8-fluency-24-linkedin.svg' %}" alt="LinkedIn" class="w-5 h-5">
                         </a>
                     </div>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4 flex items-center gap-2">
-                        <img src="https://img.icons8.com/fluency/24/link.png" alt="" class="w-5 h-5">Quick Links
+                        <img src="{% static 'icons/icons8-fluency-24-link.svg' %}" alt="" class="w-5 h-5">Quick Links
                     </h4>
                     <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="{% url 'track' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/gps-device.png" alt="" class="w-4 h-4">Track Package</a></li>
-                        <li><a href="{% url 'services' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/service.png" alt="" class="w-4 h-4">Our Services</a></li>
-                        <li><a href="{% url 'pricing' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/price-tag.png" alt="" class="w-4 h-4">Pricing</a></li>
-                        <li><a href="{% url 'fleet' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/van.png" alt="" class="w-4 h-4">Our Fleet</a></li>
-                        <li><a href="{% url 'register' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/add-user-male.png" alt="" class="w-4 h-4">Create Account</a></li>
+                        <li><a href="{% url 'track' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-gps-device.svg' %}" alt="" class="w-4 h-4">Track Package</a></li>
+                        <li><a href="{% url 'services' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-service.svg' %}" alt="" class="w-4 h-4">Our Services</a></li>
+                        <li><a href="{% url 'pricing' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-price-tag.svg' %}" alt="" class="w-4 h-4">Pricing</a></li>
+                        <li><a href="{% url 'fleet' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-van.svg' %}" alt="" class="w-4 h-4">Our Fleet</a></li>
+                        <li><a href="{% url 'register' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-add-user-male.svg' %}" alt="" class="w-4 h-4">Create Account</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4 flex items-center gap-2">
-                        <img src="https://img.icons8.com/fluency/24/company.png" alt="" class="w-5 h-5">Company
+                        <img src="{% static 'icons/icons8-fluency-24-company.svg' %}" alt="" class="w-5 h-5">Company
                     </h4>
                     <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="{% url 'about' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/info.png" alt="" class="w-4 h-4">About Us</a></li>
-                        <li><a href="{% url 'careers' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/career.png" alt="" class="w-4 h-4">Careers</a></li>
-                        <li><a href="{% url 'faq' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/faq.png" alt="" class="w-4 h-4">FAQ</a></li>
-                        <li><a href="{% url 'terms' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/document.png" alt="" class="w-4 h-4">Terms of Service</a></li>
-                        <li><a href="{% url 'privacy' %}" class="hover:text-white transition flex items-center gap-2"><img src="https://img.icons8.com/fluency/16/privacy.png" alt="" class="w-4 h-4">Privacy Policy</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-info.svg' %}" alt="" class="w-4 h-4">About Us</a></li>
+                        <li><a href="{% url 'careers' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-career.svg' %}" alt="" class="w-4 h-4">Careers</a></li>
+                        <li><a href="{% url 'faq' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-faq.svg' %}" alt="" class="w-4 h-4">FAQ</a></li>
+                        <li><a href="{% url 'terms' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-document.svg' %}" alt="" class="w-4 h-4">Terms of Service</a></li>
+                        <li><a href="{% url 'privacy' %}" class="hover:text-white transition flex items-center gap-2"><img src="{% static 'icons/icons8-fluency-16-privacy.svg' %}" alt="" class="w-4 h-4">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4 flex items-center gap-2">
-                        <img src="https://img.icons8.com/fluency/24/headset.png" alt="" class="w-5 h-5">Contact
+                        <img src="{% static 'icons/icons8-fluency-24-headset.svg' %}" alt="" class="w-5 h-5">Contact
                     </h4>
                     <ul class="space-y-3 text-gray-400 text-sm">
                         <li class="flex items-center gap-2">
-                            <img src="https://img.icons8.com/fluency/24/email.png" alt="" class="w-5 h-5">
+                            <img src="{% static 'icons/icons8-fluency-24-email.svg' %}" alt="" class="w-5 h-5">
                             support@ecognite.co.uk
                         </li>
                         <li class="flex items-center gap-2">
-                            <img src="https://img.icons8.com/fluency/24/phone.png" alt="" class="w-5 h-5">
+                            <img src="{% static 'icons/icons8-fluency-24-phone.svg' %}" alt="" class="w-5 h-5">
                             0800 123 4567
                         </li>
                         <li class="flex items-center gap-2">
-                            <img src="https://img.icons8.com/fluency/24/company.png" alt="" class="w-5 h-5">
+                            <img src="{% static 'icons/icons8-fluency-24-company.svg' %}" alt="" class="w-5 h-5">
                             London, UK
                         </li>
                         <li class="flex items-center gap-2">
-                            <img src="https://img.icons8.com/fluency/24/clock.png" alt="" class="w-5 h-5">
+                            <img src="{% static 'icons/icons8-fluency-24-clock.svg' %}" alt="" class="w-5 h-5">
                             Mon-Fri 8am-8pm
                         </li>
                     </ul>

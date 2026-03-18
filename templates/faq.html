@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}FAQ - E-Cognite Delivery{% endblock %}
 
@@ -25,7 +26,7 @@
 <!-- Search -->
 <div class="max-w-2xl mx-auto mb-12">
     <div class="relative">
-        <img src="https://img.icons8.com/fluency/48/search.png" alt="Search" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 opacity-50">
+        <img src="{% static 'icons/icons8-fluency-48-search.svg' %}" alt="Search" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 opacity-50">
         <input type="text" id="faq-search" placeholder="Search for answers..." 
                class="w-full pl-14 pr-4 py-4 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
     </div>
@@ -53,7 +54,7 @@
     <div class="bg-white rounded-2xl shadow-lg overflow-hidden" data-category="delivery">
         <div class="bg-gradient-to-r from-indigo-50 to-purple-50 px-6 py-4 border-b">
             <h2 class="text-xl font-bold text-gray-800 flex items-center gap-3">
-                <img src="https://img.icons8.com/3d-fluency/94/in-transit.png" alt="Delivery" class="w-10 h-10">
+                <img src="{% static 'icons/icons8-3d-fluency-94-in-transit.svg' %}" alt="Delivery" class="w-10 h-10">
                 Delivery Questions
             </h2>
         </div>
@@ -61,7 +62,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">What areas do you deliver to?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">We deliver to all addresses across the United Kingdom, including England, Scotland, Wales, and Northern Ireland. For Highland, island, and remote areas, delivery may take an additional 1-2 business days. International shipping is available to select European destinations.</p>
@@ -70,7 +71,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">What are your delivery timeframes?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <div class="text-gray-600 pt-4">
@@ -85,7 +86,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">What happens if I'm not home for delivery?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">Our driver will attempt delivery and leave a card with instructions. You can choose to: have the parcel left in a safe place, delivered to a neighbour, redirected to a pickup point, or rescheduled for another day. You can update delivery preferences through our tracking page.</p>
@@ -94,7 +95,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">What is the maximum parcel size and weight?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <div class="text-gray-600 pt-4">
@@ -111,7 +112,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">Do you deliver on weekends?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">Yes! Saturday delivery is available as an add-on service for £4.99. Sunday delivery is available in select areas for an additional charge. Same-day express operates 7 days a week in major cities.</p>
@@ -124,7 +125,7 @@
     <div class="bg-white rounded-2xl shadow-lg overflow-hidden" data-category="tracking">
         <div class="bg-gradient-to-r from-blue-50 to-cyan-50 px-6 py-4 border-b">
             <h2 class="text-xl font-bold text-gray-800 flex items-center gap-3">
-                <img src="https://img.icons8.com/3d-fluency/94/gps-device.png" alt="Tracking" class="w-10 h-10">
+                <img src="{% static 'icons/icons8-3d-fluency-94-gps-device.svg' %}" alt="Tracking" class="w-10 h-10">
                 Tracking & Updates
             </h2>
         </div>
@@ -132,7 +133,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">How do I track my parcel?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">Enter your tracking number (starting with ECG-) on our <a href="{% url 'track' %}" class="text-indigo-600 hover:underline">tracking page</a>. You'll see real-time GPS location, estimated delivery time, and full delivery history. You can also track via our mobile app or by logging into your account dashboard.</p>
@@ -141,7 +142,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">What do the tracking statuses mean?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <div class="text-gray-600 pt-4">
@@ -158,7 +159,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">Can I change the delivery address?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">Yes, you can redirect your parcel before it's out for delivery. Log into your account, find the package, and click "Edit Delivery". Address changes may incur additional charges depending on the new location. Once the parcel is out for delivery, changes cannot be made.</p>
@@ -167,7 +168,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">How accurate is the live GPS tracking?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">Our GPS tracking updates every 30 seconds with accuracy within 10 meters. The map shows the driver's real-time location along with estimated arrival time. Note that in areas with poor signal, updates may be slightly delayed.</p>
@@ -180,7 +181,7 @@
     <div class="bg-white rounded-2xl shadow-lg overflow-hidden" data-category="pricing">
         <div class="bg-gradient-to-r from-green-50 to-teal-50 px-6 py-4 border-b">
             <h2 class="text-xl font-bold text-gray-800 flex items-center gap-3">
-                <img src="https://img.icons8.com/3d-fluency/94/money-bag.png" alt="Pricing" class="w-10 h-10">
+                <img src="{% static 'icons/icons8-3d-fluency-94-money-bag.svg' %}" alt="Pricing" class="w-10 h-10">
                 Pricing & Payment
             </h2>
         </div>
@@ -188,7 +189,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">How is shipping cost calculated?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">Pricing is based on parcel weight, dimensions, delivery speed, and destination. Use our <a href="{% url 'pricing' %}" class="text-indigo-600 hover:underline">pricing calculator</a> for an instant quote. Prices start from £3.49 for standard delivery of parcels up to 1kg.</p>
@@ -197,7 +198,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">What payment methods do you accept?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <div class="text-gray-600 pt-4">
@@ -215,7 +216,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">Do you offer business discounts?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">Yes! Business accounts shipping 50+ parcels monthly receive volume discounts up to 40% off standard rates. You'll also get dedicated account management, monthly invoicing, and API integration. <a href="{% url 'contact' %}" class="text-indigo-600 hover:underline">Contact our sales team</a> for a custom quote.</p>
@@ -224,7 +225,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">What's included in the coverage?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <div class="text-gray-600 pt-4">
@@ -241,7 +242,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">Can I get a refund if delivery is late?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">If we fail to deliver within the guaranteed timeframe (excluding weather events or recipient unavailability), you may be eligible for a full or partial refund. Contact customer support within 7 days of delivery with your tracking number to submit a claim.</p>
@@ -254,7 +255,7 @@
     <div class="bg-white rounded-2xl shadow-lg overflow-hidden" data-category="all">
         <div class="bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-4 border-b">
             <h2 class="text-xl font-bold text-gray-800 flex items-center gap-3">
-                <img src="https://img.icons8.com/3d-fluency/94/user-male-circle.png" alt="Account" class="w-10 h-10">
+                <img src="{% static 'icons/icons8-3d-fluency-94-user-male-circle.svg' %}" alt="Account" class="w-10 h-10">
                 Account & Support
             </h2>
         </div>
@@ -262,7 +263,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">How do I create an account?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <p class="text-gray-600 pt-4">Click the <a href="{% url 'register' %}" class="text-indigo-600 hover:underline">Register</a> button and enter your details. You'll receive a confirmation email to verify your account. Once verified, you can book deliveries, save addresses, and track all your shipments from one dashboard.</p>
@@ -271,7 +272,7 @@
             <div class="faq-item p-6">
                 <button class="faq-question w-full flex justify-between items-center text-left" onclick="toggleFAQ(this)">
                     <span class="font-semibold text-gray-800 pr-4">How do I contact customer support?</span>
-                    <img src="https://img.icons8.com/fluency/48/expand-arrow.png" alt="Expand" class="faq-toggle w-6 h-6">
+                    <img src="{% static 'icons/icons8-fluency-48-expand-arrow.svg' %}" alt="Expand" class="faq-toggle w-6 h-6">
                 </button>
                 <div class="faq-answer">
                     <div class="text-gray-600 pt-4">
@@ -291,7 +292,7 @@
 
 <!-- Still Need Help -->
 <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-12 text-white text-center mt-12">
-    <img src="https://img.icons8.com/3d-fluency/94/headset.png" alt="Support" class="w-20 h-20 mx-auto mb-6">
+    <img src="{% static 'icons/icons8-3d-fluency-94-headset.svg' %}" alt="Support" class="w-20 h-20 mx-auto mb-6">
     <h2 class="text-3xl font-bold mb-4">Still Have Questions?</h2>
     <p class="text-indigo-100 mb-8 max-w-2xl mx-auto">Our support team is ready to help you with any questions not covered here.</p>
     <div class="flex flex-wrap justify-center gap-4">

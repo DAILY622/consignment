@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db import IntegrityError
 from django.db.models import Count, Q, Case, When, IntegerField
 from django.core.paginator import Paginator
 import re
-from .models import Package
+from .models import Package, generate_tracking_number
 from tracking.models import TrackingHistory
 
 # UK postcode regex
@@ -74,11 +75,11 @@ def dashboard(request):
     )
     stats = stats_qs
 
-    # Active packages for map (#7)
+    # Active packages for map (#7) - include pending so pins appear on map
     active_packages = Package.objects.filter(
         sender=request.user,
-        status__in=['processing', 'in_transit', 'out_for_delivery']
-    )
+        status__in=['pending', 'processing', 'in_transit', 'out_for_delivery']
+    ).values('tracking_number', 'status', 'receiver_city', 'receiver_postcode')
     
     # Pagination
     paginator = Paginator(packages, 10)
@@ -125,24 +126,34 @@ def create_package(request):
             messages.error(request, ' | '.join(errors))
             return render(request, 'create_package.html')
         
-        package = Package.objects.create(
-            sender=request.user,
-            sender_name=request.POST.get('sender_name').strip(),
-            sender_address=request.POST.get('sender_address').strip(),
-            sender_phone=request.POST.get('sender_phone').strip(),
-            sender_city=request.POST.get('sender_city').strip(),
-            sender_postcode=request.POST.get('sender_postcode').strip().upper(),
-            receiver_name=request.POST.get('receiver_name').strip(),
-            receiver_address=request.POST.get('receiver_address').strip(),
-            receiver_phone=request.POST.get('receiver_phone').strip(),
-            receiver_city=request.POST.get('receiver_city').strip(),
-            receiver_postcode=request.POST.get('receiver_postcode').strip().upper(),
-            weight=weight,
-            length=request.POST.get('length') or None,
-            width=request.POST.get('width') or None,
-            height=request.POST.get('height') or None,
-            description=request.POST.get('description', '').strip(),
-        )
+        # Retry on tracking number collision (rare but possible with cryptographic generation)
+        for _attempt in range(5):
+            try:
+                package = Package.objects.create(
+                    sender=request.user,
+                    tracking_number=generate_tracking_number(),
+                    sender_name=request.POST.get('sender_name').strip(),
+                    sender_address=request.POST.get('sender_address').strip(),
+                    sender_phone=request.POST.get('sender_phone').strip(),
+                    sender_city=request.POST.get('sender_city').strip(),
+                    sender_postcode=request.POST.get('sender_postcode').strip().upper(),
+                    receiver_name=request.POST.get('receiver_name').strip(),
+                    receiver_address=request.POST.get('receiver_address').strip(),
+                    receiver_phone=request.POST.get('receiver_phone').strip(),
+                    receiver_city=request.POST.get('receiver_city').strip(),
+                    receiver_postcode=request.POST.get('receiver_postcode').strip().upper(),
+                    weight=weight,
+                    length=request.POST.get('length') or None,
+                    width=request.POST.get('width') or None,
+                    height=request.POST.get('height') or None,
+                    description=request.POST.get('description', '').strip(),
+                )
+                break
+            except IntegrityError:
+                continue
+        else:
+            messages.error(request, 'Failed to generate a unique tracking number. Please try again.')
+            return render(request, 'create_package.html')
         
         # Create initial tracking entry
         TrackingHistory.objects.create(
