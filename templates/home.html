@@ -765,7 +765,7 @@
                 <span class="font-semibold text-primary-800">How do I track my package?</span>
                 <span class="text-primary-600 transform transition-transform">▼</span>
             </button>
-            <div class="px-6 pb-4 hidden">
+            <div class="px-6 pb-4 hidden faq-content">
                 <p class="text-primary-700">Simply enter your tracking number (e.g., ECG-XXXXXXXX) in the tracking box on our homepage or tracking page. You'll see real-time updates including GPS location, status changes, and estimated delivery time.</p>
             </div>
         </div>
@@ -774,7 +774,7 @@
                 <span class="font-semibold text-primary-800">What are your delivery times?</span>
                 <span class="text-primary-600 transform transition-transform">▼</span>
             </button>
-            <div class="px-6 pb-4 hidden">
+            <div class="px-6 pb-4 hidden faq-content">
                 <p class="text-primary-700">We offer three service levels: <strong>Standard</strong> (2-3 business days), <strong>Express</strong> (next business day), and <strong>Same Day</strong> (delivered within hours, subject to booking time and location).</p>
             </div>
         </div>
@@ -783,7 +783,7 @@
                 <span class="font-semibold text-primary-800">What's the maximum weight you accept?</span>
                 <span class="text-primary-600 transform transition-transform">▼</span>
             </button>
-            <div class="px-6 pb-4 hidden">
+            <div class="px-6 pb-4 hidden faq-content">
                 <p class="text-primary-700">Standard service accepts up to 20kg, while Express and Same Day services accept up to 30kg per parcel. For heavier items, please contact our business team for custom solutions.</p>
             </div>
         </div>
@@ -792,7 +792,7 @@
                 <span class="font-semibold text-primary-800">Are my parcels insured?</span>
                 <span class="text-primary-600 transform transition-transform">▼</span>
             </button>
-            <div class="px-6 pb-4 hidden">
+            <div class="px-6 pb-4 hidden faq-content">
                 <p class="text-primary-700">Yes! All shipments include insurance cover: Standard (£50), Express (£100), and Same Day (£200). Additional cover up to £1,000 can be purchased at checkout for valuable items.</p>
             </div>
         </div>
@@ -801,7 +801,7 @@
                 <span class="font-semibold text-primary-800">Can I change the delivery address?</span>
                 <span class="text-primary-600 transform transition-transform">▼</span>
             </button>
-            <div class="px-6 pb-4 hidden">
+            <div class="px-6 pb-4 hidden faq-content">
                 <p class="text-primary-700">Yes, you can redirect your parcel before it goes out for delivery. Log into your account, go to your dashboard, and select the package to modify. Redirection fees may apply.</p>
             </div>
         </div>
@@ -814,8 +814,9 @@
         <span class="text-4xl mb-4 block">📧</span>
         <h2 class="text-3xl font-bold text-primary-800 mb-2">Stay Updated</h2>
         <p class="text-primary-600 mb-6">Subscribe to our newsletter for exclusive deals, shipping tips, and service updates.</p>
-        <form class="flex flex-col sm:flex-row gap-4 justify-center">
-            <input type="email" placeholder="Enter your email address" 
+        <form method="post" action="{% url 'home' %}" class="flex flex-col sm:flex-row gap-4 justify-center">
+            {% csrf_token %}
+            <input type="email" name="newsletter_email" placeholder="Enter your email address" 
                    class="flex-1 max-w-md px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
             <button type="submit" class="bg-gradient-to-r from-primary-600 to-accent-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-accent-700 transition">
                 Subscribe
@@ -842,7 +843,16 @@
 
 {% block extra_js %}
 <script>
-// FAQ Toggle
+// FAQ Toggle - initialise arrow state to match hidden class on page load
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.faq-content').forEach(function(content) {
+        const arrow = content.previousElementSibling.querySelector('span:last-child');
+        if (arrow) {
+            arrow.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+    });
+});
+
 function toggleFaq(button) {
     const content = button.nextElementSibling;
     const arrow = button.querySelector('span:last-child');

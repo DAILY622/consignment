@@ -2,9 +2,17 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.conf import settings
 from django.db.models import Count, Q
+import re
 from .models import User
 from packages.models import Package
+
+# Validation constants
+UK_PHONE_RE = re.compile(r'^(\+44|0)[1-9]\d{8,10}$')
 
 
 def register(request):
@@ -27,12 +35,21 @@ def register(request):
         
         if len(password) < 8:
             errors.append('Password must be at least 8 characters')
-        
-        if User.objects.filter(username=username).exists():
-            errors.append('Username already exists')
-        
-        if User.objects.filter(email=email).exists():
-            errors.append('Email already registered')
+
+        # Email format validation (#15)
+        try:
+            validate_email(email)
+        except ValidationError:
+            errors.append('Please enter a valid email address')
+
+        # Phone format validation (#17)
+        if phone and not UK_PHONE_RE.match(phone.replace(' ', '')):
+            errors.append('Please enter a valid UK phone number (e.g. 07700900000 or +447700900000)')
+
+        # Use a single generic message to prevent user enumeration (#5)
+        if not errors:
+            if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
+                errors.append('An account with that username or email already exists')
         
         if errors:
             return render(request, 'register.html', {'errors': errors})
@@ -95,6 +112,10 @@ def profile(request):
                 messages.success(request, 'Password changed successfully!')
                 
         elif action == 'delete_account':
+            confirm_password = request.POST.get('confirm_delete_password', '')
+            if not user.check_password(confirm_password):
+                messages.error(request, 'Incorrect password. Account not deleted.')
+                return redirect('profile')
             user.delete()
             messages.success(request, 'Your account has been deleted')
             return redirect('home')
@@ -110,15 +131,35 @@ def about(request):
 
 def contact(request):
     if request.method == 'POST':
-        # In production, you would send an email here
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        tracking_number = request.POST.get('tracking_number', '')
-        
-        # For now, just show success message
-        messages.success(request, 'Thank you for your message! We will get back to you within 24 hours.')
+        name = request.POST.get('name', '').strip()
+        email = request.POST.get('email', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        message = request.POST.get('message', '').strip()
+        tracking_number = request.POST.get('tracking_number', '').strip()
+
+        if not name or not email or not subject or not message:
+            messages.error(request, 'Please fill in all required fields.')
+            return render(request, 'contact.html')
+
+        full_subject = f'Contact Form: {subject}'
+        full_message = (
+            f'Name: {name}\n'
+            f'Email: {email}\n'
+            f'Tracking Number: {tracking_number or "N/A"}\n\n'
+            f'Message:\n{message}'
+        )
+        recipient = getattr(settings, 'CONTACT_EMAIL', 'support@e-cognite.com')
+        try:
+            send_mail(
+                full_subject,
+                full_message,
+                settings.DEFAULT_FROM_EMAIL,
+                [recipient],
+                fail_silently=False,
+            )
+            messages.success(request, 'Thank you for your message! We will get back to you within 24 hours.')
+        except Exception:
+            messages.error(request, 'There was a problem sending your message. Please try again later.')
         return redirect('contact')
     
     return render(request, 'contact.html')

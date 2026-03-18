@@ -21,11 +21,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-@$6rj^d7-j4hm^*d^f96a^&-9@=xr*e7yezwcrd20o-u0d*d7+')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+
+# SECURITY WARNING: keep the secret key used in production secret!
+_default_secret = 'django-insecure-@$6rj^d7-j4hm^*d^f96a^&-9@=xr*e7yezwcrd20o-u0d*d7+'
+SECRET_KEY = os.environ.get('SECRET_KEY', _default_secret)
+
+# Raise an error if SECRET_KEY is not configured in production
+if not DEBUG and SECRET_KEY == _default_secret:
+    raise RuntimeError(
+        'SECRET_KEY environment variable must be set in production. '
+        'Do not use the insecure default key.'
+    )
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
 
@@ -151,11 +159,20 @@ LOGOUT_REDIRECT_URL = 'home'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Email configuration
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@e-cognite.com')
+CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'support@e-cognite.com')
+
 # Security settings for production
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'

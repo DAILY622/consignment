@@ -9,6 +9,26 @@ from packages.models import Package
 from tracking.models import TrackingHistory
 from .models import ProofOfDelivery
 
+# Allowed image formats verified by Pillow
+ALLOWED_IMAGE_FORMATS = {'JPEG', 'PNG', 'GIF', 'WEBP'}
+
+
+def _validate_upload(file_obj):
+    """Return an error string if the uploaded file is not an allowed image, or None if valid.
+    Uses Pillow to inspect actual file content rather than trusting the client Content-Type."""
+    if file_obj is None:
+        return None
+    try:
+        from PIL import Image
+        img = Image.open(file_obj)
+        img.verify()
+        file_obj.seek(0)
+        if img.format not in ALLOWED_IMAGE_FORMATS:
+            return f'Invalid image format "{img.format}". Only JPEG, PNG, GIF and WebP images are accepted.'
+    except Exception:
+        return 'Uploaded file is not a valid image. Only JPEG, PNG, GIF and WebP images are accepted.'
+    return None
+
 
 @login_required
 def driver_portal(request):
@@ -58,15 +78,28 @@ def driver_portal(request):
             # If delivered, create proof of delivery
             if status == 'delivered':
                 recipient_name = request.POST.get(f'recipient_name_{package_id}', '').strip()
-                ProofOfDelivery.objects.create(
+                photo = request.FILES.get(f'photo_{package_id}')
+                signature = request.FILES.get(f'signature_{package_id}')
+
+                # Validate uploaded file types (#4)
+                photo_err = _validate_upload(photo)
+                sig_err = _validate_upload(signature)
+                if photo_err or sig_err:
+                    messages.error(request, photo_err or sig_err)
+                    return redirect('driver_portal')
+
+                # Use get_or_create to prevent duplicate POD race condition (#9)
+                ProofOfDelivery.objects.get_or_create(
                     package=package,
-                    driver=request.user,
-                    recipient_name=recipient_name or package.receiver_name,
-                    photo=request.FILES.get(f'photo_{package_id}'),
-                    signature=request.FILES.get(f'signature_{package_id}'),
-                    notes=request.POST.get(f'notes_{package_id}', '').strip(),
-                    latitude=request.POST.get(f'latitude_{package_id}') or None,
-                    longitude=request.POST.get(f'longitude_{package_id}') or None,
+                    defaults=dict(
+                        driver=request.user,
+                        recipient_name=recipient_name or package.receiver_name,
+                        photo=photo,
+                        signature=signature,
+                        notes=request.POST.get(f'notes_{package_id}', '').strip(),
+                        latitude=request.POST.get(f'latitude_{package_id}') or None,
+                        longitude=request.POST.get(f'longitude_{package_id}') or None,
+                    )
                 )
             
             messages.success(request, f'Package {package.tracking_number} updated to {package.get_status_display()}')

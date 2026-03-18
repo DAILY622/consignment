@@ -1,13 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Case, When, IntegerField
 from django.core.paginator import Paginator
+import re
 from .models import Package
 from tracking.models import TrackingHistory
 
+# UK postcode regex
+UK_POSTCODE_RE = re.compile(
+    r'^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$',
+    re.IGNORECASE
+)
+
 
 def home(request):
+    if request.method == 'POST':
+        # Newsletter subscription
+        newsletter_email = request.POST.get('newsletter_email', '').strip()
+        if newsletter_email:
+            messages.success(request, 'Thank you for subscribing to our newsletter!')
+        return redirect('home')
     return render(request, 'home.html')
 
 
@@ -48,13 +61,24 @@ def dashboard(request):
     
     if status_filter:
         packages = packages.filter(status=status_filter)
-    
-    stats = {
-        'total': Package.objects.filter(sender=request.user).count(),
-        'pending': Package.objects.filter(sender=request.user, status='pending').count(),
-        'in_transit': Package.objects.filter(sender=request.user, status__in=['processing', 'in_transit', 'out_for_delivery']).count(),
-        'delivered': Package.objects.filter(sender=request.user, status='delivered').count(),
-    }
+
+    # Use a single annotated query instead of 4 separate COUNT queries (#8)
+    stats_qs = Package.objects.filter(sender=request.user).aggregate(
+        total=Count('id'),
+        pending=Count(Case(When(status='pending', then=1), output_field=IntegerField())),
+        in_transit=Count(Case(
+            When(status__in=['processing', 'in_transit', 'out_for_delivery'], then=1),
+            output_field=IntegerField()
+        )),
+        delivered=Count(Case(When(status='delivered', then=1), output_field=IntegerField())),
+    )
+    stats = stats_qs
+
+    # Active packages for map (#7)
+    active_packages = Package.objects.filter(
+        sender=request.user,
+        status__in=['processing', 'in_transit', 'out_for_delivery']
+    )
     
     # Pagination
     paginator = Paginator(packages, 10)
@@ -66,6 +90,7 @@ def dashboard(request):
         'stats': stats,
         'search': search,
         'status_filter': status_filter,
+        'active_packages': active_packages,
     })
 
 
@@ -88,6 +113,13 @@ def create_package(request):
                 errors.append('Weight must be greater than 0')
         except ValueError:
             errors.append('Invalid weight value')
+
+        # UK postcode validation (#16)
+        for postcode_field in ('sender_postcode', 'receiver_postcode'):
+            val = request.POST.get(postcode_field, '').strip().upper()
+            if val and not UK_POSTCODE_RE.match(val):
+                label = postcode_field.replace('_', ' ').title()
+                errors.append(f'{label} does not appear to be a valid UK postcode')
         
         if errors:
             messages.error(request, ' | '.join(errors))
