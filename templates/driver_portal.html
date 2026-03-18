@@ -99,7 +99,7 @@
                                    class="w-full px-4 py-2 border border-primary-200 rounded-lg bg-gray-50" readonly>
                         </div>
                     </div>
-                    <button type="button" onclick="getLocation({{ package.id }})" 
+                    <button type="button" id="gps-btn-{{ package.id }}" onclick="getLocation({{ package.id }})" 
                             class="text-primary-600 text-sm hover:underline flex items-center gap-1">
                         📍 Get Current GPS Location
                     </button>
@@ -160,6 +160,7 @@
 
 {% block extra_js %}
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 // Show/hide POD fields based on status selection
 document.querySelectorAll('select[name="status"]').forEach(select => {
     select.addEventListener('change', function() {
@@ -173,21 +174,24 @@ document.querySelectorAll('select[name="status"]').forEach(select => {
         }
     });
 });
+}); // end DOMContentLoaded
 
-// Get GPS location
+// Get GPS location - marks field as acquired so form can check (#18)
 function getLocation(packageId) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function(position) {
                 document.getElementById('lat-' + packageId).value = position.coords.latitude.toFixed(7);
                 document.getElementById('lng-' + packageId).value = position.coords.longitude.toFixed(7);
+                var btn = document.getElementById('gps-btn-' + packageId);
+                if (btn) btn.textContent = '✅ Location captured';
             },
             function(error) {
-                alert('Unable to get location: ' + error.message);
+                alert('Unable to get location: ' + error.message + '\nYou may continue without GPS location.');
             }
         );
     } else {
-        alert('Geolocation is not supported by your browser');
+        alert('Geolocation is not supported by your browser. You may continue without GPS location.');
     }
 }
 

@@ -1,13 +1,14 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from django.conf import settings
-import uuid
-import random
+import secrets
 import string
 
 
 def generate_tracking_number():
-    """Generate unique tracking number like ECG-XXXXXX"""
-    chars = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+    """Generate unique tracking number like ECG-XXXXXXXX using cryptographic randomness."""
+    alphabet = string.ascii_uppercase + string.digits
+    chars = ''.join(secrets.choice(alphabet) for _ in range(8))
     return f"ECG-{chars}"
 
 
@@ -40,10 +41,14 @@ class Package(models.Model):
     receiver_postcode = models.CharField(max_length=20)
     
     # Package details
-    weight = models.DecimalField(max_digits=10, decimal_places=2, help_text="Weight in kg")
-    length = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    width = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    height = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    weight = models.DecimalField(max_digits=10, decimal_places=2, help_text="Weight in kg",
+                                  validators=[MinValueValidator(0.01)])
+    length = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
+                                  validators=[MinValueValidator(0)])
+    width = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
+                                  validators=[MinValueValidator(0)])
+    height = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
+                                  validators=[MinValueValidator(0)])
     description = models.TextField(blank=True)
     
     # Status and assignment
@@ -63,6 +68,11 @@ class Package(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['status']),
+            models.Index(fields=['receiver_city']),
+            models.Index(fields=['tracking_number']),
+        ]
     
     def __str__(self):
         return f"{self.tracking_number} - {self.receiver_name}"

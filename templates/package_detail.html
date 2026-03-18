@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ package.tracking_number }} - E-Cognite{% endblock %}
 
@@ -29,7 +30,7 @@
                 <p class="text-primary-200 text-sm">Tracking Number</p>
                 <a href="{% url 'track' %}?q={{ package.tracking_number }}" class="text-3xl font-bold font-mono hover:underline flex items-center gap-2">
                     {{ package.tracking_number }}
-                    <img src="https://img.icons8.com/fluency/32/external-link.png" alt="Open" class="w-6 h-6 opacity-70">
+                    <img src="{% static 'icons/icons8-fluency-32-external-link.svg' %}" alt="Open" class="w-6 h-6 opacity-70">
                 </a>
                 <p class="text-primary-200 mt-2">Created {{ package.created_at|date:"M j, Y" }}</p>
             </div>
@@ -40,7 +41,7 @@
         
         <!-- Track on Map Button -->
         <a href="{% url 'track' %}?q={{ package.tracking_number }}" class="mt-6 inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition">
-            <img src="https://img.icons8.com/color/24/map-marker.png" alt="Map" class="w-6 h-6">
+            <img src="{% static 'icons/icons8-color-24-map-marker.svg' %}" alt="Map" class="w-6 h-6">
             Track on Live Map
         </a>
     </div>

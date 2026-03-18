@@ -87,6 +87,9 @@ class PackageAdmin(admin.ModelAdmin):
         return custom_urls + urls
     
     def update_location_view(self, request, package_id):
+        if not request.user.has_perm('packages.change_package'):
+            messages.error(request, 'You do not have permission to update package locations.')
+            return redirect('admin:packages_package_changelist')
         package = get_object_or_404(Package, pk=package_id)
         tracking_history = package.tracking_history.all()[:10]
         

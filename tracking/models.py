@@ -15,6 +15,9 @@ class TrackingHistory(models.Model):
     class Meta:
         ordering = ['-timestamp']
         verbose_name_plural = 'Tracking histories'
+        indexes = [
+            models.Index(fields=['-timestamp']),
+        ]
     
     def __str__(self):
         return f"{self.package.tracking_number} - {self.status} at {self.location}"

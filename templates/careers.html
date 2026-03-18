@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Careers - Join E-Cognite{% endblock %}
 
@@ -12,7 +13,7 @@
 {% block content %}
 <!-- Hero Section -->
 <div class="relative rounded-2xl overflow-hidden mb-12">
-    <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&q=80" alt="Team" class="w-full h-[450px] object-cover">
+    <img src="{% static 'images/photo-1521737711867-e3b97375f902-w1600.svg' %}" alt="Team" class="w-full h-[450px] object-cover">
     <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/90 to-purple-900/70 flex items-center">
         <div class="px-12 max-w-3xl">
             <h1 class="text-5xl font-bold text-white mb-4">Join Our Team</h1>
@@ -34,28 +35,28 @@
     <div class="grid md:grid-cols-4 gap-8">
         <div class="text-center">
             <div class="w-20 h-20 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <img src="https://img.icons8.com/3d-fluency/94/money-bag.png" alt="Pay" class="w-12 h-12">
+                <img src="{% static 'icons/icons8-3d-fluency-94-money-bag.svg' %}" alt="Pay" class="w-12 h-12">
             </div>
             <h3 class="font-bold text-gray-800 mb-2">Competitive Pay</h3>
             <p class="text-gray-600 text-sm">Above-market salaries with performance bonuses and annual reviews</p>
         </div>
         <div class="text-center">
             <div class="w-20 h-20 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <img src="https://img.icons8.com/3d-fluency/94/hospital.png" alt="Benefits" class="w-12 h-12">
+                <img src="{% static 'icons/icons8-3d-fluency-94-hospital.svg' %}" alt="Benefits" class="w-12 h-12">
             </div>
             <h3 class="font-bold text-gray-800 mb-2">Great Benefits</h3>
             <p class="text-gray-600 text-sm">Health insurance, pension contributions, and employee discounts</p>
         </div>
         <div class="text-center">
             <div class="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <img src="https://img.icons8.com/3d-fluency/94/career.png" alt="Growth" class="w-12 h-12">
+                <img src="{% static 'icons/icons8-3d-fluency-94-career.svg' %}" alt="Growth" class="w-12 h-12">
             </div>
             <h3 class="font-bold text-gray-800 mb-2">Career Growth</h3>
             <p class="text-gray-600 text-sm">Training programs, promotions from within, and clear progression paths</p>
         </div>
         <div class="text-center">
             <div class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <img src="https://img.icons8.com/3d-fluency/94/globe.png" alt="Culture" class="w-12 h-12">
+                <img src="{% static 'icons/icons8-3d-fluency-94-globe.svg' %}" alt="Culture" class="w-12 h-12">
             </div>
             <h3 class="font-bold text-gray-800 mb-2">Inclusive Culture</h3>
             <p class="text-gray-600 text-sm">Diverse, supportive team with regular social events and team building</p>
@@ -95,7 +96,7 @@
     <!-- Driver Positions -->
     <div class="mb-12">
         <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-            <img src="https://img.icons8.com/3d-fluency/94/driver.png" alt="Driver" class="w-10 h-10">
+            <img src="{% static 'icons/icons8-3d-fluency-94-driver.svg' %}" alt="Driver" class="w-10 h-10">
             Driver Positions
         </h3>
         <div class="grid md:grid-cols-2 gap-6">
@@ -169,7 +170,7 @@
     <!-- Warehouse Positions -->
     <div class="mb-12">
         <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-            <img src="https://img.icons8.com/3d-fluency/94/warehouse.png" alt="Warehouse" class="w-10 h-10">
+            <img src="{% static 'icons/icons8-3d-fluency-94-warehouse.svg' %}" alt="Warehouse" class="w-10 h-10">
             Warehouse & Operations
         </h3>
         <div class="grid md:grid-cols-2 gap-6">
@@ -211,7 +212,7 @@
     <!-- Office Positions -->
     <div>
         <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-            <img src="https://img.icons8.com/3d-fluency/94/laptop.png" alt="Office" class="w-10 h-10">
+            <img src="{% static 'icons/icons8-3d-fluency-94-laptop.svg' %}" alt="Office" class="w-10 h-10">
             Office & Technology
         </h3>
         <div class="grid md:grid-cols-2 gap-6">
@@ -260,7 +261,7 @@
     <div class="grid md:grid-cols-3 gap-8">
         <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
             <div class="flex items-center gap-4 mb-4">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Employee" class="w-14 h-14 rounded-full object-cover">
+                <img src="{% static 'images/photo-1507003211169-0a1dd7228f2d-w100-h100.svg' %}" alt="Employee" class="w-14 h-14 rounded-full object-cover">
                 <div>
                     <p class="font-bold text-gray-800">Marcus Thompson</p>
                     <p class="text-gray-500 text-sm">Delivery Driver, 2 years</p>
@@ -270,7 +271,7 @@
         </div>
         <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
             <div class="flex items-center gap-4 mb-4">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Employee" class="w-14 h-14 rounded-full object-cover">
+                <img src="{% static 'images/photo-1494790108377-be9c29b29330-w100-h100.svg' %}" alt="Employee" class="w-14 h-14 rounded-full object-cover">
                 <div>
                     <p class="font-bold text-gray-800">Priya Sharma</p>
                     <p class="text-gray-500 text-sm">Software Engineer, 1 year</p>
@@ -280,7 +281,7 @@
         </div>
         <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
             <div class="flex items-center gap-4 mb-4">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" alt="Employee" class="w-14 h-14 rounded-full object-cover">
+                <img src="{% static 'images/photo-1500648767791-00dcc994a43e-w100-h100.svg' %}" alt="Employee" class="w-14 h-14 rounded-full object-cover">
                 <div>
                     <p class="font-bold text-gray-800">James O'Brien</p>
                     <p class="text-gray-500 text-sm">Depot Manager, 3 years</p>

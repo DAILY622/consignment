@@ -1,13 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Count, Q
+from django.db import IntegrityError
+from django.db.models import Count, Q, Case, When, IntegerField
 from django.core.paginator import Paginator
-from .models import Package
+import re
+from .models import Package, generate_tracking_number
 from tracking.models import TrackingHistory
+
+# UK postcode regex
+UK_POSTCODE_RE = re.compile(
+    r'^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$',
+    re.IGNORECASE
+)
 
 
 def home(request):
+    if request.method == 'POST':
+        # Newsletter subscription
+        newsletter_email = request.POST.get('newsletter_email', '').strip()
+        if newsletter_email:
+            messages.success(request, 'Thank you for subscribing to our newsletter!')
+        return redirect('home')
     return render(request, 'home.html')
 
 
@@ -48,13 +62,24 @@ def dashboard(request):
     
     if status_filter:
         packages = packages.filter(status=status_filter)
-    
-    stats = {
-        'total': Package.objects.filter(sender=request.user).count(),
-        'pending': Package.objects.filter(sender=request.user, status='pending').count(),
-        'in_transit': Package.objects.filter(sender=request.user, status__in=['processing', 'in_transit', 'out_for_delivery']).count(),
-        'delivered': Package.objects.filter(sender=request.user, status='delivered').count(),
-    }
+
+    # Use a single annotated query instead of 4 separate COUNT queries (#8)
+    stats_qs = Package.objects.filter(sender=request.user).aggregate(
+        total=Count('id'),
+        pending=Count(Case(When(status='pending', then=1), output_field=IntegerField())),
+        in_transit=Count(Case(
+            When(status__in=['processing', 'in_transit', 'out_for_delivery'], then=1),
+            output_field=IntegerField()
+        )),
+        delivered=Count(Case(When(status='delivered', then=1), output_field=IntegerField())),
+    )
+    stats = stats_qs
+
+    # Active packages for map (#7) - include pending so pins appear on map
+    active_packages = Package.objects.filter(
+        sender=request.user,
+        status__in=['pending', 'processing', 'in_transit', 'out_for_delivery']
+    ).values('tracking_number', 'status', 'receiver_city', 'receiver_postcode')
     
     # Pagination
     paginator = Paginator(packages, 10)
@@ -66,6 +91,7 @@ def dashboard(request):
         'stats': stats,
         'search': search,
         'status_filter': status_filter,
+        'active_packages': active_packages,
     })
 
 
@@ -88,29 +114,46 @@ def create_package(request):
                 errors.append('Weight must be greater than 0')
         except ValueError:
             errors.append('Invalid weight value')
+
+        # UK postcode validation (#16)
+        for postcode_field in ('sender_postcode', 'receiver_postcode'):
+            val = request.POST.get(postcode_field, '').strip().upper()
+            if val and not UK_POSTCODE_RE.match(val):
+                label = postcode_field.replace('_', ' ').title()
+                errors.append(f'{label} does not appear to be a valid UK postcode')
         
         if errors:
             messages.error(request, ' | '.join(errors))
             return render(request, 'create_package.html')
         
-        package = Package.objects.create(
-            sender=request.user,
-            sender_name=request.POST.get('sender_name').strip(),
-            sender_address=request.POST.get('sender_address').strip(),
-            sender_phone=request.POST.get('sender_phone').strip(),
-            sender_city=request.POST.get('sender_city').strip(),
-            sender_postcode=request.POST.get('sender_postcode').strip().upper(),
-            receiver_name=request.POST.get('receiver_name').strip(),
-            receiver_address=request.POST.get('receiver_address').strip(),
-            receiver_phone=request.POST.get('receiver_phone').strip(),
-            receiver_city=request.POST.get('receiver_city').strip(),
-            receiver_postcode=request.POST.get('receiver_postcode').strip().upper(),
-            weight=weight,
-            length=request.POST.get('length') or None,
-            width=request.POST.get('width') or None,
-            height=request.POST.get('height') or None,
-            description=request.POST.get('description', '').strip(),
-        )
+        # Retry on tracking number collision (rare but possible with cryptographic generation)
+        for _attempt in range(5):
+            try:
+                package = Package.objects.create(
+                    sender=request.user,
+                    tracking_number=generate_tracking_number(),
+                    sender_name=request.POST.get('sender_name').strip(),
+                    sender_address=request.POST.get('sender_address').strip(),
+                    sender_phone=request.POST.get('sender_phone').strip(),
+                    sender_city=request.POST.get('sender_city').strip(),
+                    sender_postcode=request.POST.get('sender_postcode').strip().upper(),
+                    receiver_name=request.POST.get('receiver_name').strip(),
+                    receiver_address=request.POST.get('receiver_address').strip(),
+                    receiver_phone=request.POST.get('receiver_phone').strip(),
+                    receiver_city=request.POST.get('receiver_city').strip(),
+                    receiver_postcode=request.POST.get('receiver_postcode').strip().upper(),
+                    weight=weight,
+                    length=request.POST.get('length') or None,
+                    width=request.POST.get('width') or None,
+                    height=request.POST.get('height') or None,
+                    description=request.POST.get('description', '').strip(),
+                )
+                break
+            except IntegrityError:
+                continue
+        else:
+            messages.error(request, 'Failed to generate a unique tracking number. Please try again.')
+            return render(request, 'create_package.html')
         
         # Create initial tracking entry
         TrackingHistory.objects.create(
