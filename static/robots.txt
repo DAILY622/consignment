@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /driver/
+Disallow: /profile/
+Disallow: /dashboard/
+Disallow: /packages/
+
+Sitemap: https://consignment-website.onrender.com/sitemap.xml
