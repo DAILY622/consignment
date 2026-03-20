@@ -26,13 +26,13 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 _default_secret = 'django-insecure-@$6rj^d7-j4hm^*d^f96a^&-9@=xr*e7yezwcrd20o-u0d*d7+'
-SECRET_KEY = os.environ.get('SECRET_KEY', _default_secret)
+SECRET_KEY = os.environ.get('SECRET_KEY', _default_secret if DEBUG else '')
 
 # Raise an error if SECRET_KEY is not configured in production
-if not DEBUG and SECRET_KEY == _default_secret:
+if not DEBUG and not SECRET_KEY:
     raise RuntimeError(
         'SECRET_KEY environment variable must be set in production. '
-        'Do not use the insecure default key.'
+        'Generate one at: https://djecrety.ir/'
     )
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com', '.onrender.com']
