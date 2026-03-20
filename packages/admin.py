@@ -3,6 +3,7 @@ from django.urls import path
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import format_html
+from django.utils import timezone
 from consignment.admin import admin_site
 from .models import Package
 from tracking.models import TrackingHistory
@@ -13,68 +14,110 @@ class TrackingHistoryInline(admin.TabularInline):
     extra = 0
     readonly_fields = ('timestamp',)
     fields = ('status', 'location', 'latitude', 'longitude', 'notes', 'timestamp')
+    classes = ('collapse',)
+    verbose_name = "Tracking Update"
+    verbose_name_plural = "Tracking History"
 
 
+@admin.register(Package, site=admin_site)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('tracking_number', 'sender', 'receiver_name', 'receiver_city', 'status_badge', 'assigned_driver', 'location_btn', 'created_at')
-    list_filter = ('status', 'created_at', 'sender_city', 'receiver_city')
-    search_fields = ('tracking_number', 'sender__username', 'receiver_name', 'sender_name')
+    list_display = ('tracking_link', 'sender_info', 'receiver_info', 'status_badge', 'driver_info', 'location_btn', 'created_date')
+    list_filter = ('status', 'created_at', 'sender_city', 'receiver_city', 'assigned_driver')
+    search_fields = ('tracking_number', 'sender__username', 'receiver_name', 'sender_name', 'receiver_city')
     readonly_fields = ('tracking_number', 'created_at', 'updated_at')
     date_hierarchy = 'created_at'
     list_per_page = 25
+    list_select_related = ('sender', 'assigned_driver')
+    save_on_top = True
     
     inlines = [TrackingHistoryInline]
     
     fieldsets = (
-        ('Tracking', {
-            'fields': ('tracking_number', 'status', 'assigned_driver', 'estimated_delivery')
+        ('📦 Package Tracking', {
+            'fields': ('tracking_number', 'status', 'assigned_driver', 'estimated_delivery'),
+            'classes': ('wide',),
         }),
-        ('Sender Information', {
-            'fields': ('sender', 'sender_name', 'sender_address', 'sender_city', 'sender_postcode', 'sender_phone')
+        ('📤 Sender Information', {
+            'fields': ('sender', 'sender_name', 'sender_phone', ('sender_address', 'sender_city', 'sender_postcode')),
+            'classes': ('wide',),
         }),
-        ('Receiver Information', {
-            'fields': ('receiver_name', 'receiver_address', 'receiver_city', 'receiver_postcode', 'receiver_phone')
+        ('📥 Receiver Information', {
+            'fields': ('receiver_name', 'receiver_phone', ('receiver_address', 'receiver_city', 'receiver_postcode')),
+            'classes': ('wide',),
         }),
-        ('Package Details', {
-            'fields': ('weight', 'length', 'width', 'height', 'description')
+        ('📐 Package Dimensions', {
+            'fields': (('weight', 'length', 'width', 'height'), 'description'),
+            'classes': ('collapse', 'wide'),
         }),
-        ('Timestamps', {
+        ('🕐 Timestamps', {
             'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
+            'classes': ('collapse',),
         }),
     )
     
-    actions = ['mark_in_transit', 'mark_out_for_delivery', 'mark_delivered', 'mark_cancelled']
+    actions = ['mark_processing', 'mark_in_transit', 'mark_out_for_delivery', 'mark_delivered', 'mark_cancelled']
+    
+    def tracking_link(self, obj):
+        return format_html(
+            '<a href="/admin/packages/package/{}/change/" style="font-weight:600; color:#4f46e5;">{}</a>',
+            obj.pk, obj.tracking_number
+        )
+    tracking_link.short_description = 'Tracking #'
+    tracking_link.admin_order_field = 'tracking_number'
+    
+    def sender_info(self, obj):
+        return format_html(
+            '<strong>{}</strong><br><small style="color:#6b7280;">{}</small>',
+            obj.sender_name, obj.sender_city
+        )
+    sender_info.short_description = 'From'
+    
+    def receiver_info(self, obj):
+        return format_html(
+            '<strong>{}</strong><br><small style="color:#6b7280;">{}</small>',
+            obj.receiver_name, obj.receiver_city
+        )
+    receiver_info.short_description = 'To'
+    
+    def driver_info(self, obj):
+        if obj.assigned_driver:
+            return format_html(
+                '<span style="color:#059669;">🚚 {}</span>',
+                obj.assigned_driver.username
+            )
+        return format_html('<span style="color:#9ca3af;">— Unassigned</span>')
+    driver_info.short_description = 'Driver'
+    driver_info.admin_order_field = 'assigned_driver'
+    
+    def created_date(self, obj):
+        return format_html(
+            '<span title="{}">{}</span>',
+            obj.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            obj.created_at.strftime('%b %d, %Y')
+        )
+    created_date.short_description = 'Created'
+    created_date.admin_order_field = 'created_at'
     
     def status_badge(self, obj):
         colors = {
-            'pending': '#fef3c7',
-            'processing': '#dbeafe',
-            'in_transit': '#e0e7ff',
-            'out_for_delivery': '#fce7f3',
-            'delivered': '#d1fae5',
-            'cancelled': '#fee2e2',
+            'pending': ('#f59e0b', '#fffbeb'),
+            'processing': ('#3b82f6', '#eff6ff'),
+            'in_transit': ('#8b5cf6', '#f5f3ff'),
+            'out_for_delivery': ('#ec4899', '#fdf2f8'),
+            'delivered': ('#10b981', '#ecfdf5'),
+            'cancelled': ('#ef4444', '#fef2f2'),
         }
-        text_colors = {
-            'pending': '#92400e',
-            'processing': '#1e40af',
-            'in_transit': '#3730a3',
-            'out_for_delivery': '#9d174d',
-            'delivered': '#065f46',
-            'cancelled': '#991b1b',
-        }
+        text_color, bg_color = colors.get(obj.status, ('#6b7280', '#f3f4f6'))
         return format_html(
-            '<span style="background:{}; color:{}; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">{}</span>',
-            colors.get(obj.status, '#f3f4f6'),
-            text_colors.get(obj.status, '#374151'),
-            obj.get_status_display()
+            '<span style="background:{}; color:{}; padding:5px 12px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap;">{}</span>',
+            bg_color, text_color, obj.get_status_display()
         )
     status_badge.short_description = 'Status'
     status_badge.admin_order_field = 'status'
     
     def location_btn(self, obj):
         return format_html(
-            '<a href="{}/update-location/" style="background:#4f46e5; color:white; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:12px;">📍 Update Location</a>',
+            '<a href="{}/update-location/" class="btn btn-sm btn-primary" style="font-size:11px;">📍 Update</a>',
             obj.pk
         )
     location_btn.short_description = 'Location'
@@ -100,11 +143,9 @@ class PackageAdmin(admin.ModelAdmin):
             longitude = request.POST.get('longitude')
             notes = request.POST.get('notes', '')
             
-            # Update package status
             package.status = status
             package.save()
             
-            # Create tracking history entry
             TrackingHistory.objects.create(
                 package=package,
                 status=package.get_status_display(),
@@ -114,7 +155,7 @@ class PackageAdmin(admin.ModelAdmin):
                 notes=notes
             )
             
-            messages.success(request, f'Location updated for {package.tracking_number}')
+            messages.success(request, f'✓ Location updated for {package.tracking_number}')
             return redirect('admin:packages_package_change', package_id)
         
         context = {
@@ -126,31 +167,37 @@ class PackageAdmin(admin.ModelAdmin):
         }
         return render(request, 'admin/packages/update_location.html', context)
     
-    @admin.action(description='Mark selected as In Transit')
+    @admin.action(description='⏳ Mark as Processing')
+    def mark_processing(self, request, queryset):
+        count = queryset.update(status='processing')
+        for pkg in queryset:
+            TrackingHistory.objects.create(package=pkg, status='Processing', location='Warehouse - Processing')
+        messages.success(request, f'✓ {count} package(s) marked as Processing')
+    
+    @admin.action(description='🚚 Mark as In Transit')
     def mark_in_transit(self, request, queryset):
         count = queryset.update(status='in_transit')
         for pkg in queryset:
             TrackingHistory.objects.create(package=pkg, status='In Transit', location='Distribution Centre')
-        messages.success(request, f'{count} package(s) marked as In Transit')
+        messages.success(request, f'✓ {count} package(s) marked as In Transit')
     
-    @admin.action(description='Mark selected as Out for Delivery')
+    @admin.action(description='📍 Mark as Out for Delivery')
     def mark_out_for_delivery(self, request, queryset):
         count = queryset.update(status='out_for_delivery')
         for pkg in queryset:
             TrackingHistory.objects.create(package=pkg, status='Out for Delivery', location=f'{pkg.receiver_city} Local Depot')
-        messages.success(request, f'{count} package(s) marked as Out for Delivery')
+        messages.success(request, f'✓ {count} package(s) marked as Out for Delivery')
     
-    @admin.action(description='Mark selected as Delivered')
+    @admin.action(description='✅ Mark as Delivered')
     def mark_delivered(self, request, queryset):
         count = queryset.update(status='delivered')
         for pkg in queryset:
             TrackingHistory.objects.create(package=pkg, status='Delivered', location=f'{pkg.receiver_city}, {pkg.receiver_postcode}')
-        messages.success(request, f'{count} package(s) marked as Delivered')
+        messages.success(request, f'✓ {count} package(s) marked as Delivered')
     
-    @admin.action(description='Mark selected as Cancelled')
+    @admin.action(description='❌ Mark as Cancelled')
     def mark_cancelled(self, request, queryset):
         count = queryset.update(status='cancelled')
-        messages.success(request, f'{count} package(s) cancelled')
-
-
-admin_site.register(Package, PackageAdmin)
+        for pkg in queryset:
+            TrackingHistory.objects.create(package=pkg, status='Cancelled', location='Cancelled by Admin')
+        messages.success(request, f'✓ {count} package(s) cancelled')

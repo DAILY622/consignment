@@ -64,30 +64,87 @@ INSTALLED_APPS = [
 
 # Jazzmin Admin Theme Configuration
 JAZZMIN_SETTINGS = {
-    "site_title": "Consignment Admin",
-    "site_header": "Consignment",
-    "site_brand": "Consignment",
-    "welcome_sign": "Welcome to Consignment Admin",
-    "copyright": "Consignment Ltd",
-    "search_model": ["accounts.User", "packages.Package"],
+    # Title & Branding
+    "site_title": "E-Cognite Logistics",
+    "site_header": "E-Cognite",
+    "site_brand": "E-Cognite",
+    "site_logo": None,
+    "login_logo": None,
+    "login_logo_dark": None,
+    "site_logo_classes": "img-circle",
+    "site_icon": None,
+    "welcome_sign": "Welcome to E-Cognite Logistics Portal",
+    "copyright": "E-Cognite Logistics Ltd",
+    "user_avatar": None,
+    
+    # Search
+    "search_model": ["accounts.User", "packages.Package", "tracking.TrackingHistory"],
+    
+    # Top Menu Links
     "topmenu_links": [
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Packages", "url": "admin:packages_package_changelist", "permissions": ["packages.view_package"]},
+        {"name": "Tracking", "url": "admin:tracking_trackinghistory_changelist", "permissions": ["tracking.view_trackinghistory"]},
         {"name": "View Site", "url": "/", "new_window": True},
     ],
+    
+    # User Menu Links
+    "usermenu_links": [
+        {"name": "Support", "url": "https://github.com/phython-django-jassmine/consignment-site/issues", "new_window": True},
+        {"model": "accounts.user"}
+    ],
+    
+    # Sidebar
     "show_sidebar": True,
     "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "order_with_respect_to": ["accounts", "packages", "tracking", "drivers"],
+    
+    # Custom Links
+    "custom_links": {
+        "packages": [{
+            "name": "Quick Stats",
+            "url": "admin:index",
+            "icon": "fas fa-chart-bar",
+            "permissions": ["packages.view_package"]
+        }]
+    },
+    
+    # Icons
     "icons": {
         "auth": "fas fa-users-cog",
-        "accounts.User": "fas fa-user",
-        "packages.Package": "fas fa-box",
-        "tracking.Tracking": "fas fa-map-marker-alt",
-        "drivers.Driver": "fas fa-truck",
+        "auth.group": "fas fa-users",
+        "accounts": "fas fa-user-shield",
+        "accounts.user": "fas fa-user",
+        "packages": "fas fa-boxes",
+        "packages.package": "fas fa-box",
+        "tracking": "fas fa-route",
+        "tracking.trackinghistory": "fas fa-map-marker-alt",
+        "drivers": "fas fa-shipping-fast",
+        "drivers.proofofdelivery": "fas fa-clipboard-check",
     },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
+    
+    # Related Modal
     "related_modal_active": True,
+    
+    # UI Tweaks
+    "custom_css": None,
+    "custom_js": None,
     "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+    
+    # Change Form Template
     "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {
+        "accounts.user": "collapsible",
+        "packages.package": "horizontal_tabs",
+    },
+    
+    # Language Chooser
+    "language_chooser": False,
 }
 
 JAZZMIN_UI_TWEAKS = {
@@ -95,23 +152,23 @@ JAZZMIN_UI_TWEAKS = {
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-primary",
-    "accent": "accent-primary",
-    "navbar": "navbar-dark",
+    "brand_colour": "navbar-indigo",
+    "accent": "accent-indigo",
+    "navbar": "navbar-indigo navbar-dark",
     "no_navbar_border": False,
     "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
     "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-primary",
+    "sidebar": "sidebar-dark-indigo",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": False,
+    "sidebar_nav_child_indent": True,
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "default",
-    "dark_mode_theme": None,
+    "theme": "cosmo",
+    "dark_mode_theme": "darkly",
     "button_classes": {
         "primary": "btn-primary",
         "secondary": "btn-secondary",
@@ -119,7 +176,8 @@ JAZZMIN_UI_TWEAKS = {
         "warning": "btn-warning",
         "danger": "btn-danger",
         "success": "btn-success"
-    }
+    },
+    "actions_sticky_top": True,
 }
 
 MIDDLEWARE = [
