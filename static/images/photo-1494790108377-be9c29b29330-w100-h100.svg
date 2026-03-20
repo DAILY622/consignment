@@ -1,11 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="150" height="150">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#7c3aed"/>
-      <stop offset="100%" style="stop-color:#a855f7"/>
-    </linearGradient>
-  </defs>
-  <circle cx="75" cy="75" r="75" fill="url(#g)"/>
-  <text x="75" y="75" font-family="system-ui,sans-serif" font-size="48" font-weight="bold"
-        fill="white" text-anchor="middle" dominant-baseline="central">SR</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#ec4899"/>
+  <circle cx="50" cy="38" r="20" fill="#fcd34d"/>
+  <ellipse cx="50" cy="85" rx="30" ry="25" fill="#fcd34d"/>
+  <path d="M30 32 Q50 18 70 32" stroke="#92400e" stroke-width="5" fill="none"/>
 </svg>
