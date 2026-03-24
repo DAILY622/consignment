@@ -62,11 +62,11 @@ python manage.py runserver
 
 ## Default Accounts
 
-| Role | Username | Password |
-|------|----------|----------|
-| Admin | `admin` | `admin123` |
-| Customer | `user` | `password` |
-| Driver | `driver` | `driver123` |
+| Role | Username | Email | Password |
+|------|----------|-------|----------|
+| Admin | `admin` | `admin@example.com` | `admin123` |
+| Customer | `user` | `user@example.com` | `password` |
+| Driver | `driver` | `driver@example.com` | `driver123` |
 
 ## Sample Tracking Numbers
 

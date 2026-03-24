@@ -11,7 +11,7 @@ Make sure these are set correctly:
 
 | KEY | VALUE |
 |-----|-------|
-| `SECRET_KEY` | `dj-prod-x9k2m5n8p1q4r7t0w3y6z` |
+| `SECRET_KEY` | (generate a secure random key, e.g. with `python -c "import secrets; print(secrets.token_urlsafe(50))"`) |
 | `DEBUG` | `False` |
 
 ### Create Admin User
