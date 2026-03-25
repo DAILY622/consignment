@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.files.base import ContentFile
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.utils import timezone
 from datetime import timedelta
+import base64
 from packages.models import Package
 from tracking.models import TrackingHistory
 from .models import ProofOfDelivery
 
 # Allowed image formats verified by Pillow
 ALLOWED_IMAGE_FORMATS = {'JPEG', 'PNG', 'GIF', 'WEBP'}
-
 
 def _validate_upload(file_obj):
     """Return an error string if the uploaded file is not an allowed image, or None if valid.
@@ -79,7 +80,20 @@ def driver_portal(request):
             if status == 'delivered':
                 recipient_name = request.POST.get(f'recipient_name_{package_id}', '').strip()
                 photo = request.FILES.get(f'photo_{package_id}')
-                signature = request.FILES.get(f'signature_{package_id}')
+
+                # Signature is submitted as a base64 data URL from the canvas hidden input
+                signature = None
+                sig_data = request.POST.get(f'signature_{package_id}', '').strip()
+                if sig_data and sig_data.startswith('data:image/'):
+                    try:
+                        header, imgstr = sig_data.split(';base64,', 1)
+                        ext = header.split('/')[-1]
+                        signature = ContentFile(
+                            base64.b64decode(imgstr),
+                            name=f'sig_{package.tracking_number}.{ext}',
+                        )
+                    except Exception:
+                        pass  # Ignore malformed base64; signature stays None
 
                 # Validate uploaded file types (#4)
                 photo_err = _validate_upload(photo)

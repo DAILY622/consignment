@@ -149,3 +149,80 @@ class ProofOfDeliveryModelTests(TestCase):
         )
         self.assertEqual(pod.package, self.package)
         self.assertIn(self.package.tracking_number, str(pod))
+
+
+class DeliveryWithSignatureTests(TestCase):
+    """Tests for the signature base64 fix: canvas data submitted in POST, not FILES."""
+
+    def setUp(self):
+        self.client = Client()
+        self.sender = User.objects.create_user(
+            username='sndr_sig', email='sndr@example.com', password='pass1234', role='user'
+        )
+        self.driver = User.objects.create_user(
+            username='drvr_sig', email='drvr@example.com', password='pass1234', role='driver'
+        )
+        self.package = _make_package(
+            sender=self.sender, assigned_driver=self.driver, status='out_for_delivery'
+        )
+        self.client.login(username='drvr_sig', password='pass1234')
+
+    def _minimal_png_b64(self):
+        """Return a valid 1×1 white PNG as a base64 data URL (generated via struct/zlib)."""
+        import struct, zlib, base64
+
+        def u32(n):
+            return struct.pack('>I', n)
+
+        def chunk(name, data):
+            c = name + data
+            return u32(len(data)) + c + u32(zlib.crc32(c) & 0xFFFFFFFF)
+
+        sig = b'\x89PNG\r\n\x1a\n'
+        ihdr = chunk(b'IHDR', struct.pack('>IIBBBBB', 1, 1, 8, 2, 0, 0, 0))
+        idat = chunk(b'IDAT', zlib.compress(b'\x00\xff\xff\xff'))
+        iend = chunk(b'IEND', b'')
+        png = sig + ihdr + idat + iend
+        return 'data:image/png;base64,' + base64.b64encode(png).decode()
+
+    def test_deliver_with_base64_signature_creates_pod(self):
+        """Delivering a package with a base64 canvas signature saves the POD."""
+        pkg_id = self.package.id
+        response = self.client.post(
+            reverse('driver_portal'),
+            {
+                'package_id': pkg_id,
+                'status': 'delivered',
+                'location': 'Manchester City Centre',
+                f'recipient_name_{pkg_id}': 'Jane Doe',
+                f'signature_{pkg_id}': self._minimal_png_b64(),
+                f'notes_{pkg_id}': 'Delivered to front door',
+            },
+        )
+        self.assertRedirects(response, reverse('driver_portal'), fetch_redirect_response=False)
+        self.package.refresh_from_db()
+        self.assertEqual(self.package.status, 'delivered')
+        pod = ProofOfDelivery.objects.filter(package=self.package).first()
+        self.assertIsNotNone(pod, 'ProofOfDelivery should be created on delivery')
+        self.assertEqual(pod.recipient_name, 'Jane Doe')
+        self.assertTrue(bool(pod.signature), 'Signature file should be saved')
+
+    def test_deliver_without_signature_still_creates_pod(self):
+        """Delivering without a signature (empty canvas data) should still create POD."""
+        pkg_id = self.package.id
+        response = self.client.post(
+            reverse('driver_portal'),
+            {
+                'package_id': pkg_id,
+                'status': 'delivered',
+                'location': 'Manchester',
+                f'recipient_name_{pkg_id}': 'Bob Smith',
+                f'signature_{pkg_id}': '',  # No signature drawn
+            },
+        )
+        self.assertRedirects(response, reverse('driver_portal'), fetch_redirect_response=False)
+        self.package.refresh_from_db()
+        self.assertEqual(self.package.status, 'delivered')
+        pod = ProofOfDelivery.objects.filter(package=self.package).first()
+        self.assertIsNotNone(pod, 'ProofOfDelivery should be created even without signature')
+        self.assertFalse(bool(pod.signature), 'Signature should be empty/None when not provided')
