@@ -206,15 +206,3 @@ def faq(request):
 
 def careers(request):
     return render(request, 'careers.html')
-
-
-def password_reset_request(request):
-    if request.method == 'POST':
-        email = request.POST.get('email', '').strip()
-        if User.objects.filter(email=email).exists():
-            # In production, send actual email with reset link
-            messages.success(request, 'If an account exists with this email, you will receive a reset link.')
-        else:
-            messages.success(request, 'If an account exists with this email, you will receive a reset link.')
-        return redirect('password_reset_done')
-    return render(request, 'registration/password_reset.html')

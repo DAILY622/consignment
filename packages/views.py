@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.db import IntegrityError
 from django.db.models import Count, Q, Case, When, IntegerField
 from django.core.paginator import Paginator
+from django.utils import timezone
+from datetime import timedelta
 import re
 from .models import Package, generate_tracking_number
 from tracking.models import TrackingHistory
@@ -79,7 +81,7 @@ def dashboard(request):
     active_packages = Package.objects.filter(
         sender=request.user,
         status__in=['pending', 'processing', 'in_transit', 'out_for_delivery']
-    ).values('tracking_number', 'status', 'receiver_city', 'receiver_postcode')
+    ).values('tracking_number', 'status', 'receiver_name', 'receiver_city', 'receiver_postcode')
     
     # Pagination
     paginator = Paginator(packages, 10)
@@ -129,6 +131,14 @@ def create_package(request):
         # Retry on tracking number collision (rare but possible with cryptographic generation)
         for _attempt in range(5):
             try:
+                # Estimate delivery in 3 working days (skip weekends)
+                estimated = timezone.now().date()
+                working_days = 0
+                while working_days < 3:
+                    estimated += timedelta(days=1)
+                    if estimated.weekday() < 5:  # Mon-Fri
+                        working_days += 1
+
                 package = Package.objects.create(
                     sender=request.user,
                     tracking_number=generate_tracking_number(),
@@ -147,6 +157,7 @@ def create_package(request):
                     width=request.POST.get('width') or None,
                     height=request.POST.get('height') or None,
                     description=request.POST.get('description', '').strip(),
+                    estimated_delivery=estimated,
                 )
                 break
             except IntegrityError:

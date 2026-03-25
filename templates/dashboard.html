@@ -250,9 +250,9 @@
         });
     }
     
-    // Add markers for each package
+    // Add markers for each active package
     var bounds = [];
-    {% for package in packages %}
+    {% for package in active_packages %}
     (function() {
         var city = '{{ package.receiver_city }}';
         var coords = ukCities[city];
@@ -266,7 +266,7 @@
             }
         }
         if (!coords) coords = [51.5 + (Math.random()-0.5)*2, -1.5 + (Math.random()-0.5)*2]; // Random UK location
-        
+
         var icon = createPackageIcon('{{ package.status }}', '{{ package.tracking_number }}');
         var marker = L.marker(coords, {icon: icon}).addTo(dashMap);
         marker.bindPopup(`
@@ -275,7 +275,7 @@
                 <span style="color:#666;">To: {{ package.receiver_name }}</span><br>
                 <span style="color:#666;">{{ package.receiver_city }}</span><br>
                 <span style="display:inline-block;margin-top:5px;padding:3px 8px;border-radius:10px;font-size:11px;background:${statusColors['{{ package.status }}']};color:white;">
-                    {{ package.get_status_display }}
+                    {{ package.status|title }}
                 </span><br>
                 <a href="{% url 'track' %}?q={{ package.tracking_number }}" style="color:#4f46e5;font-size:12px;">View Details →</a>
             </div>
@@ -283,7 +283,7 @@
         bounds.push(coords);
     })();
     {% endfor %}
-    
+
     // Fit map to show all markers
     if (bounds.length > 0) {
         dashMap.fitBounds(bounds, {padding: [30, 30], maxZoom: 10});
