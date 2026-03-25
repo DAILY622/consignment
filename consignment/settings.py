@@ -35,7 +35,9 @@ if not DEBUG and not SECRET_KEY:
         'Generate one at: https://djecrety.ir/'
     )
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com', '.onrender.com']
+_default_allowed_hosts = ['127.0.0.1', 'localhost', '.herokuapp.com', '.onrender.com']
+_extra_hosts = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '').split(',') if h.strip()]
+ALLOWED_HOSTS = _default_allowed_hosts + _extra_hosts
 
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [

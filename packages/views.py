@@ -190,17 +190,24 @@ def package_edit(request, package_id):
         return redirect('package_detail', package_id=package.id)
     
     if request.method == 'POST':
+        receiver_postcode = request.POST.get('receiver_postcode', '').strip().upper()
+
+        # UK postcode validation (consistent with create_package)
+        if receiver_postcode and not UK_POSTCODE_RE.match(receiver_postcode):
+            messages.error(request, 'Receiver Postcode does not appear to be a valid UK postcode')
+            return render(request, 'package_edit.html', {'package': package})
+
         package.receiver_name = request.POST.get('receiver_name', '').strip()
         package.receiver_phone = request.POST.get('receiver_phone', '').strip()
         package.receiver_address = request.POST.get('receiver_address', '').strip()
         package.receiver_city = request.POST.get('receiver_city', '').strip()
-        package.receiver_postcode = request.POST.get('receiver_postcode', '').strip().upper()
+        package.receiver_postcode = receiver_postcode
         package.description = request.POST.get('description', '').strip()
         package.save()
-        
+
         messages.success(request, 'Package details updated!')
         return redirect('package_detail', package_id=package.id)
-    
+
     return render(request, 'package_edit.html', {'package': package})
 
 
