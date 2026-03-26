@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.urls import reverse
 from django.utils.html import format_html
 from consignment.admin import admin_site
 from .models import TrackingHistory
@@ -29,9 +30,10 @@ class TrackingHistoryAdmin(admin.ModelAdmin):
     )
     
     def package_link(self, obj):
+        url = reverse('admin:packages_package_change', args=[obj.package.pk])
         return format_html(
-            '<a href="/admin/packages/package/{}/change/" style="font-weight:600; color:#4f46e5;">{}</a>',
-            obj.package.pk, obj.package.tracking_number
+            '<a href="{}" style="font-weight:600; color:#4f46e5;">{}</a>',
+            url, obj.package.tracking_number
         )
     package_link.short_description = 'Package'
     package_link.admin_order_field = 'package__tracking_number'

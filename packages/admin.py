@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.html import format_html
@@ -58,9 +58,10 @@ class PackageAdmin(admin.ModelAdmin):
     actions = ['mark_processing', 'mark_in_transit', 'mark_out_for_delivery', 'mark_delivered', 'mark_cancelled']
     
     def tracking_link(self, obj):
+        url = reverse('admin:packages_package_change', args=[obj.pk])
         return format_html(
-            '<a href="/admin/packages/package/{}/change/" style="font-weight:600; color:#4f46e5;">{}</a>',
-            obj.pk, obj.tracking_number
+            '<a href="{}" style="font-weight:600; color:#4f46e5;">{}</a>',
+            url, obj.tracking_number
         )
     tracking_link.short_description = 'Tracking #'
     tracking_link.admin_order_field = 'tracking_number'
@@ -116,9 +117,10 @@ class PackageAdmin(admin.ModelAdmin):
     status_badge.admin_order_field = 'status'
     
     def location_btn(self, obj):
+        url = reverse('admin:package_update_location', args=[obj.pk])
         return format_html(
-            '<a href="{}/update-location/" class="btn btn-sm btn-primary" style="font-size:11px;">📍 Update</a>',
-            obj.pk
+            '<a href="{}" class="btn btn-sm btn-primary" style="font-size:11px;">📍 Update</a>',
+            url
         )
     location_btn.short_description = 'Location'
     

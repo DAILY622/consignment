@@ -300,3 +300,84 @@ class PackageEditTests(TestCase):
         )
         self.pkg.refresh_from_db()
         self.assertEqual(self.pkg.receiver_name, 'Test Receiver')  # unchanged
+
+
+class AdminURLTests(TestCase):
+    """Verify all admin URL names resolve correctly and reverse() is used (no hardcoded paths)."""
+
+    def setUp(self):
+        from packages.models import Package
+        self.superuser = User.objects.create_superuser(
+            username='admin_test', email='admin@example.com', password='adminpass123'
+        )
+        self.client = Client()
+        self.client.login(username='admin_test', password='adminpass123')
+        # Create a package to test per-object admin URLs
+        self.pkg = Package.objects.create(
+            sender=self.superuser,
+            sender_name='Admin', sender_address='1 Admin St',
+            sender_phone='07700900000', sender_city='London', sender_postcode='SW1A 1AA',
+            receiver_name='Receiver', receiver_address='2 Recv Rd',
+            receiver_phone='07700900001', receiver_city='Manchester', receiver_postcode='M1 1AE',
+            weight=1.0,
+        )
+
+    def test_admin_index_url(self):
+        from django.urls import reverse
+        url = reverse('admin:index')
+        self.assertEqual(url, '/admin/')
+
+    def test_admin_package_changelist_url(self):
+        from django.urls import reverse
+        url = reverse('admin:packages_package_changelist')
+        self.assertEqual(url, '/admin/packages/package/')
+
+    def test_admin_package_change_url(self):
+        from django.urls import reverse
+        url = reverse('admin:packages_package_change', args=[self.pkg.pk])
+        self.assertEqual(url, f'/admin/packages/package/{self.pkg.pk}/change/')
+
+    def test_admin_package_add_url(self):
+        from django.urls import reverse
+        url = reverse('admin:packages_package_add')
+        self.assertEqual(url, '/admin/packages/package/add/')
+
+    def test_admin_package_update_location_url(self):
+        from django.urls import reverse
+        url = reverse('admin:package_update_location', args=[self.pkg.pk])
+        self.assertEqual(url, f'/admin/packages/package/{self.pkg.pk}/update-location/')
+
+    def test_admin_accounts_user_changelist_url(self):
+        from django.urls import reverse
+        url = reverse('admin:accounts_user_changelist')
+        self.assertEqual(url, '/admin/accounts/user/')
+
+    def test_admin_tracking_history_changelist_url(self):
+        from django.urls import reverse
+        url = reverse('admin:tracking_trackinghistory_changelist')
+        self.assertEqual(url, '/admin/tracking/trackinghistory/')
+
+    def test_admin_pod_changelist_url(self):
+        from django.urls import reverse
+        url = reverse('admin:drivers_proofofdelivery_changelist')
+        self.assertEqual(url, '/admin/drivers/proofofdelivery/')
+
+    def test_tracking_link_uses_reverse(self):
+        """tracking_link in PackageAdmin returns correct absolute URL via reverse()."""
+        from packages.admin import PackageAdmin
+        from packages.models import Package
+        from consignment.admin import admin_site
+        pa = PackageAdmin(Package, admin_site)
+        html = pa.tracking_link(self.pkg)
+        expected_url = f'/admin/packages/package/{self.pkg.pk}/change/'
+        self.assertIn(expected_url, str(html))
+
+    def test_location_btn_uses_reverse(self):
+        """location_btn in PackageAdmin returns correct absolute URL via reverse()."""
+        from packages.admin import PackageAdmin
+        from packages.models import Package
+        from consignment.admin import admin_site
+        pa = PackageAdmin(Package, admin_site)
+        html = pa.location_btn(self.pkg)
+        expected_url = f'/admin/packages/package/{self.pkg.pk}/update-location/'
+        self.assertIn(expected_url, str(html))
