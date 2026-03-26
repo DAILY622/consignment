@@ -10,3 +10,6 @@ python manage.py collectstatic --no-input
 
 # Run migrations
 python manage.py migrate
+
+# Seed sample data (creates demo accounts and packages if they don't exist)
+python manage.py seed_data

@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.db import IntegrityError
 from django.db.models import Count, Q, Case, When, IntegerField
 from django.core.paginator import Paginator
+from django.utils import timezone
+from datetime import timedelta
 import re
 from .models import Package, generate_tracking_number
 from tracking.models import TrackingHistory
@@ -79,7 +81,7 @@ def dashboard(request):
     active_packages = Package.objects.filter(
         sender=request.user,
         status__in=['pending', 'processing', 'in_transit', 'out_for_delivery']
-    ).values('tracking_number', 'status', 'receiver_city', 'receiver_postcode')
+    ).values('tracking_number', 'status', 'receiver_name', 'receiver_city', 'receiver_postcode')
     
     # Pagination
     paginator = Paginator(packages, 10)
@@ -129,6 +131,14 @@ def create_package(request):
         # Retry on tracking number collision (rare but possible with cryptographic generation)
         for _attempt in range(5):
             try:
+                # Estimate delivery in 3 working days (skip weekends)
+                estimated = timezone.now().date()
+                working_days = 0
+                while working_days < 3:
+                    estimated += timedelta(days=1)
+                    if estimated.weekday() < 5:  # Mon-Fri
+                        working_days += 1
+
                 package = Package.objects.create(
                     sender=request.user,
                     tracking_number=generate_tracking_number(),
@@ -147,6 +157,7 @@ def create_package(request):
                     width=request.POST.get('width') or None,
                     height=request.POST.get('height') or None,
                     description=request.POST.get('description', '').strip(),
+                    estimated_delivery=estimated,
                 )
                 break
             except IntegrityError:
@@ -190,17 +201,24 @@ def package_edit(request, package_id):
         return redirect('package_detail', package_id=package.id)
     
     if request.method == 'POST':
+        receiver_postcode = request.POST.get('receiver_postcode', '').strip().upper()
+
+        # UK postcode validation (consistent with create_package)
+        if receiver_postcode and not UK_POSTCODE_RE.match(receiver_postcode):
+            messages.error(request, 'Receiver Postcode does not appear to be a valid UK postcode')
+            return render(request, 'package_edit.html', {'package': package})
+
         package.receiver_name = request.POST.get('receiver_name', '').strip()
         package.receiver_phone = request.POST.get('receiver_phone', '').strip()
         package.receiver_address = request.POST.get('receiver_address', '').strip()
         package.receiver_city = request.POST.get('receiver_city', '').strip()
-        package.receiver_postcode = request.POST.get('receiver_postcode', '').strip().upper()
+        package.receiver_postcode = receiver_postcode
         package.description = request.POST.get('description', '').strip()
         package.save()
-        
+
         messages.success(request, 'Package details updated!')
         return redirect('package_detail', package_id=package.id)
-    
+
     return render(request, 'package_edit.html', {'package': package})
 
 

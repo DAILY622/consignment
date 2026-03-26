@@ -86,10 +86,25 @@ def profile(request):
         action = request.POST.get('action')
         
         if action == 'update_profile':
+            new_email = request.POST.get('email', '').strip()
+            new_phone = request.POST.get('phone', '').strip()
+
+            # Validate email format
+            try:
+                validate_email(new_email)
+            except ValidationError:
+                messages.error(request, 'Please enter a valid email address')
+                return redirect('profile')
+
+            # Validate UK phone format if provided
+            if new_phone and not UK_PHONE_RE.match(new_phone.replace(' ', '')):
+                messages.error(request, 'Please enter a valid UK phone number (e.g. 07700900000 or +447700900000)')
+                return redirect('profile')
+
             user.first_name = request.POST.get('first_name', '').strip()
             user.last_name = request.POST.get('last_name', '').strip()
-            user.email = request.POST.get('email', '').strip()
-            user.phone = request.POST.get('phone', '').strip()
+            user.email = new_email
+            user.phone = new_phone
             user.address = request.POST.get('address', '').strip()
             user.save()
             messages.success(request, 'Profile updated successfully!')
@@ -191,15 +206,3 @@ def faq(request):
 
 def careers(request):
     return render(request, 'careers.html')
-
-
-def password_reset_request(request):
-    if request.method == 'POST':
-        email = request.POST.get('email', '').strip()
-        if User.objects.filter(email=email).exists():
-            # In production, send actual email with reset link
-            messages.success(request, 'If an account exists with this email, you will receive a reset link.')
-        else:
-            messages.success(request, 'If an account exists with this email, you will receive a reset link.')
-        return redirect('password_reset_done')
-    return render(request, 'registration/password_reset.html')
