@@ -7,14 +7,40 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from datetime import timedelta
 import re
-from .models import Package, generate_tracking_number
+from .models import Package, generate_tracking_number, GLOBAL_CITY_COORDS
 from tracking.models import TrackingHistory
 
-# UK postcode regex
-UK_POSTCODE_RE = re.compile(
-    r'^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$',
-    re.IGNORECASE
-)
+# Global postal code patterns by country (supports international shipping)
+POSTAL_PATTERNS = {
+    'United Kingdom': r'^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$',
+    'Norway': r'^\d{4}$',
+    'Pakistan': r'^\d{5}$',
+    'United States': r'^\d{5}(-\d{4})?$',
+    'Canada': r'^[A-Z]\d[A-Z]\s?\d[A-Z]\d$',
+    'Germany': r'^\d{5}$',
+    'France': r'^\d{5}$',
+    'Australia': r'^\d{4}$',
+    'India': r'^\d{6}$',
+    'Japan': r'^\d{3}-?\d{4}$',
+    'China': r'^\d{6}$',
+    'Brazil': r'^\d{5}-?\d{3}$',
+    'Netherlands': r'^\d{4}\s?[A-Z]{2}$',
+    'Italy': r'^\d{5}$',
+    'Spain': r'^\d{5}$',
+    'UAE': r'^.*$',  # UAE doesn't have standard postal codes
+    'Singapore': r'^\d{6}$',
+}
+
+
+def validate_postal_code(postcode, country):
+    """Validate postal code based on country. Returns True if valid or country not in pattern list."""
+    if not postcode:
+        return False
+    pattern = POSTAL_PATTERNS.get(country)
+    if not pattern:
+        # Accept any format for countries not in the list
+        return len(postcode.strip()) >= 2
+    return bool(re.match(pattern, postcode.strip().upper(), re.IGNORECASE))
 
 
 def home(request):
@@ -28,6 +54,7 @@ def home(request):
 
 
 def track(request):
+    """Public tracking view - shows status and location only (no PII)"""
     query = request.GET.get('q', '').strip()
     package = None
     tracking_history = []
@@ -39,11 +66,28 @@ def track(request):
             tracking_history = package.tracking_history.all()
             latest_location = tracking_history.filter(latitude__isnull=False).first()
     
+    # Build safe package data (no PII exposed)
+    safe_package = None
+    if package:
+        safe_package = {
+            'tracking_number': package.tracking_number,
+            'status': package.status,
+            'status_display': package.get_status_display(),
+            'sender_city': package.sender_city,
+            'sender_country': package.sender_country,
+            'receiver_city': package.receiver_city,
+            'receiver_country': package.receiver_country,
+            'estimated_delivery': package.estimated_delivery,
+            'created_at': package.created_at,
+        }
+    
     return render(request, 'track.html', {
         'query': query,
-        'package': package,
+        'package': package,  # Full package for authenticated owner only
+        'safe_package': safe_package,  # Safe data for public display
         'tracking_history': tracking_history,
         'latest_location': latest_location,
+        'city_coords': GLOBAL_CITY_COORDS,  # Pass global coords to template
     })
 
 
@@ -102,8 +146,8 @@ def create_package(request):
     if request.method == 'POST':
         # Validation
         required_fields = ['sender_name', 'sender_address', 'sender_phone', 'sender_city', 
-                          'sender_postcode', 'receiver_name', 'receiver_address', 
-                          'receiver_phone', 'receiver_city', 'receiver_postcode', 'weight']
+                          'sender_country', 'sender_postcode', 'receiver_name', 'receiver_address', 
+                          'receiver_phone', 'receiver_city', 'receiver_country', 'receiver_postcode', 'weight']
         
         errors = []
         for field in required_fields:
@@ -117,24 +161,33 @@ def create_package(request):
         except ValueError:
             errors.append('Invalid weight value')
 
-        # UK postcode validation (#16)
-        for postcode_field in ('sender_postcode', 'receiver_postcode'):
-            val = request.POST.get(postcode_field, '').strip().upper()
-            if val and not UK_POSTCODE_RE.match(val):
-                label = postcode_field.replace('_', ' ').title()
-                errors.append(f'{label} does not appear to be a valid UK postcode')
+        # Global postal code validation
+        sender_country = request.POST.get('sender_country', '').strip()
+        receiver_country = request.POST.get('receiver_country', '').strip()
+        
+        sender_postcode = request.POST.get('sender_postcode', '').strip().upper()
+        if sender_postcode and not validate_postal_code(sender_postcode, sender_country):
+            errors.append(f'Sender Postcode does not appear valid for {sender_country}')
+        
+        receiver_postcode = request.POST.get('receiver_postcode', '').strip().upper()
+        if receiver_postcode and not validate_postal_code(receiver_postcode, receiver_country):
+            errors.append(f'Receiver Postcode does not appear valid for {receiver_country}')
         
         if errors:
             messages.error(request, ' | '.join(errors))
             return render(request, 'create_package.html')
         
+        # Calculate delivery estimate based on international/domestic
+        is_international = sender_country != receiver_country
+        delivery_days = 7 if is_international else 3  # 7 days international, 3 days domestic
+        
         # Retry on tracking number collision (rare but possible with cryptographic generation)
         for _attempt in range(5):
             try:
-                # Estimate delivery in 3 working days (skip weekends)
+                # Estimate delivery (skip weekends)
                 estimated = timezone.now().date()
                 working_days = 0
-                while working_days < 3:
+                while working_days < delivery_days:
                     estimated += timedelta(days=1)
                     if estimated.weekday() < 5:  # Mon-Fri
                         working_days += 1
@@ -146,12 +199,14 @@ def create_package(request):
                     sender_address=request.POST.get('sender_address').strip(),
                     sender_phone=request.POST.get('sender_phone').strip(),
                     sender_city=request.POST.get('sender_city').strip(),
-                    sender_postcode=request.POST.get('sender_postcode').strip().upper(),
+                    sender_country=sender_country,
+                    sender_postcode=sender_postcode,
                     receiver_name=request.POST.get('receiver_name').strip(),
                     receiver_address=request.POST.get('receiver_address').strip(),
                     receiver_phone=request.POST.get('receiver_phone').strip(),
                     receiver_city=request.POST.get('receiver_city').strip(),
-                    receiver_postcode=request.POST.get('receiver_postcode').strip().upper(),
+                    receiver_country=receiver_country,
+                    receiver_postcode=receiver_postcode,
                     weight=weight,
                     length=request.POST.get('length') or None,
                     width=request.POST.get('width') or None,
