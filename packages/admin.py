@@ -38,11 +38,11 @@ class PackageAdmin(admin.ModelAdmin):
             'classes': ('wide',),
         }),
         ('📤 Sender Information', {
-            'fields': ('sender', 'sender_name', 'sender_phone', ('sender_address', 'sender_city', 'sender_postcode')),
+            'fields': ('sender', 'sender_name', 'sender_phone', 'sender_address', ('sender_city', 'sender_country', 'sender_postcode')),
             'classes': ('wide',),
         }),
         ('📥 Receiver Information', {
-            'fields': ('receiver_name', 'receiver_phone', ('receiver_address', 'receiver_city', 'receiver_postcode')),
+            'fields': ('receiver_name', 'receiver_phone', 'receiver_address', ('receiver_city', 'receiver_country', 'receiver_postcode')),
             'classes': ('wide',),
         }),
         ('📐 Package Dimensions', {
