@@ -79,7 +79,7 @@ class PublicPageTests(TestCase):
     def test_register(self):   self._get_200('register')
 
     def test_track_with_query(self):
-        url = reverse('track') + '?q=ECG-NOTFOUND'
+        url = reverse('track') + '?q=DFX-NOTFOUND'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -159,7 +159,7 @@ class CreatePackageTests(TestCase):
         self.client.post(self.url, self.valid_data)
         from packages.models import Package
         pkg = Package.objects.filter(sender=self.user).first()
-        self.assertTrue(pkg.tracking_number.startswith('ECG-'))
+        self.assertTrue(pkg.tracking_number.startswith('DFX-'))
 
     def test_create_package_sets_estimated_delivery(self):
         self.client.post(self.url, self.valid_data)

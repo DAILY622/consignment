@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="E-Cognite Logistics - Fast, reliable parcel delivery across the UK. Track your packages in real-time with GPS tracking.">
+    <meta name="description" content="DailyFX Delivery Logistics - Fast, reliable parcel delivery across the UK. Track your packages in real-time with GPS tracking.">
     <meta name="keywords" content="delivery, logistics, parcel tracking, UK delivery, same day delivery, courier service">
-    <meta name="author" content="E-Cognite Logistics">
-    <title>{% block title %}E-Cognite Delivery{% endblock %}</title>
+    <meta name="author" content="DailyFX Delivery Logistics">
+    <title>{% block title %}DailyFX Delivery{% endblock %}</title>
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
     <link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}">
@@ -70,8 +70,8 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <a href="{% url 'home' %}" class="text-2xl font-bold flex items-center gap-2">
-                    <img src="{% static 'images/logo-icon.svg' %}" alt="E-Cognite Logo" class="w-10 h-10">
-                    <span>E-Cognite</span>
+                    <img src="{% static 'images/logo-icon.svg' %}" alt="DailyFX Delivery Logo" class="w-10 h-10">
+                    <span>DailyFX Delivery</span>
                 </a>
                 
                 <!-- Desktop Navigation -->
@@ -95,11 +95,6 @@
                         {% if user.role == 'driver' %}
                             <a href="{% url 'driver_portal' %}" class="hover:text-primary-200 transition flex items-center gap-1">
                                 <img src="{% static 'icons/icons8-fluency-24-driver.svg' %}" alt="" class="w-5 h-5">Deliveries
-                            </a>
-                        {% endif %}
-                        {% if user.is_superuser %}
-                            <a href="{% url 'admin:index' %}" class="hover:text-primary-200 transition flex items-center gap-1">
-                                <img src="{% static 'icons/icons8-fluency-24-settings.svg' %}" alt="" class="w-5 h-5">Admin
                             </a>
                         {% endif %}
                         <div class="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
@@ -165,21 +160,21 @@
             <div class="grid md:grid-cols-5 gap-8 mb-8">
                 <div class="md:col-span-2">
                     <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                        <img src="{% static 'images/logo-icon.svg' %}" alt="E-Cognite Logo" class="w-10 h-10">
-                        E-Cognite
+                        <img src="{% static 'images/logo-icon.svg' %}" alt="DailyFX Delivery Logo" class="w-10 h-10">
+                        DailyFX Delivery
                     </h3>
                     <p class="text-gray-400 text-sm mb-4">Fast, reliable parcel delivery across the UK with real-time GPS tracking. Trusted by thousands of businesses and individuals.</p>
                     <div class="flex gap-3">
-                        <a href="https://facebook.com/ecognitedelivery" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition" aria-label="Facebook">
+                        <a href="https://facebook.com/dailyfxdeliverydelivery" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition" aria-label="Facebook">
                             <img src="{% static 'icons/icons8-fluency-24-facebook-new.svg' %}" alt="Facebook" class="w-5 h-5">
                         </a>
-                        <a href="https://twitter.com/ecognite" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition" aria-label="Twitter">
+                        <a href="https://twitter.com/dailyfxdelivery" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition" aria-label="Twitter">
                             <img src="{% static 'icons/icons8-fluency-24-twitter.svg' %}" alt="Twitter" class="w-5 h-5">
                         </a>
-                        <a href="https://instagram.com/ecognitedelivery" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition" aria-label="Instagram">
+                        <a href="https://instagram.com/dailyfxdeliverydelivery" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition" aria-label="Instagram">
                             <img src="{% static 'icons/icons8-fluency-24-instagram-new.svg' %}" alt="Instagram" class="w-5 h-5">
                         </a>
-                        <a href="https://linkedin.com/company/ecognite" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition" aria-label="LinkedIn">
+                        <a href="https://linkedin.com/company/dailyfxdelivery" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition" aria-label="LinkedIn">
                             <img src="{% static 'icons/icons8-fluency-24-linkedin.svg' %}" alt="LinkedIn" class="w-5 h-5">
                         </a>
                     </div>
@@ -215,7 +210,7 @@
                     <ul class="space-y-3 text-gray-400 text-sm">
                         <li class="flex items-center gap-2">
                             <img src="{% static 'icons/icons8-fluency-24-email.svg' %}" alt="" class="w-5 h-5">
-                            support@ecognite.co.uk
+                            support@dailyfxdelivery.co.uk
                         </li>
                         <li class="flex items-center gap-2">
                             <img src="{% static 'icons/icons8-fluency-24-phone.svg' %}" alt="" class="w-5 h-5">
@@ -236,7 +231,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm">&copy; 2024 E-Cognite Delivery Services. All rights reserved.</p>
+                <p class="text-gray-400 text-sm">&copy; 2024 DailyFX Delivery Services. All rights reserved.</p>
                 <div class="flex gap-6 mt-4 md:mt-0 text-gray-400 text-sm">
                     <a href="{% url 'privacy' %}" class="hover:text-white transition">Privacy</a>
                     <a href="{% url 'terms' %}" class="hover:text-white transition">Terms</a>

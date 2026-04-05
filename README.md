@@ -1,4 +1,4 @@
-# 🚚 E-Cognite - Consignment & Delivery Tracking System
+# 🚚 DailyFX Delivery - Consignment & Delivery Tracking System
 
 A full-featured UK parcel delivery and tracking platform built with Django and its built-in admin panel.
 

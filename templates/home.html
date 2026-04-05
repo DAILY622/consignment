@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}E-Cognite - UK Parcel Delivery & Tracking{% endblock %}
+{% block title %}DailyFX Delivery - UK Parcel Delivery & Tracking{% endblock %}
 
 {% block extra_head %}
 <style>
     .hero-bg {
-        background: linear-gradient(135deg, rgba(79, 70, 229, 0.95) 0%, rgba(124, 58, 237, 0.95) 100%),
-                    url('{% static 'images/photo-1586528116311-ad8dd3c8310d-w1920.svg' %}') center/cover;
+        background: linear-gradient(135deg, rgba(249, 115, 22, 0.95) 0%, rgba(234, 88, 12, 0.95) 100%),
+                    url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80') center/cover;
     }
     .testimonial-slider { animation: slide 20s infinite; }
     @keyframes slide { 0%, 30% { transform: translateX(0); } 35%, 65% { transform: translateX(-100%); } 70%, 100% { transform: translateX(-200%); } }
@@ -17,50 +17,63 @@
     .animate-scroll { display: flex; animation: scroll 20s linear infinite; }
     .animate-scroll:hover { animation-play-state: paused; }
     @keyframes progress { 0% { width: 60%; } 100% { width: 70%; } }
+    /* Popup Review Styles */
+    .popup-review {
+        animation: slideInUp 0.5s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+    }
+    @keyframes slideInUp {
+        from { transform: translateY(100px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+        to { opacity: 0; transform: translateY(-20px); }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
+<!-- Floating Popup Reviews -->
+<div id="popup-reviews" class="fixed bottom-4 left-4 z-50"></div>
+
 <!-- Hero Section with Real Background -->
 <div class="hero-bg rounded-2xl text-white p-12 mb-12 relative overflow-hidden min-h-[500px] flex items-center">
-    <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/80 to-purple-900/60"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-orange-900/80 to-amber-900/60"></div>
     <div class="grid md:grid-cols-2 gap-8 items-center relative z-10 w-full">
         <div>
             <span class="bg-white/20 backdrop-blur text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2">
-                <img src="{% static 'icons/icons8-color-24-trophy.svg' %}" alt="Trophy" class="w-5 h-5">
-                #1 Rated UK Delivery Service
+                🏆 #1 Rated UK Delivery Service
             </span>
             <h1 class="text-5xl font-bold mb-4 leading-tight">Fast, Reliable Parcel Delivery Across the UK</h1>
-            <p class="text-xl text-indigo-100 mb-8">Track your packages in real-time with GPS. Same-day, next-day, and standard delivery options available.</p>
+            <p class="text-xl text-orange-100 mb-8">Track your packages in real-time with GPS. Same-day, next-day, and standard delivery options available.</p>
             <div class="flex flex-wrap gap-4">
-                <a href="{% url 'track' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition shadow-lg flex items-center gap-2">
-                    <img src="{% static 'icons/icons8-color-24-marker.svg' %}" alt="Track" class="w-5 h-5"> Track Package
+                <a href="{% url 'track' %}" class="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-100 transition shadow-lg flex items-center gap-2">
+                    📍 Track Package
                 </a>
                 {% if not user.is_authenticated %}
-                    <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">Get Started Free</a>
+                    <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition">Get Started Free</a>
                 {% else %}
-                    <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">+ Send Package</a>
+                    <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition">+ Send Package</a>
                 {% endif %}
-                <a href="#quote" class="bg-indigo-500 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-400 transition flex items-center gap-2">
-                    <img src="{% static 'icons/icons8-color-24-british-pound.svg' %}" alt="Quote" class="w-5 h-5"> Get a Quote
+                <a href="#quote" class="bg-orange-500 px-8 py-3 rounded-lg font-semibold hover:bg-orange-400 transition flex items-center gap-2">
+                    💷 Get a Quote
                 </a>
             </div>
-            <!-- Trust Indicators -->
+            <!-- Trust Indicators with Real Photos -->
             <div class="flex items-center gap-6 mt-8 pt-6 border-t border-white/20">
                 <div class="flex -space-x-3">
-                    <img src="{% static 'images/photo-1507003211169-0a1dd7228f2d-w40-h40.svg' %}" class="w-10 h-10 rounded-full border-2 border-white" alt="Customer">
-                    <img src="{% static 'images/photo-1494790108377-be9c29b29330-w40-h40.svg' %}" class="w-10 h-10 rounded-full border-2 border-white" alt="Customer">
-                    <img src="{% static 'images/photo-1500648767791-00dcc994a43e-w40-h40.svg' %}" class="w-10 h-10 rounded-full border-2 border-white" alt="Customer">
-                    <img src="{% static 'images/photo-1438761681033-6461ffad8d80-w40-h40.svg' %}" class="w-10 h-10 rounded-full border-2 border-white" alt="Customer">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="Customer">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="Customer">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="Customer">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="Customer">
                 </div>
                 <div>
                     <div class="flex text-yellow-400 text-sm">★★★★★</div>
-                    <p class="text-sm text-indigo-200">Trusted by 50,000+ customers</p>
+                    <p class="text-sm text-orange-200">Trusted by 50,000+ customers</p>
                 </div>
             </div>
         </div>
         <div class="hidden md:block">
-            <img src="{% static 'images/photo-1616432043562-3671ea2e5242-w600.svg' %}" alt="Delivery Driver" class="rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+            <img src="https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=600&h=500&fit=crop" alt="Delivery Driver" class="rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500 object-cover">
         </div>
     </div>
 </div>
@@ -69,7 +82,7 @@
 <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 mb-12 border border-primary-100">
     <h2 class="text-2xl font-bold text-primary-800 mb-4">🔍 Quick Track</h2>
     <form action="{% url 'track' %}" method="GET" class="flex flex-col md:flex-row gap-4">
-        <input type="text" name="q" placeholder="Enter tracking number (e.g., ECG-XXXXXXXX)" 
+        <input type="text" name="q" placeholder="Enter tracking number (e.g., DFX-XXXXXXXX)" 
                class="flex-1 px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white">
         <button type="submit" class="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition">
             Track Now
@@ -338,14 +351,14 @@
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-gray-100 relative">
             <div class="absolute -top-4 left-6 text-5xl text-indigo-200">"</div>
             <div class="flex items-center mb-4 relative z-10">
-                <img src="{% static 'images/photo-1472099645785-5658abf4ff4e-w80-h80.svg' %}" alt="James Davidson" class="w-14 h-14 rounded-full border-4 border-indigo-100 mr-4">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="James Davidson" class="w-14 h-14 rounded-full border-4 border-indigo-100 mr-4 object-cover">
                 <div>
                     <p class="font-semibold text-gray-800">James Davidson</p>
                     <p class="text-sm text-gray-500">E-commerce Owner, London</p>
                 </div>
             </div>
             <div class="flex text-yellow-400 mb-3">★★★★★</div>
-            <p class="text-gray-600">"E-Cognite has transformed our shipping. Real-time tracking keeps our customers happy, and the same-day option is a game-changer for urgent orders."</p>
+            <p class="text-gray-600">"DailyFX Delivery has transformed our shipping. Real-time tracking keeps our customers happy, and the same-day option is a game-changer for urgent orders."</p>
             <div class="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
                 <img src="{% static 'icons/icons8-color-24-verified-badge.svg' %}" alt="Verified" class="w-5 h-5">
                 <span class="text-sm text-gray-500">Verified Customer</span>
@@ -354,7 +367,7 @@
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-gray-100 relative">
             <div class="absolute -top-4 left-6 text-5xl text-indigo-200">"</div>
             <div class="flex items-center mb-4 relative z-10">
-                <img src="{% static 'images/photo-1573497019940-1c28c88b4f3e-w80-h80.svg' %}" alt="Sarah Patel" class="w-14 h-14 rounded-full border-4 border-green-100 mr-4">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&crop=face" alt="Sarah Patel" class="w-14 h-14 rounded-full border-4 border-green-100 mr-4 object-cover">
                 <div>
                     <p class="font-semibold text-gray-800">Sarah Patel</p>
                     <p class="text-sm text-gray-500">Small Business Owner, Manchester</p>
@@ -370,14 +383,14 @@
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition border border-gray-100 relative">
             <div class="absolute -top-4 left-6 text-5xl text-indigo-200">"</div>
             <div class="flex items-center mb-4 relative z-10">
-                <img src="{% static 'images/photo-1560250097-0b93528c311a-w80-h80.svg' %}" alt="Michael Thompson" class="w-14 h-14 rounded-full border-4 border-purple-100 mr-4">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Michael Thompson" class="w-14 h-14 rounded-full border-4 border-purple-100 mr-4 object-cover">
                 <div>
                     <p class="font-semibold text-gray-800">Michael Thompson</p>
                     <p class="text-sm text-gray-500">Regular Customer, Edinburgh</p>
                 </div>
             </div>
             <div class="flex text-yellow-400 mb-3">★★★★★</div>
-            <p class="text-gray-600">"I ship parcels to my family across the UK regularly. E-Cognite's prices are fair and their express service always delivers on time. Excellent!"</p>
+            <p class="text-gray-600">"I ship parcels to my family across the UK regularly. DailyFX Delivery's prices are fair and their express service always delivers on time. Excellent!"</p>
             <div class="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
                 <img src="{% static 'icons/icons8-color-24-verified-badge.svg' %}" alt="Verified" class="w-5 h-5">
                 <span class="text-sm text-gray-500">Verified Customer</span>
@@ -396,7 +409,7 @@
                 <img src="{% static 'icons/icons8-color-24-business.svg' %}" alt="Business" class="w-5 h-5"> FOR BUSINESS
             </span>
             <h2 class="text-3xl font-bold mb-4">Corporate & Business Solutions</h2>
-            <p class="text-gray-300 mb-6">Partner with E-Cognite for your business shipping needs. Volume discounts, dedicated account managers, API integration, and priority support.</p>
+            <p class="text-gray-300 mb-6">Partner with DailyFX Delivery for your business shipping needs. Volume discounts, dedicated account managers, API integration, and priority support.</p>
             <ul class="space-y-3 mb-6">
                 <li class="flex items-center"><img src="{% static 'icons/icons8-color-24-checkmark--v1.svg' %}" class="w-5 h-5 mr-2"> Volume discounts up to 40%</li>
                 <li class="flex items-center"><img src="{% static 'icons/icons8-color-24-checkmark--v1.svg' %}" class="w-5 h-5 mr-2"> Dedicated account manager</li>
@@ -404,7 +417,7 @@
                 <li class="flex items-center"><img src="{% static 'icons/icons8-color-24-checkmark--v1.svg' %}" class="w-5 h-5 mr-2"> Custom invoicing & reporting</li>
                 <li class="flex items-center"><img src="{% static 'icons/icons8-color-24-checkmark--v1.svg' %}" class="w-5 h-5 mr-2"> Priority customer support</li>
             </ul>
-            <a href="mailto:business@ecognite.co.uk" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+            <a href="mailto:business@dailyfxdelivery.co.uk" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
                 <img src="{% static 'icons/icons8-color-24-email.svg' %}" class="w-5 h-5"> Contact Sales Team
             </a>
         </div>
@@ -491,14 +504,14 @@
                 </li>
             </ul>
             <div class="flex gap-4">
-                <a href="https://apps.apple.com/app/e-cognite-delivery" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition">
+                <a href="https://apps.apple.com/app/DailyFX Delivery-delivery" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition">
                     <img src="{% static 'icons/icons8-ios-filled-24-ffffff-mac-os.svg' %}" class="w-6 h-6">
                     <div class="text-left">
                         <div class="text-xs opacity-80">Download on the</div>
                         <div class="font-semibold">App Store</div>
                     </div>
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=com.ecognite.delivery" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition">
+                <a href="https://play.google.com/store/apps/details?id=com.dailyfxdelivery.delivery" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition">
                     <img src="{% static 'icons/icons8-color-24-google-play.svg' %}" class="w-6 h-6">
                     <div class="text-left">
                         <div class="text-xs opacity-80">Get it on</div>
@@ -527,7 +540,7 @@
 <!-- How We Compare Section -->
 <div class="mb-16">
     <div class="text-center mb-10">
-        <h2 class="text-3xl font-bold text-gray-800 mb-2">Why Choose E-Cognite?</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Why Choose DailyFX Delivery?</h2>
         <p class="text-gray-600">See how we compare to traditional delivery services</p>
     </div>
     <div class="overflow-x-auto">
@@ -535,7 +548,7 @@
             <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
                 <tr>
                     <th class="px-6 py-4 text-left">Feature</th>
-                    <th class="px-6 py-4 text-center">E-Cognite</th>
+                    <th class="px-6 py-4 text-center">DailyFX Delivery</th>
                     <th class="px-6 py-4 text-center">Traditional Couriers</th>
                     <th class="px-6 py-4 text-center">Royal Mail</th>
                 </tr>
@@ -767,7 +780,7 @@
                 <span class="text-primary-600 transform transition-transform">▼</span>
             </button>
             <div class="px-6 pb-4 hidden faq-content">
-                <p class="text-primary-700">Simply enter your tracking number (e.g., ECG-XXXXXXXX) in the tracking box on our homepage or tracking page. You'll see real-time updates including GPS location, status changes, and estimated delivery time.</p>
+                <p class="text-primary-700">Simply enter your tracking number (e.g., DFX-XXXXXXXX) in the tracking box on our homepage or tracking page. You'll see real-time updates including GPS location, status changes, and estimated delivery time.</p>
             </div>
         </div>
         <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow border border-primary-100">
@@ -830,7 +843,7 @@
 <!-- Final CTA -->
 <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 md:p-12 text-white text-center mb-8">
     <h2 class="text-3xl font-bold mb-4">Ready to Ship?</h2>
-    <p class="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">Join thousands of happy customers. Send your first parcel today and experience the E-Cognite difference.</p>
+    <p class="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">Join thousands of happy customers. Send your first parcel today and experience the DailyFX Delivery difference.</p>
     <div class="flex flex-wrap justify-center gap-4">
         {% if not user.is_authenticated %}
             <a href="{% url 'register' %}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-100 transition shadow-lg">Create Free Account</a>
@@ -889,9 +902,56 @@ function calculateQuote() {
     // Display result
     document.getElementById('quote-result').innerHTML = `
         <p class="text-sm text-gray-500">Estimated Price</p>
-        <p class="text-3xl font-bold text-indigo-600">£${total.toFixed(2)}</p>
+        <p class="text-3xl font-bold text-orange-600">£${total.toFixed(2)}</p>
         <p class="text-xs text-gray-400">${weight}kg via ${service}</p>
     `;
 }
+
+// Popup Review System
+const reviews = [
+    { name: 'Emma Wilson', location: 'London', rating: 5, text: 'Package arrived same day! Amazing service.', img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=60&h=60&fit=crop&crop=face', time: '2 minutes ago' },
+    { name: 'David Chen', location: 'Manchester', rating: 5, text: 'Best tracking system I\'ve ever used.', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face', time: '5 minutes ago' },
+    { name: 'Sophie Taylor', location: 'Birmingham', rating: 5, text: 'My business relies on DailyFX. Never late!', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face', time: '8 minutes ago' },
+    { name: 'James Brown', location: 'Leeds', rating: 5, text: 'Driver was so professional and friendly.', img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face', time: '12 minutes ago' },
+    { name: 'Priya Sharma', location: 'Glasgow', rating: 5, text: 'GPS tracking is incredibly accurate!', img: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=60&h=60&fit=crop&crop=face', time: '15 minutes ago' },
+    { name: 'Tom Richards', location: 'Edinburgh', rating: 5, text: 'Switched from Royal Mail. Much better!', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&crop=face', time: '18 minutes ago' }
+];
+
+let currentReview = 0;
+function showPopupReview() {
+    const container = document.getElementById('popup-reviews');
+    const review = reviews[currentReview];
+    
+    const popup = document.createElement('div');
+    popup.className = 'popup-review bg-white rounded-xl shadow-2xl p-4 max-w-sm border border-gray-100';
+    popup.innerHTML = `
+        <div class="flex items-start gap-3">
+            <img src="${review.img}" alt="${review.name}" class="w-12 h-12 rounded-full object-cover border-2 border-orange-100">
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="font-semibold text-gray-800">${review.name}</span>
+                    <span class="text-xs text-gray-400">${review.location}</span>
+                </div>
+                <div class="text-yellow-400 text-sm mb-1">${'★'.repeat(review.rating)}</div>
+                <p class="text-gray-600 text-sm">"${review.text}"</p>
+                <p class="text-xs text-gray-400 mt-1">✓ Verified • ${review.time}</p>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">✕</button>
+        </div>
+    `;
+    
+    container.appendChild(popup);
+    
+    // Remove after animation
+    setTimeout(() => {
+        if (popup.parentElement) popup.remove();
+    }, 5000);
+    
+    currentReview = (currentReview + 1) % reviews.length;
+}
+
+// Show first popup after 3 seconds, then every 8 seconds
+setTimeout(showPopupReview, 3000);
+setInterval(showPopupReview, 8000);
 </script>
 {% endblock %}

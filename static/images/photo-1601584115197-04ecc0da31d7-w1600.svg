@@ -15,7 +15,7 @@
     <rect x="-60" y="30" width="80" height="120" fill="#6366f1" rx="4"/>
     <circle cx="60" cy="170" r="30" fill="#1f2937"/>
     <circle cx="240" cy="170" r="30" fill="#1f2937"/>
-    <text x="150" y="90" font-family="Arial" font-size="20" fill="white" text-anchor="middle" font-weight="bold">E-COGNITE</text>
+    <text x="150" y="90" font-family="Arial" font-size="20" fill="white" text-anchor="middle" font-weight="bold">DailyFX Delivery</text>
   </g>
   <g transform="translate(500,380)">
     <rect x="0" y="0" width="250" height="120" fill="#4f46e5" rx="8"/>
@@ -28,7 +28,7 @@
     <rect x="-70" y="40" width="90" height="140" fill="#6366f1" rx="4"/>
     <circle cx="80" cy="200" r="35" fill="#1f2937"/>
     <circle cx="280" cy="200" r="35" fill="#1f2937"/>
-    <text x="175" y="110" font-family="Arial" font-size="24" fill="white" text-anchor="middle" font-weight="bold">E-COGNITE</text>
+    <text x="175" y="110" font-family="Arial" font-size="24" fill="white" text-anchor="middle" font-weight="bold">DailyFX Delivery</text>
   </g>
   <!-- Mountains -->
   <polygon points="1200,550 1350,300 1500,550" fill="#1e3a8a"/>

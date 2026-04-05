@@ -26,8 +26,8 @@
   <circle cx="1280" cy="720" r="25" fill="#6b7280"/>
   <circle cx="1520" cy="720" r="40" fill="#374151"/>
   <circle cx="1520" cy="720" r="25" fill="#6b7280"/>
-  <!-- E-Cognite Logo on truck -->
-  <text x="1400" y="620" font-family="Arial,sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">E-COGNITE</text>
+  <!-- DailyFX Delivery Logo on truck -->
+  <text x="1400" y="620" font-family="Arial,sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">DailyFX Delivery</text>
   <!-- Stars -->
   <circle cx="100" cy="100" r="2" fill="white"/>
   <circle cx="300" cy="150" r="2" fill="white"/>

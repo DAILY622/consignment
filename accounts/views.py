@@ -163,7 +163,7 @@ def contact(request):
             f'Tracking Number: {tracking_number or "N/A"}\n\n'
             f'Message:\n{message}'
         )
-        recipient = getattr(settings, 'CONTACT_EMAIL', 'support@e-cognite.com')
+        recipient = getattr(settings, 'CONTACT_EMAIL', 'support@dailyfx.com')
         try:
             send_mail(
                 full_subject,

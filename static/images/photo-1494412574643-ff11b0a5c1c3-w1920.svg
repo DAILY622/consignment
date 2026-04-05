@@ -20,7 +20,7 @@
   <rect x="680" y="550" width="120" height="80" fill="#4f46e5" rx="4"/>
   <!-- Sign -->
   <rect x="1300" y="400" width="300" height="100" fill="#4f46e5" rx="8"/>
-  <text x="1450" y="465" font-family="Arial" font-size="36" fill="white" text-anchor="middle" font-weight="bold">E-COGNITE</text>
+  <text x="1450" y="465" font-family="Arial" font-size="36" fill="white" text-anchor="middle" font-weight="bold">DailyFX Delivery</text>
   <!-- Sun -->
   <circle cx="1700" cy="150" r="80" fill="#fbbf24"/>
 </svg>

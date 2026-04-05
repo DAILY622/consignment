@@ -17,7 +17,7 @@
   <!-- Driver -->
   <circle cx="300" cy="180" r="50" fill="#fcd34d"/>
   <rect x="260" y="230" width="80" height="100" fill="#4f46e5" rx="8"/>
-  <text x="300" y="370" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">E-COGNITE</text>
+  <text x="300" y="370" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">DailyFX Delivery</text>
   <!-- Package -->
   <rect x="450" y="350" width="80" height="80" fill="#fbbf24" rx="8"/>
   <rect x="460" y="360" width="60" height="10" fill="#f59e0b"/>

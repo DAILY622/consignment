@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Track Package - E-Cognite{% endblock %}
+{% block title %}Track Package - DailyFX Delivery{% endblock %}
 
 {% block extra_head %}
 <style>
@@ -29,7 +29,7 @@
     <!-- Search Form -->
     <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
         <form method="GET" class="flex gap-4">
-            <input type="text" name="q" value="{{ query }}" placeholder="Enter tracking number (e.g., ECG-XXXXXXXX)" 
+            <input type="text" name="q" value="{{ query }}" placeholder="Enter tracking number (e.g., DFX-XXXXXXXX)" 
                    class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
             <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700">
                 Track

@@ -6,10 +6,10 @@ import string
 
 
 def generate_tracking_number():
-    """Generate unique tracking number like ECG-XXXXXXXX using cryptographic randomness."""
+    """Generate unique tracking number like DFX-XXXXXXXX using cryptographic randomness."""
     alphabet = string.ascii_uppercase + string.digits
     chars = ''.join(secrets.choice(alphabet) for _ in range(8))
-    return f"ECG-{chars}"
+    return f"DFX-{chars}"
 
 
 # Global city coordinates for international shipping

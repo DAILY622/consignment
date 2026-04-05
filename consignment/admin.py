@@ -3,8 +3,8 @@ from django.utils import timezone
 
 
 class ConsignmentAdminSite(admin.AdminSite):
-    site_header = '🚚 E-Cognite Logistics'
-    site_title = 'E-Cognite Delivery'
+    site_header = '🚚 DailyFX Delivery Logistics'
+    site_title = 'DailyFX Delivery Delivery'
     index_title = 'Dashboard'
     
     def index(self, request, extra_context=None):

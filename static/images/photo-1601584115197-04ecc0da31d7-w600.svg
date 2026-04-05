@@ -12,7 +12,7 @@
   <rect x="50" y="200" width="60" height="80" fill="#6366f1" rx="4"/>
   <circle cx="150" cy="290" r="20" fill="#1f2937"/>
   <circle cx="260" cy="290" r="20" fill="#1f2937"/>
-  <text x="200" y="240" font-family="Arial" font-size="16" fill="white" text-anchor="middle" font-weight="bold">E-COGNITE</text>
+  <text x="200" y="240" font-family="Arial" font-size="16" fill="white" text-anchor="middle" font-weight="bold">DailyFX Delivery</text>
   <rect x="350" y="200" width="150" height="80" fill="#4f46e5" rx="6"/>
   <rect x="310" y="215" width="50" height="65" fill="#6366f1" rx="4"/>
   <circle cx="390" cy="290" r="18" fill="#1f2937"/>

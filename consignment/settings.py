@@ -67,16 +67,16 @@ INSTALLED_APPS = [
 # Jazzmin Admin Theme Configuration
 JAZZMIN_SETTINGS = {
     # Title & Branding
-    "site_title": "E-Cognite Logistics",
-    "site_header": "E-Cognite",
-    "site_brand": "E-Cognite",
+    "site_title": "DailyFX Delivery Logistics",
+    "site_header": "DailyFX Delivery",
+    "site_brand": "DailyFX Delivery",
     "site_logo": "images/logo.svg",
     "login_logo": "images/logo.svg",
     "login_logo_dark": "images/logo.svg",
     "site_logo_classes": "",
     "site_icon": "images/logo-icon.svg",
-    "welcome_sign": "Welcome to E-Cognite Logistics Portal",
-    "copyright": "E-Cognite Logistics Ltd",
+    "welcome_sign": "Welcome to DailyFX Delivery Logistics Portal",
+    "copyright": "DailyFX Delivery Logistics Ltd",
     "user_avatar": None,
     
     # Search
@@ -288,8 +288,8 @@ EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@e-cognite.com')
-CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'support@e-cognite.com')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@DailyFX Delivery.com')
+CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'support@DailyFX Delivery.com')
 
 # Logging configuration
 LOGGING = {

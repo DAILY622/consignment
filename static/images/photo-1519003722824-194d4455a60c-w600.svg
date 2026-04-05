@@ -8,6 +8,6 @@
   <circle cx="160" cy="310" r="25" fill="#6b7280"/>
   <circle cx="450" cy="310" r="40" fill="#1f2937"/>
   <circle cx="450" cy="310" r="25" fill="#6b7280"/>
-  <text x="355" y="210" font-family="Arial" font-size="32" fill="white" text-anchor="middle" font-weight="bold">E-COGNITE</text>
+  <text x="355" y="210" font-family="Arial" font-size="32" fill="white" text-anchor="middle" font-weight="bold">DailyFX Delivery</text>
   <text x="355" y="250" font-family="Arial" font-size="16" fill="#c7d2fe" text-anchor="middle">LOGISTICS</text>
 </svg>
