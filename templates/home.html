@@ -32,9 +32,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- Floating Popup Reviews -->
-<div id="popup-reviews" class="fixed bottom-4 left-4 z-50"></div>
-
 <!-- Hero Section with Real Background -->
 <div class="hero-bg rounded-2xl text-white p-12 mb-12 relative overflow-hidden min-h-[500px] flex items-center">
     <div class="absolute inset-0 bg-gradient-to-r from-orange-900/80 to-amber-900/60"></div>
@@ -914,34 +911,43 @@ const reviews = [
     { name: 'Tom Richards', location: 'Edinburgh', rating: 5, text: 'Switched from Royal Mail. Much better!', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&crop=face', time: '18 minutes ago' }
 ];
 
+// Create popup container and append to body
+let popupContainer = document.createElement('div');
+popupContainer.id = 'popup-reviews';
+popupContainer.style.cssText = 'position: fixed; bottom: 20px; left: 20px; z-index: 9999; max-width: 320px;';
+document.body.appendChild(popupContainer);
+
 let currentReview = 0;
 function showPopupReview() {
     const container = document.getElementById('popup-reviews');
+    // Clear any existing popup
+    container.innerHTML = '';
+    
     const review = reviews[currentReview];
     
     const popup = document.createElement('div');
-    popup.className = 'popup-review bg-white rounded-xl shadow-2xl p-4 max-w-sm border border-gray-100';
+    popup.style.cssText = 'background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); padding: 16px; border: 1px solid #f3f4f6; animation: slideInUp 0.5s ease-out;';
     popup.innerHTML = `
-        <div class="flex items-start gap-3">
-            <img src="${review.img}" alt="${review.name}" class="w-12 h-12 rounded-full object-cover border-2 border-orange-100">
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="font-semibold text-gray-800">${review.name}</span>
-                    <span class="text-xs text-gray-400">${review.location}</span>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <img src="${review.img}" alt="${review.name}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #fed7aa;">
+            <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="font-weight: 600; color: #1f2937;">${review.name}</span>
+                    <span style="font-size: 12px; color: #9ca3af;">${review.location}</span>
                 </div>
-                <div class="text-yellow-400 text-sm mb-1">${'★'.repeat(review.rating)}</div>
-                <p class="text-gray-600 text-sm">"${review.text}"</p>
-                <p class="text-xs text-gray-400 mt-1">✓ Verified • ${review.time}</p>
+                <div style="color: #facc15; font-size: 14px; margin-bottom: 4px;">${'★'.repeat(review.rating)}</div>
+                <p style="color: #4b5563; font-size: 14px; margin: 0;">"${review.text}"</p>
+                <p style="font-size: 12px; color: #9ca3af; margin-top: 4px;">✓ Verified • ${review.time}</p>
             </div>
-            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">✕</button>
+            <button onclick="document.getElementById('popup-reviews').innerHTML=''" style="color: #9ca3af; cursor: pointer; background: none; border: none; font-size: 18px; padding: 0;">✕</button>
         </div>
     `;
     
     container.appendChild(popup);
     
-    // Remove after animation
+    // Remove after 5 seconds
     setTimeout(() => {
-        if (popup.parentElement) popup.remove();
+        container.innerHTML = '';
     }, 5000);
     
     currentReview = (currentReview + 1) % reviews.length;
