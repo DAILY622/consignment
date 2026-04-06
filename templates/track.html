@@ -434,6 +434,18 @@
             </div>
         `);
     
+    // Calculate current position based on status
+    var progress = {% if safe_package.status == 'pending' %}0.05{% elif safe_package.status == 'processing' %}0.15{% elif safe_package.status == 'in_transit' %}0.5{% elif safe_package.status == 'out_for_delivery' %}0.85{% elif safe_package.status == 'delivered' %}1.0{% else %}0{% endif %};
+    
+    var currentLat = senderCoords[0] + (receiverCoords[0] - senderCoords[0]) * progress;
+    var currentLng = senderCoords[1] + (receiverCoords[1] - senderCoords[1]) * progress;
+    
+    // Override with actual GPS coordinates if available
+    {% if latest_location and latest_location.latitude %}
+    currentLat = {{ latest_location.latitude }};
+    currentLng = {{ latest_location.longitude }};
+    {% endif %}
+    
     // Build route through all tracking waypoints (actual path taken)
     var routePoints = [senderCoords];  // Start from origin
     {% for event in tracking_history reversed %}
@@ -441,6 +453,22 @@
     routePoints.push([{{ event.latitude }}, {{ event.longitude }}]);
     {% endif %}
     {% endfor %}
+    
+    // Solid BLUE line showing completed/traveled route through waypoints
+    var traveledPoints = [senderCoords];
+    {% for event in tracking_history reversed %}
+    {% if event.latitude and event.longitude %}
+    traveledPoints.push([{{ event.latitude }}, {{ event.longitude }}]);
+    {% endif %}
+    {% endfor %}
+    
+    if (traveledPoints.length > 1) {
+        var traveledRoute = L.polyline(traveledPoints, {
+            color: '#3b82f6',
+            weight: 6,
+            opacity: 1
+        }).addTo(map);
+    }
     
     // Dashed RED line showing remaining route (from current position to destination)
     var remainingRoute = L.polyline([[currentLat, currentLng], receiverCoords], {
@@ -453,9 +481,9 @@
     // Add arrow markers along the remaining route to show direction
     var arrowIcon = L.divIcon({
         className: 'arrow-marker',
-        html: '<div style="color:#ef4444;font-size:20px;text-shadow:0 0 3px white;">➤</div>',
-        iconSize: [20, 20],
-        iconAnchor: [10, 10]
+        html: '<div style="color:#ef4444;font-size:24px;text-shadow:0 0 4px white;">➤</div>',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
     });
     
     // Place arrows along remaining route
@@ -476,34 +504,6 @@
         iconAnchor: [90, 15]
     });
     L.marker(midRemaining, {icon: toDestLabel, zIndexOffset: 500}).addTo(map);
-    
-    // Solid BLUE line showing completed/traveled route through waypoints
-    var traveledPoints = [senderCoords];
-    {% for event in tracking_history reversed %}
-    {% if event.latitude and event.longitude %}
-    traveledPoints.push([{{ event.latitude }}, {{ event.longitude }}]);
-    {% endif %}
-    {% endfor %}
-    
-    if (traveledPoints.length > 1) {
-        var traveledRoute = L.polyline(traveledPoints, {
-            color: '#3b82f6',
-            weight: 5,
-            opacity: 0.9
-        }).addTo(map);
-    }
-    
-    // Calculate current position based on status
-    var progress = {% if safe_package.status == 'pending' %}0.05{% elif safe_package.status == 'processing' %}0.15{% elif safe_package.status == 'in_transit' %}0.5{% elif safe_package.status == 'out_for_delivery' %}0.85{% elif safe_package.status == 'delivered' %}1.0{% else %}0{% endif %};
-    
-    var currentLat = senderCoords[0] + (receiverCoords[0] - senderCoords[0]) * progress;
-    var currentLng = senderCoords[1] + (receiverCoords[1] - senderCoords[1]) * progress;
-    
-    // Override with actual GPS coordinates if available
-    {% if latest_location and latest_location.latitude %}
-    currentLat = {{ latest_location.latitude }};
-    currentLng = {{ latest_location.longitude }};
-    {% endif %}
     
     // Add package marker - use truck icon for in_transit
     var activeIcon = (packageStatus === 'in_transit' || packageStatus === 'out_for_delivery') ? carIcon : packageIcon;
