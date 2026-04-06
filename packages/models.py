@@ -112,5 +112,5 @@ class Package(models.Model):
         return f"{self.tracking_number} - {self.receiver_name}"
     
     def get_latest_location(self):
-        latest = self.tracking_history.order_by('-timestamp').first()
+        latest = self.tracking_history.order_by('-timestamp', '-id').first()
         return latest if latest else None

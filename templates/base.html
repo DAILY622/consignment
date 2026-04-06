@@ -11,12 +11,8 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
     <link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}">
-    <!-- Leaflet CSS & JS -->
-    <link rel="stylesheet" href="{% static 'css/leaflet.min.css' %}" />
-    <script src="{% static 'js/leaflet.min.js' %}"></script>
-    <!-- Leaflet Routing Machine for real routes -->
-    <link rel="stylesheet" href="{% static 'css/leaflet-routing-machine.css' %}" />
-    <script src="{% static 'js/leaflet-routing-machine.js' %}"></script>
+    <!-- Leaflet CSS - only load when needed -->
+    {% block map_css %}{% endblock %}
     <style>
         .status-pending { background-color: #fef3c7; color: #92400e; }
         .status-processing { background-color: #dbeafe; color: #1e40af; }
@@ -242,6 +238,7 @@
         </div>
     </footer>
 
+    {% block map_js %}{% endblock %}
     {% block extra_js %}{% endblock %}
 </body>
 </html>

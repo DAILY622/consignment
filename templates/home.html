@@ -181,14 +181,14 @@
             </div>
             <div class="p-6 bg-white/50">
                 <div class="text-center mb-6">
-                    <span class="text-4xl font-bold text-primary-800">£4.99</span>
+                    <span class="text-4xl font-bold text-primary-800">£{{ site_settings.price_standard }}</span>
                     <span class="text-primary-600">/parcel</span>
                 </div>
                 <ul class="space-y-3 mb-6">
                     <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Up to 20kg</li>
                     <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> GPS Tracking</li>
                     <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Email Updates</li>
-                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> £50 Cover Included</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> £{{ site_settings.coverage_standard|floatformat:0 }} Cover Included</li>
                 </ul>
                 <a href="{% url 'register' %}" class="block text-center bg-primary-700 text-white py-3 rounded-lg font-semibold hover:bg-primary-800 transition">Select Standard</a>
             </div>
@@ -204,14 +204,14 @@
             </div>
             <div class="p-6 bg-white/70">
                 <div class="text-center mb-6">
-                    <span class="text-4xl font-bold text-primary-800">£8.99</span>
+                    <span class="text-4xl font-bold text-primary-800">£{{ site_settings.price_next_day }}</span>
                     <span class="text-primary-600">/parcel</span>
                 </div>
                 <ul class="space-y-3 mb-6">
                     <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Up to 30kg</li>
                     <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Live GPS Tracking</li>
                     <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> SMS + Email Updates</li>
-                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> £100 Cover Included</li>
+                    <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> £{{ site_settings.coverage_next_day|floatformat:0 }} Cover Included</li>
                     <li class="flex items-center text-primary-700"><span class="text-green-500 mr-2">✓</span> Priority Handling</li>
                 </ul>
                 <a href="{% url 'register' %}" class="block text-center bg-gradient-to-r from-primary-600 to-accent-600 text-white py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-accent-700 transition">Select Express</a>
@@ -227,7 +227,7 @@
             </div>
             <div class="p-6 bg-white/50">
                 <div class="text-center mb-6">
-                    <span class="text-4xl font-bold text-primary-800">£14.99</span>
+                    <span class="text-4xl font-bold text-primary-800">£{{ site_settings.price_same_day }}</span>
                     <span class="text-primary-600">/parcel</span>
                 </div>
                 <ul class="space-y-3 mb-6">

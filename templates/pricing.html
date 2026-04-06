@@ -62,16 +62,16 @@
             <div class="grid md:grid-cols-3 gap-6 text-center">
                 <div class="border-r border-gray-200">
                     <p class="text-gray-500 text-sm mb-1">Standard (2-3 days)</p>
-                    <p class="text-3xl font-bold text-gray-800">£4.99</p>
+                    <p class="text-3xl font-bold text-gray-800" id="quote-standard">£{{ site_settings.price_standard }}</p>
                 </div>
                 <div class="border-r border-gray-200">
                     <p class="text-gray-500 text-sm mb-1">Next Day</p>
-                    <p class="text-3xl font-bold text-indigo-600">£7.99</p>
+                    <p class="text-3xl font-bold text-indigo-600" id="quote-nextday">£{{ site_settings.price_next_day }}</p>
                     <span class="text-xs text-indigo-500">Recommended</span>
                 </div>
                 <div>
                     <p class="text-gray-500 text-sm mb-1">Same Day</p>
-                    <p class="text-3xl font-bold text-gray-800">£14.99</p>
+                    <p class="text-3xl font-bold text-gray-800" id="quote-sameday">£{{ site_settings.price_same_day }}</p>
                 </div>
             </div>
             <div class="mt-6 text-center">
@@ -102,7 +102,7 @@
             </div>
             <div class="mb-6">
                 <p class="text-gray-500 text-sm">Starting from</p>
-                <p class="text-4xl font-bold text-gray-800">£3.49</p>
+                <p class="text-4xl font-bold text-gray-800">£{{ site_settings.price_standard }}</p>
             </div>
             <ul class="space-y-3 mb-8">
                 <li class="flex items-center gap-2 text-gray-700">
@@ -141,7 +141,7 @@
             </div>
             <div class="mb-6">
                 <p class="text-gray-500 text-sm">Starting from</p>
-                <p class="text-4xl font-bold text-indigo-600">£5.99</p>
+                <p class="text-4xl font-bold text-indigo-600">£{{ site_settings.price_next_day }}</p>
             </div>
             <ul class="space-y-3 mb-8">
                 <li class="flex items-center gap-2 text-gray-700">
@@ -181,7 +181,7 @@
             </div>
             <div class="mb-6">
                 <p class="text-gray-500 text-sm">Starting from</p>
-                <p class="text-4xl font-bold text-gray-800">£12.99</p>
+                <p class="text-4xl font-bold text-gray-800">£{{ site_settings.price_same_day }}</p>
             </div>
             <ul class="space-y-3 mb-8">
                 <li class="flex items-center gap-2 text-gray-700">
@@ -344,25 +344,25 @@
             <img src="{% static 'icons/icons8-3d-fluency-94-insurance.svg' %}" alt="Insurance" class="w-12 h-12 mx-auto mb-4">
             <h3 class="font-bold text-gray-800 mb-2">Extra Coverage</h3>
             <p class="text-gray-600 text-sm mb-3">Up to £10,000</p>
-            <p class="text-indigo-600 font-bold">from £2.99</p>
+            <p class="text-indigo-600 font-bold">from £{{ site_settings.price_insurance }}</p>
         </div>
         <div class="bg-white rounded-xl p-6 border border-gray-200 text-center hover:shadow-lg transition">
             <img src="{% static 'icons/icons8-3d-fluency-94-signature.svg' %}" alt="Signature" class="w-12 h-12 mx-auto mb-4">
             <h3 class="font-bold text-gray-800 mb-2">Signature Required</h3>
             <p class="text-gray-600 text-sm mb-3">Proof of delivery</p>
-            <p class="text-indigo-600 font-bold">£1.50</p>
+            <p class="text-indigo-600 font-bold">£{{ site_settings.price_signature }}</p>
         </div>
         <div class="bg-white rounded-xl p-6 border border-gray-200 text-center hover:shadow-lg transition">
             <img src="{% static 'icons/icons8-3d-fluency-94-time.svg' %}" alt="Time Slot" class="w-12 h-12 mx-auto mb-4">
             <h3 class="font-bold text-gray-800 mb-2">Timed Delivery</h3>
             <p class="text-gray-600 text-sm mb-3">Choose 2hr window</p>
-            <p class="text-indigo-600 font-bold">£3.99</p>
+            <p class="text-indigo-600 font-bold">£{{ site_settings.price_photo_proof }}</p>
         </div>
         <div class="bg-white rounded-xl p-6 border border-gray-200 text-center hover:shadow-lg transition">
             <img src="{% static 'icons/icons8-3d-fluency-94-weekend.svg' %}" alt="Weekend" class="w-12 h-12 mx-auto mb-4">
             <h3 class="font-bold text-gray-800 mb-2">Weekend Delivery</h3>
             <p class="text-gray-600 text-sm mb-3">Saturday delivery</p>
-            <p class="text-indigo-600 font-bold">£4.99</p>
+            <p class="text-indigo-600 font-bold">£{{ site_settings.price_saturday }}</p>
         </div>
     </div>
 </div>

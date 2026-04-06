@@ -1,5 +1,43 @@
 from django.contrib import admin
 from django.utils import timezone
+from .models import SiteSettings
+
+
+class SiteSettingsAdmin(admin.ModelAdmin):
+    """Admin configuration for site-wide settings (singleton)."""
+    
+    list_display = ('__str__', 'price_standard', 'price_next_day', 'price_same_day', 'updated_at')
+    
+    fieldsets = (
+        ('💰 Base Delivery Prices', {
+            'fields': (('price_standard', 'price_next_day', 'price_same_day'),),
+            'description': 'Base prices for each delivery speed tier'
+        }),
+        ('⚖️ Weight Surcharges', {
+            'fields': (
+                ('price_weight_1kg', 'price_weight_5kg', 'price_weight_10kg'),
+                ('price_weight_20kg', 'price_weight_30kg', 'price_weight_50kg'),
+            ),
+            'classes': ('collapse',),
+            'description': 'Additional charges based on package weight brackets'
+        }),
+        ('✨ Add-on Services', {
+            'fields': (('price_insurance', 'price_signature'), ('price_photo_proof', 'price_saturday')),
+            'classes': ('collapse',),
+        }),
+        ('🛡️ Coverage Amounts', {
+            'fields': (('coverage_standard', 'coverage_next_day'),),
+            'classes': ('collapse',),
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Only allow one instance (singleton)
+        return not SiteSettings.objects.exists()
+    
+    def has_delete_permission(self, request, obj=None):
+        # Prevent deletion of settings
+        return False
 
 
 class ConsignmentAdminSite(admin.AdminSite):
@@ -31,3 +69,6 @@ class ConsignmentAdminSite(admin.AdminSite):
 
 # Create custom admin site instance
 admin_site = ConsignmentAdminSite(name='admin')
+
+# Register SiteSettings with the custom admin site
+admin_site.register(SiteSettings, SiteSettingsAdmin)

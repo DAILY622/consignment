@@ -3,6 +3,11 @@
 
 {% block title %}Dashboard - DailyFX Delivery{% endblock %}
 
+{% block map_css %}
+<!-- Leaflet CSS for dashboard map -->
+<link rel="stylesheet" href="{% static 'css/leaflet.min.css' %}" />
+{% endblock %}
+
 {% block content %}
 <div class="mb-8">
     <h1 class="text-3xl font-bold text-primary-800">Welcome, {{ user.first_name|default:user.username }}!</h1>
@@ -205,8 +210,20 @@
 </div>
 {% endblock %}
 
+{% block map_js %}
+<!-- Leaflet JS - loaded with defer for performance -->
+<script src="{% static 'js/leaflet.min.js' %}" defer></script>
+{% endblock %}
+
 {% block extra_js %}
 <script>
+    // Wait for Leaflet to load before initializing map
+    function initDashboardMap() {
+        if (typeof L === 'undefined') {
+            setTimeout(initDashboardMap, 50);
+            return;
+        }
+        
     // UK city coordinates
     var ukCities = {
         'London': [51.5074, -0.1278], 'Manchester': [53.4808, -2.2426], 'Birmingham': [52.4862, -1.8904],
@@ -287,6 +304,15 @@
     // Fit map to show all markers
     if (bounds.length > 0) {
         dashMap.fitBounds(bounds, {padding: [30, 30], maxZoom: 10});
+    }
+    
+    } // end initDashboardMap
+    
+    // Start map initialization when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDashboardMap);
+    } else {
+        initDashboardMap();
     }
 </script>
 {% endblock %}

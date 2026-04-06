@@ -52,6 +52,29 @@
                            class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
                 </div>
                 <div>
+                    <label class="block text-sm font-medium text-primary-700 mb-1">Country *</label>
+                    <select name="receiver_country" required
+                            class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">
+                        <option value="United Kingdom" {% if package.receiver_country == 'United Kingdom' %}selected{% endif %}>United Kingdom</option>
+                        <option value="Norway" {% if package.receiver_country == 'Norway' %}selected{% endif %}>Norway</option>
+                        <option value="Pakistan" {% if package.receiver_country == 'Pakistan' %}selected{% endif %}>Pakistan</option>
+                        <option value="United States" {% if package.receiver_country == 'United States' %}selected{% endif %}>United States</option>
+                        <option value="Canada" {% if package.receiver_country == 'Canada' %}selected{% endif %}>Canada</option>
+                        <option value="Germany" {% if package.receiver_country == 'Germany' %}selected{% endif %}>Germany</option>
+                        <option value="France" {% if package.receiver_country == 'France' %}selected{% endif %}>France</option>
+                        <option value="Netherlands" {% if package.receiver_country == 'Netherlands' %}selected{% endif %}>Netherlands</option>
+                        <option value="Italy" {% if package.receiver_country == 'Italy' %}selected{% endif %}>Italy</option>
+                        <option value="Spain" {% if package.receiver_country == 'Spain' %}selected{% endif %}>Spain</option>
+                        <option value="Australia" {% if package.receiver_country == 'Australia' %}selected{% endif %}>Australia</option>
+                        <option value="India" {% if package.receiver_country == 'India' %}selected{% endif %}>India</option>
+                        <option value="UAE" {% if package.receiver_country == 'UAE' %}selected{% endif %}>UAE</option>
+                        <option value="Singapore" {% if package.receiver_country == 'Singapore' %}selected{% endif %}>Singapore</option>
+                        <option value="Japan" {% if package.receiver_country == 'Japan' %}selected{% endif %}>Japan</option>
+                        <option value="China" {% if package.receiver_country == 'China' %}selected{% endif %}>China</option>
+                        <option value="Brazil" {% if package.receiver_country == 'Brazil' %}selected{% endif %}>Brazil</option>
+                    </select>
+                </div>
+                <div>
                     <label class="block text-sm font-medium text-primary-700 mb-1">Postcode *</label>
                     <input type="text" name="receiver_postcode" value="{{ package.receiver_postcode }}" required
                            class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white">

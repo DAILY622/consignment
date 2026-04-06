@@ -13,7 +13,7 @@ class TrackingHistory(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['-timestamp']
+        ordering = ['-timestamp', '-id']
         verbose_name_plural = 'Tracking histories'
         indexes = [
             models.Index(fields=['-timestamp']),

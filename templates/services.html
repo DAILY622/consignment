@@ -59,7 +59,7 @@
             </ul>
             <div class="border-t border-red-200 pt-6">
                 <p class="text-gray-500 text-sm mb-2">Starting from</p>
-                <p class="text-3xl font-bold text-gray-800">£12.99</p>
+                <p class="text-3xl font-bold text-gray-800">£{{ site_settings.price_same_day }}</p>
             </div>
             <a href="{% url 'register' %}" class="mt-6 block w-full bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-3 rounded-lg font-semibold hover:from-red-600 hover:to-orange-600 transition">
                 Book Same Day →
@@ -102,7 +102,7 @@
             </ul>
             <div class="border-t border-indigo-200 pt-6">
                 <p class="text-gray-500 text-sm mb-2">Starting from</p>
-                <p class="text-3xl font-bold text-gray-800">£5.99</p>
+                <p class="text-3xl font-bold text-gray-800">£{{ site_settings.price_next_day }}</p>
             </div>
             <a href="{% url 'register' %}" class="mt-6 block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition">
                 Book Next Day →
@@ -138,7 +138,7 @@
             </ul>
             <div class="border-t border-green-200 pt-6">
                 <p class="text-gray-500 text-sm mb-2">Starting from</p>
-                <p class="text-3xl font-bold text-gray-800">£3.49</p>
+                <p class="text-3xl font-bold text-gray-800">£{{ site_settings.price_standard }}</p>
             </div>
             <a href="{% url 'register' %}" class="mt-6 block w-full bg-gradient-to-r from-green-500 to-teal-500 text-white text-center py-3 rounded-lg font-semibold hover:from-green-600 hover:to-teal-600 transition">
                 Book Standard →

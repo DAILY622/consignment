@@ -3,6 +3,13 @@
 
 {% block title %}Track Package - DailyFX Delivery{% endblock %}
 
+{% block map_css %}
+{% if package %}
+<!-- Leaflet CSS - loaded only on tracking pages with a package -->
+<link rel="stylesheet" href="{% static 'css/leaflet.min.css' %}" />
+{% endif %}
+{% endblock %}
+
 {% block extra_head %}
 <style>
     @keyframes blink {
@@ -245,8 +252,20 @@
 </div>
 
 {% if package %}
+{% block map_js %}
+<!-- Leaflet JS - loaded with defer for performance -->
+<script src="{% static 'js/leaflet.min.js' %}" defer></script>
+{% endblock %}
+
 {% block extra_js %}
 <script>
+    // Wait for Leaflet to load before initializing map
+    function initMap() {
+        if (typeof L === 'undefined') {
+            setTimeout(initMap, 50);
+            return;
+        }
+        
     // Global city coordinates database (international shipping support)
     var globalCities = {
         // Norway
@@ -533,6 +552,15 @@
         packageMarker.setLatLng([newLat, newLng]);
     }, 3000);
     {% endif %}
+    
+    } // end initMap
+    
+    // Start map initialization when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMap);
+    } else {
+        initMap();
+    }
 </script>
 {% endblock %}
 {% endif %}

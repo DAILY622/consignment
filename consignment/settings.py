@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'packages',
     'tracking',
     'drivers',
+    'consignment',
 ]
 
 # Jazzmin Admin Theme Configuration
@@ -205,6 +206,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'consignment.context_processors.site_settings',
             ],
         },
     },
