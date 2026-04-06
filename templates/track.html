@@ -383,20 +383,39 @@
         iconAnchor: [20, 20]
     });
     
-    // Destination Icon (Green)
+    // Destination Icon (Green) - BIGGER with label
     var destIcon = L.divIcon({
         className: 'dest-marker',
         html: `
-            <div style="background:linear-gradient(135deg,#22c55e,#16a34a);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 3px 10px rgba(34,197,94,0.4);">
-                <span style="font-size:20px;">📥</span>
+            <div style="position:relative;">
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(34,197,94,0.3);border-radius:50%;animation:pulse 2s infinite;"></div>
+                <div style="background:linear-gradient(135deg,#22c55e,#16a34a);width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid white;box-shadow:0 4px 15px rgba(34,197,94,0.5);">
+                    <span style="font-size:26px;">📥</span>
+                </div>
+                <div style="position:absolute;top:54px;left:50%;transform:translateX(-50%);background:#16a34a;color:white;font-size:10px;padding:4px 10px;border-radius:6px;white-space:nowrap;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.2);">DESTINATION</div>
             </div>
         `,
-        iconSize: [40, 40],
-        iconAnchor: [20, 20]
+        iconSize: [50, 50],
+        iconAnchor: [25, 25]
+    });
+    
+    // Origin Icon (Blue) - BIGGER with label  
+    var originIconBig = L.divIcon({
+        className: 'origin-marker',
+        html: `
+            <div style="position:relative;">
+                <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid white;box-shadow:0 4px 15px rgba(59,130,246,0.5);">
+                    <span style="font-size:26px;">📤</span>
+                </div>
+                <div style="position:absolute;top:54px;left:50%;transform:translateX(-50%);background:#1d4ed8;color:white;font-size:10px;padding:4px 10px;border-radius:6px;white-space:nowrap;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.2);">ORIGIN</div>
+            </div>
+        `,
+        iconSize: [50, 50],
+        iconAnchor: [25, 25]
     });
     
     // Add origin marker
-    var originMarker = L.marker(senderCoords, {icon: originIcon}).addTo(map)
+    var originMarker = L.marker(senderCoords, {icon: originIconBig}).addTo(map)
         .bindPopup(`
             <div style="min-width:180px;">
                 <div style="font-weight:bold;color:#3b82f6;margin-bottom:5px;">📤 Origin</div>
@@ -406,7 +425,7 @@
         `);
     
     // Add destination marker
-    var destMarker = L.marker(receiverCoords, {icon: destIcon}).addTo(map)
+    var destMarker = L.marker(receiverCoords, {icon: destIcon, zIndexOffset: 1000}).addTo(map)
         .bindPopup(`
             <div style="min-width:180px;">
                 <div style="font-weight:bold;color:#22c55e;margin-bottom:5px;">📥 Destination</div>
@@ -426,20 +445,37 @@
     // Dashed RED line showing remaining route (from current position to destination)
     var remainingRoute = L.polyline([[currentLat, currentLng], receiverCoords], {
         color: '#ef4444',
-        weight: 4,
-        dashArray: '12, 8',
-        opacity: 0.7
+        weight: 6,
+        dashArray: '15, 10',
+        opacity: 0.9
     }).addTo(map);
     
-    // Add "TO DESTINATION" label on remaining route
+    // Add arrow markers along the remaining route to show direction
+    var arrowIcon = L.divIcon({
+        className: 'arrow-marker',
+        html: '<div style="color:#ef4444;font-size:20px;text-shadow:0 0 3px white;">➤</div>',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+    });
+    
+    // Place arrows along remaining route
+    var numArrows = 3;
+    for (var i = 1; i <= numArrows; i++) {
+        var t = i / (numArrows + 1);
+        var arrowLat = currentLat + (receiverCoords[0] - currentLat) * t;
+        var arrowLng = currentLng + (receiverCoords[1] - currentLng) * t;
+        L.marker([arrowLat, arrowLng], {icon: arrowIcon}).addTo(map);
+    }
+    
+    // Add "HEADING TO" label on remaining route
     var midRemaining = [(currentLat + receiverCoords[0])/2, (currentLng + receiverCoords[1])/2];
     var toDestLabel = L.divIcon({
         className: 'route-label',
-        html: '<div style="background:#ef4444;color:white;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:bold;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.2);">→ TO LAHORE, PAKISTAN</div>',
-        iconSize: [140, 24],
-        iconAnchor: [70, 12]
+        html: '<div style="background:#ef4444;color:white;padding:6px 14px;border-radius:16px;font-size:11px;font-weight:bold;white-space:nowrap;box-shadow:0 3px 10px rgba(239,68,68,0.4);border:2px solid white;">🚚 HEADING TO LAHORE →</div>',
+        iconSize: [180, 30],
+        iconAnchor: [90, 15]
     });
-    L.marker(midRemaining, {icon: toDestLabel}).addTo(map);
+    L.marker(midRemaining, {icon: toDestLabel, zIndexOffset: 500}).addTo(map);
     
     // Solid BLUE line showing completed/traveled route through waypoints
     var traveledPoints = [senderCoords];
