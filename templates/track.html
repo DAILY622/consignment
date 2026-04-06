@@ -339,16 +339,16 @@
     // Add zoom control to bottom right
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     
-    // 🚗 CAR ICON for in_transit packages (red with animation)
+    // 🚗 CAR/TRUCK ICON for in_transit packages
     var carIcon = L.divIcon({
         className: 'car-marker-animated',
         html: `
             <div style="position:relative;">
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;background:rgba(239,68,68,0.3);border-radius:50%;animation:pulse 1.5s infinite;"></div>
                 <div style="position:relative;background:linear-gradient(135deg,#ef4444,#dc2626);width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid white;box-shadow:0 4px 20px rgba(239,68,68,0.6);">
-                    <span style="font-size:30px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));">🚗</span>
+                    <span style="font-size:30px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));">🚚</span>
                 </div>
-                <div style="position:absolute;top:-10px;right:-10px;background:#22c55e;color:white;font-size:9px;padding:3px 8px;border-radius:12px;font-weight:bold;border:2px solid white;animation:blink 1s infinite;">ON ROAD</div>
+                <div style="position:absolute;top:-10px;right:-10px;background:#22c55e;color:white;font-size:9px;padding:3px 8px;border-radius:12px;font-weight:bold;border:2px solid white;animation:blink 1s infinite;">LIVE</div>
             </div>
         `,
         iconSize: [55, 55],
@@ -415,14 +415,38 @@
             </div>
         `);
     
-    // 🔴 RED ROUTE LINE showing the shipping path
-    var routeLine = L.polyline([senderCoords, receiverCoords], {
-        color: '#ef4444',
-        weight: 4,
-        opacity: 0.8,
-        dashArray: '10, 10',
-        className: 'route-line-animated'
+    // Build route through all tracking waypoints (actual path taken)
+    var routePoints = [senderCoords];  // Start from origin
+    {% for event in tracking_history reversed %}
+    {% if event.latitude and event.longitude %}
+    routePoints.push([{{ event.latitude }}, {{ event.longitude }}]);
+    {% endif %}
+    {% endfor %}
+    routePoints.push(receiverCoords);  // End at destination
+    
+    // Dashed line showing remaining route (from current position to destination)
+    var remainingRoute = L.polyline([[currentLat, currentLng], receiverCoords], {
+        color: '#9ca3af',
+        weight: 3,
+        dashArray: '8, 8',
+        opacity: 0.6
     }).addTo(map);
+    
+    // Solid line showing traveled route through waypoints
+    var traveledPoints = [senderCoords];
+    {% for event in tracking_history reversed %}
+    {% if event.latitude and event.longitude %}
+    traveledPoints.push([{{ event.latitude }}, {{ event.longitude }}]);
+    {% endif %}
+    {% endfor %}
+    
+    if (traveledPoints.length > 1) {
+        var traveledRoute = L.polyline(traveledPoints, {
+            color: '#4f46e5',
+            weight: 5,
+            opacity: 0.9
+        }).addTo(map);
+    }
     
     // Calculate current position based on status
     var progress = {% if safe_package.status == 'pending' %}0.05{% elif safe_package.status == 'processing' %}0.15{% elif safe_package.status == 'in_transit' %}0.5{% elif safe_package.status == 'out_for_delivery' %}0.85{% elif safe_package.status == 'delivered' %}1.0{% else %}0{% endif %};
@@ -436,9 +460,9 @@
     currentLng = {{ latest_location.longitude }};
     {% endif %}
     
-    // Add package marker - use CAR icon for in_transit, package icon for others
+    // Add package marker - use truck icon for in_transit
     var activeIcon = (packageStatus === 'in_transit' || packageStatus === 'out_for_delivery') ? carIcon : packageIcon;
-    var iconEmoji = (packageStatus === 'in_transit' || packageStatus === 'out_for_delivery') ? '🚗' : '📦';
+    var iconEmoji = (packageStatus === 'in_transit' || packageStatus === 'out_for_delivery') ? '🚚' : '📦';
     var statusLabel = (packageStatus === 'in_transit') ? 'On the Road!' : '{{ safe_package.status_display }}';
     
     var packageMarker = L.marker([currentLat, currentLng], {icon: activeIcon}).addTo(map)
@@ -461,33 +485,18 @@
         `)
         .openPopup();
     
-    // Draw route with animation
-    var dashedRoute = L.polyline([senderCoords, receiverCoords], {
-        color: '#c7d2fe',
-        weight: 4,
-        dashArray: '10, 10',
-        opacity: 0.8
-    }).addTo(map);
-    
-    // Solid line for completed route
-    var completedRoute = L.polyline([senderCoords, [currentLat, currentLng]], {
-        color: '#4f46e5',
-        weight: 5,
-        opacity: 0.9
-    }).addTo(map);
-    
-    // Add tracking history points as small dots
+    // Add tracking history points as small dots with labels
     {% for event in tracking_history reversed %}
     {% if event.latitude and event.longitude %}
     L.circleMarker([{{ event.latitude }}, {{ event.longitude }}], {
-        radius: 6,
+        radius: 8,
         fillColor: '#6366f1',
         color: '#fff',
-        weight: 2,
+        weight: 3,
         opacity: 1,
-        fillOpacity: 0.8
+        fillOpacity: 0.9
     }).addTo(map).bindPopup(`
-        <div style="font-size:12px;">
+        <div style="font-size:12px;min-width:150px;">
             <strong>{{ event.status }}</strong><br>
             📍 {{ event.location }}<br>
             <small style="color:#666;">{{ event.timestamp|date:"M j, g:i A" }}</small>
