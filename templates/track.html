@@ -529,32 +529,22 @@
         `)
         .openPopup();
     
-    // Add tracking history points as BLUE CHECKMARKS ✓
+    // Add tracking history points as simple GREEN DOTS
     {% for event in tracking_history reversed %}
     {% if event.latitude and event.longitude %}
-    var checkIcon{{ forloop.counter }} = L.divIcon({
-        className: 'checkpoint-marker',
-        html: `
-            <div style="position:relative;">
-                <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 8px rgba(59,130,246,0.5);">
-                    <span style="color:white;font-size:18px;font-weight:bold;">✓</span>
-                </div>
-                <div style="position:absolute;top:36px;left:50%;transform:translateX(-50%);background:#1d4ed8;color:white;font-size:9px;padding:2px 6px;border-radius:4px;white-space:nowrap;font-weight:600;">{{ event.location|truncatechars:15 }}</div>
-            </div>
-        `,
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-    });
-    L.marker([{{ event.latitude }}, {{ event.longitude }}], {icon: checkIcon{{ forloop.counter }}}).addTo(map).bindPopup(`
-        <div style="font-size:12px;min-width:180px;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                <div style="background:#3b82f6;color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;">✓</div>
-                <strong style="color:#1d4ed8;">{{ event.status }}</strong>
-            </div>
-            <div style="background:#eff6ff;padding:8px;border-radius:6px;">
+    L.circleMarker([{{ event.latitude }}, {{ event.longitude }}], {
+        radius: 6,
+        fillColor: '#22c55e',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 1
+    }).addTo(map).bindPopup(`
+        <div style="font-size:12px;min-width:160px;">
+            <div style="font-weight:bold;color:#16a34a;margin-bottom:6px;">✓ {{ event.status }}</div>
+            <div style="background:#f0fdf4;padding:8px;border-radius:6px;">
                 <div>📍 {{ event.location }}</div>
-                <div style="color:#666;font-size:11px;margin-top:4px;">{{ event.timestamp|date:"M j, Y - g:i A" }}</div>
-                {% if event.notes %}<div style="color:#3b82f6;font-size:11px;margin-top:4px;font-style:italic;">{{ event.notes }}</div>{% endif %}
+                <div style="color:#666;font-size:11px;margin-top:4px;">{{ event.timestamp|date:"M j, g:i A" }}</div>
             </div>
         </div>
     `);
