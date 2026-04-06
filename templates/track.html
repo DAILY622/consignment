@@ -339,20 +339,20 @@
     // Add zoom control to bottom right
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     
-    // 🚗 CAR/TRUCK ICON for in_transit packages
-    var carIcon = L.divIcon({
-        className: 'car-marker-animated',
+    // 🚚 TRUCK ICON - always show truck for packages on the road
+    var truckIcon = L.divIcon({
+        className: 'truck-marker',
         html: `
             <div style="position:relative;">
-                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;background:rgba(239,68,68,0.3);border-radius:50%;animation:pulse 1.5s infinite;"></div>
-                <div style="position:relative;background:linear-gradient(135deg,#ef4444,#dc2626);width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid white;box-shadow:0 4px 20px rgba(239,68,68,0.6);">
-                    <span style="font-size:30px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));">🚚</span>
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:rgba(239,68,68,0.4);border-radius:50%;animation:pulse 1.5s infinite;"></div>
+                <div style="position:relative;background:linear-gradient(135deg,#dc2626,#b91c1c);width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:5px solid white;box-shadow:0 6px 25px rgba(220,38,38,0.7);">
+                    <span style="font-size:35px;">🚚</span>
                 </div>
-                <div style="position:absolute;top:-10px;right:-10px;background:#22c55e;color:white;font-size:9px;padding:3px 8px;border-radius:12px;font-weight:bold;border:2px solid white;animation:blink 1s infinite;">LIVE</div>
+                <div style="position:absolute;top:-12px;right:-12px;background:#22c55e;color:white;font-size:10px;padding:4px 10px;border-radius:14px;font-weight:bold;border:2px solid white;animation:blink 1s infinite;box-shadow:0 2px 8px rgba(0,0,0,0.3);">LIVE</div>
             </div>
         `,
-        iconSize: [55, 55],
-        iconAnchor: [27, 27]
+        iconSize: [60, 60],
+        iconAnchor: [30, 30]
     });
     
     // 📦 Package Icon for other statuses
@@ -508,21 +508,17 @@
     });
     L.marker([30.8, 72.5], {icon: toDestLabel, zIndexOffset: 500}).addTo(map);
     
-    // Add package marker - use truck icon for in_transit
-    var activeIcon = (packageStatus === 'in_transit' || packageStatus === 'out_for_delivery') ? carIcon : packageIcon;
-    var iconEmoji = (packageStatus === 'in_transit' || packageStatus === 'out_for_delivery') ? '🚚' : '📦';
-    var statusLabel = (packageStatus === 'in_transit') ? 'On the Road!' : '{{ safe_package.status_display }}';
-    
-    var packageMarker = L.marker([currentLat, currentLng], {icon: activeIcon}).addTo(map)
+    // Add TRUCK marker at current location - always show truck for moving packages
+    var packageMarker = L.marker([currentLat, currentLng], {icon: truckIcon, zIndexOffset: 1000}).addTo(map)
         .bindPopup(`
             <div style="min-width:220px;padding:5px;">
                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                    <div style="background:linear-gradient(135deg,${packageStatus === 'in_transit' ? '#ef4444,#dc2626' : '#f97316,#ea580c'});width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                        <span style="font-size:22px;">${iconEmoji}</span>
+                    <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                        <span style="font-size:26px;">🚚</span>
                     </div>
                     <div>
                         <div style="font-weight:bold;color:#333;">{{ safe_package.tracking_number }}</div>
-                        <div style="font-size:11px;color:#666;">${statusLabel}</div>
+                        <div style="font-size:11px;color:#22c55e;font-weight:bold;">🟢 On the Road!</div>
                     </div>
                 </div>
                 <div style="background:#f3f4f6;padding:8px;border-radius:8px;font-size:12px;">
