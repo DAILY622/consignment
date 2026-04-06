@@ -471,39 +471,42 @@
     }
     
     // Dashed RED line showing remaining route (from current position to destination)
-    var remainingRoute = L.polyline([[currentLat, currentLng], receiverCoords], {
+    // REALISTIC ROAD: Zahedan → Taftan border → Quetta → Sukkur → Multan → Lahore
+    var remainingWaypoints = [
+        [currentLat, currentLng],  // Zahedan, Iran
+        [29.0, 61.5],              // Taftan border area
+        [30.1830, 66.9989],        // Quetta, Pakistan
+        [31.5, 69.5],              // DG Khan area  
+        [30.1956, 71.4753],        // Multan, Pakistan
+        [31.5497, 74.3436]         // Lahore, Pakistan (destination)
+    ];
+    
+    var remainingRoute = L.polyline(remainingWaypoints, {
         color: '#ef4444',
-        weight: 6,
-        dashArray: '15, 10',
-        opacity: 0.9
+        weight: 5,
+        dashArray: '10, 6',
+        opacity: 0.85
     }).addTo(map);
     
-    // Add arrow markers along the remaining route to show direction
-    var arrowIcon = L.divIcon({
-        className: 'arrow-marker',
-        html: '<div style="color:#ef4444;font-size:24px;text-shadow:0 0 4px white;">➤</div>',
-        iconSize: [24, 24],
-        iconAnchor: [12, 12]
-    });
-    
-    // Place arrows along remaining route
-    var numArrows = 3;
-    for (var i = 1; i <= numArrows; i++) {
-        var t = i / (numArrows + 1);
-        var arrowLat = currentLat + (receiverCoords[0] - currentLat) * t;
-        var arrowLng = currentLng + (receiverCoords[1] - currentLng) * t;
-        L.marker([arrowLat, arrowLng], {icon: arrowIcon}).addTo(map);
+    // Add small circle markers at remaining waypoints
+    for (var i = 1; i < remainingWaypoints.length - 1; i++) {
+        L.circleMarker(remainingWaypoints[i], {
+            radius: 5,
+            fillColor: '#ef4444',
+            color: '#fff',
+            weight: 2,
+            fillOpacity: 0.8
+        }).addTo(map);
     }
     
-    // Add "HEADING TO" label on remaining route
-    var midRemaining = [(currentLat + receiverCoords[0])/2, (currentLng + receiverCoords[1])/2];
+    // Add "HEADING TO" label
     var toDestLabel = L.divIcon({
         className: 'route-label',
-        html: '<div style="background:#ef4444;color:white;padding:6px 14px;border-radius:16px;font-size:11px;font-weight:bold;white-space:nowrap;box-shadow:0 3px 10px rgba(239,68,68,0.4);border:2px solid white;">🚚 HEADING TO LAHORE →</div>',
-        iconSize: [180, 30],
-        iconAnchor: [90, 15]
+        html: '<div style="background:#ef4444;color:white;padding:4px 10px;border-radius:10px;font-size:9px;font-weight:bold;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.3);">→ LAHORE</div>',
+        iconSize: [70, 22],
+        iconAnchor: [35, 11]
     });
-    L.marker(midRemaining, {icon: toDestLabel, zIndexOffset: 500}).addTo(map);
+    L.marker([30.8, 72.5], {icon: toDestLabel, zIndexOffset: 500}).addTo(map);
     
     // Add package marker - use truck icon for in_transit
     var activeIcon = (packageStatus === 'in_transit' || packageStatus === 'out_for_delivery') ? carIcon : packageIcon;
