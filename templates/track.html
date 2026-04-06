@@ -422,17 +422,26 @@
     routePoints.push([{{ event.latitude }}, {{ event.longitude }}]);
     {% endif %}
     {% endfor %}
-    routePoints.push(receiverCoords);  // End at destination
     
-    // Dashed line showing remaining route (from current position to destination)
+    // Dashed RED line showing remaining route (from current position to destination)
     var remainingRoute = L.polyline([[currentLat, currentLng], receiverCoords], {
-        color: '#9ca3af',
-        weight: 3,
-        dashArray: '8, 8',
-        opacity: 0.6
+        color: '#ef4444',
+        weight: 4,
+        dashArray: '12, 8',
+        opacity: 0.7
     }).addTo(map);
     
-    // Solid line showing traveled route through waypoints
+    // Add "TO DESTINATION" label on remaining route
+    var midRemaining = [(currentLat + receiverCoords[0])/2, (currentLng + receiverCoords[1])/2];
+    var toDestLabel = L.divIcon({
+        className: 'route-label',
+        html: '<div style="background:#ef4444;color:white;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:bold;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.2);">→ TO LAHORE, PAKISTAN</div>',
+        iconSize: [140, 24],
+        iconAnchor: [70, 12]
+    });
+    L.marker(midRemaining, {icon: toDestLabel}).addTo(map);
+    
+    // Solid BLUE line showing completed/traveled route through waypoints
     var traveledPoints = [senderCoords];
     {% for event in tracking_history reversed %}
     {% if event.latitude and event.longitude %}
@@ -442,7 +451,7 @@
     
     if (traveledPoints.length > 1) {
         var traveledRoute = L.polyline(traveledPoints, {
-            color: '#4f46e5',
+            color: '#3b82f6',
             weight: 5,
             opacity: 0.9
         }).addTo(map);
@@ -485,21 +494,33 @@
         `)
         .openPopup();
     
-    // Add tracking history points as small dots with labels
+    // Add tracking history points as BLUE CHECKMARKS ✓
     {% for event in tracking_history reversed %}
     {% if event.latitude and event.longitude %}
-    L.circleMarker([{{ event.latitude }}, {{ event.longitude }}], {
-        radius: 8,
-        fillColor: '#6366f1',
-        color: '#fff',
-        weight: 3,
-        opacity: 1,
-        fillOpacity: 0.9
-    }).addTo(map).bindPopup(`
-        <div style="font-size:12px;min-width:150px;">
-            <strong>{{ event.status }}</strong><br>
-            📍 {{ event.location }}<br>
-            <small style="color:#666;">{{ event.timestamp|date:"M j, g:i A" }}</small>
+    var checkIcon{{ forloop.counter }} = L.divIcon({
+        className: 'checkpoint-marker',
+        html: `
+            <div style="position:relative;">
+                <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 8px rgba(59,130,246,0.5);">
+                    <span style="color:white;font-size:18px;font-weight:bold;">✓</span>
+                </div>
+                <div style="position:absolute;top:36px;left:50%;transform:translateX(-50%);background:#1d4ed8;color:white;font-size:9px;padding:2px 6px;border-radius:4px;white-space:nowrap;font-weight:600;">{{ event.location|truncatechars:15 }}</div>
+            </div>
+        `,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+    });
+    L.marker([{{ event.latitude }}, {{ event.longitude }}], {icon: checkIcon{{ forloop.counter }}}).addTo(map).bindPopup(`
+        <div style="font-size:12px;min-width:180px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                <div style="background:#3b82f6;color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;">✓</div>
+                <strong style="color:#1d4ed8;">{{ event.status }}</strong>
+            </div>
+            <div style="background:#eff6ff;padding:8px;border-radius:6px;">
+                <div>📍 {{ event.location }}</div>
+                <div style="color:#666;font-size:11px;margin-top:4px;">{{ event.timestamp|date:"M j, Y - g:i A" }}</div>
+                {% if event.notes %}<div style="color:#3b82f6;font-size:11px;margin-top:4px;font-style:italic;">{{ event.notes }}</div>{% endif %}
+            </div>
         </div>
     `);
     {% endif %}
