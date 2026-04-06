@@ -471,14 +471,17 @@
     }
     
     // Dashed RED line showing remaining route (from current position to destination)
-    // REALISTIC ROAD: Zahedan → Taftan border → Quetta → Sukkur → Multan → Lahore
+    // ROUTE: Zahedan → Kandahar → Kabul → Peshawar → Islamabad → Kashmir → Jammu → Pathankot → Lahore
     var remainingWaypoints = [
-        [currentLat, currentLng],  // Zahedan, Iran
-        [29.0, 61.5],              // Taftan border area
-        [30.1830, 66.9989],        // Quetta, Pakistan
-        [31.5, 69.5],              // DG Khan area  
-        [30.1956, 71.4753],        // Multan, Pakistan
-        [31.5497, 74.3436]         // Lahore, Pakistan (destination)
+        [currentLat, currentLng],      // Zahedan, Iran (current)
+        [31.6289, 65.7372],            // Kandahar, Afghanistan
+        [34.5553, 69.2075],            // Kabul, Afghanistan
+        [34.0151, 71.5249],            // Peshawar, Pakistan
+        [33.6844, 73.0479],            // Islamabad, Pakistan
+        [34.0837, 74.7973],            // Srinagar, Kashmir
+        [32.7266, 74.8570],            // Jammu
+        [32.2746, 75.6421],            // Pathankot
+        [31.5497, 74.3436]             // Lahore, Pakistan (destination)
     ];
     
     var remainingRoute = L.polyline(remainingWaypoints, {
@@ -488,25 +491,17 @@
         opacity: 0.85
     }).addTo(map);
     
-    // Add small circle markers at remaining waypoints
+    // Add small red circle markers at remaining waypoints with city names
+    var remainingCities = ['Kandahar', 'Kabul', 'Peshawar', 'Islamabad', 'Kashmir', 'Jammu', 'Pathankot'];
     for (var i = 1; i < remainingWaypoints.length - 1; i++) {
         L.circleMarker(remainingWaypoints[i], {
             radius: 5,
             fillColor: '#ef4444',
             color: '#fff',
             weight: 2,
-            fillOpacity: 0.8
-        }).addTo(map);
+            fillOpacity: 0.9
+        }).addTo(map).bindPopup('<div style="font-size:11px;"><strong>' + remainingCities[i-1] + '</strong><br>Upcoming stop</div>');
     }
-    
-    // Add "HEADING TO" label
-    var toDestLabel = L.divIcon({
-        className: 'route-label',
-        html: '<div style="background:#ef4444;color:white;padding:4px 10px;border-radius:10px;font-size:9px;font-weight:bold;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.3);">→ LAHORE</div>',
-        iconSize: [70, 22],
-        iconAnchor: [35, 11]
-    });
-    L.marker([30.8, 72.5], {icon: toDestLabel, zIndexOffset: 500}).addTo(map);
     
     // Add TRUCK marker at current location - always show truck for moving packages
     var packageMarker = L.marker([currentLat, currentLng], {icon: truckIcon, zIndexOffset: 1000}).addTo(map)
