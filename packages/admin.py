@@ -6,7 +6,7 @@ from django.utils.html import format_html
 from django.utils import timezone
 from consignment.admin import admin_site
 from .models import Package
-from tracking.models import TrackingHistory
+from tracking.models import TrackingHistory, RouteWaypoint
 
 
 class TrackingHistoryInline(admin.TabularInline):
@@ -16,7 +16,17 @@ class TrackingHistoryInline(admin.TabularInline):
     fields = ('status', 'location', 'latitude', 'longitude', 'notes', 'timestamp')
     classes = ('collapse',)
     verbose_name = "Tracking Update"
-    verbose_name_plural = "Tracking History"
+    verbose_name_plural = "📍 Tracking History"
+
+
+class RouteWaypointInline(admin.TabularInline):
+    """Inline for editing the truck's route waypoints"""
+    model = RouteWaypoint
+    extra = 1
+    fields = ('order', 'city_name', 'latitude', 'longitude', 'is_passed', 'notes')
+    ordering = ['order']
+    verbose_name = "Route Waypoint"
+    verbose_name_plural = "🗺️ Route Waypoints (Define where truck passes through)"
 
 
 @admin.register(Package, site=admin_site)
@@ -30,7 +40,7 @@ class PackageAdmin(admin.ModelAdmin):
     list_select_related = ('sender', 'assigned_driver')
     save_on_top = True
     
-    inlines = [TrackingHistoryInline]
+    inlines = [RouteWaypointInline, TrackingHistoryInline]
     
     fieldsets = (
         ('📦 Package Tracking', {

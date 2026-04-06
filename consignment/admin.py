@@ -29,6 +29,23 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             'fields': (('coverage_standard', 'coverage_next_day'),),
             'classes': ('collapse',),
         }),
+        ('🗺️ Map Route Colors', {
+            'fields': (
+                ('map_route_traveled_color', 'map_route_remaining_color'),
+                ('map_route_traveled_width', 'map_route_remaining_width'),
+                'map_route_opacity',
+            ),
+            'description': 'Customize the route lines on tracking maps. Use hex colors (e.g., #3b82f6).'
+        }),
+        ('📍 Map Marker Settings', {
+            'fields': (
+                ('map_marker_truck_size', 'map_marker_truck_color'),
+                ('map_marker_passed_size', 'map_marker_passed_color'),
+                ('map_marker_waypoint_size', 'map_marker_upcoming_color'),
+                'map_marker_opacity',
+            ),
+            'description': 'Customize marker sizes and colors. Reduce size/opacity for subtler markers.'
+        }),
     )
     
     def has_add_permission(self, request):

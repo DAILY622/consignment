@@ -265,6 +265,22 @@
             setTimeout(initMap, 50);
             return;
         }
+    
+    // ===== MAP SETTINGS FROM ADMIN (loaded early for icon definitions) =====
+    var mapSettings = {
+        routeTraveledColor: '{{ map_settings.map_route_traveled_color|default:"#3b82f6" }}',
+        routeRemainingColor: '{{ map_settings.map_route_remaining_color|default:"#ef4444" }}',
+        routeTraveledWidth: {{ map_settings.map_route_traveled_width|default:6 }},
+        routeRemainingWidth: {{ map_settings.map_route_remaining_width|default:5 }},
+        routeOpacity: {{ map_settings.map_route_opacity|default:1.0 }},
+        markerTruckSize: {{ map_settings.map_marker_truck_size|default:60 }},
+        markerTruckColor: '{{ map_settings.map_marker_truck_color|default:"#dc2626" }}',
+        markerPassedSize: {{ map_settings.map_marker_passed_size|default:6 }},
+        markerPassedColor: '{{ map_settings.map_marker_passed_color|default:"#22c55e" }}',
+        markerWaypointSize: {{ map_settings.map_marker_waypoint_size|default:6 }},
+        markerUpcomingColor: '{{ map_settings.map_marker_upcoming_color|default:"#ef4444" }}',
+        markerOpacity: {{ map_settings.map_marker_opacity|default:1.0 }}
+    };
         
     // Global city coordinates database (international shipping support)
     var globalCities = {
@@ -339,27 +355,33 @@
     // Add zoom control to bottom right
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     
-    // 🚚 TRUCK ICON - always show truck for packages on the road
+    // Calculate dynamic sizes based on admin settings
+    var truckSize = mapSettings.markerTruckSize;
+    var pulseSize = Math.round(truckSize * 1.33);
+    var truckFontSize = Math.round(truckSize * 0.58);
+    var truckAnchor = Math.round(truckSize / 2);
+    
+    // 🚚 TRUCK ICON - uses admin-defined size and color
     var truckIcon = L.divIcon({
         className: 'truck-marker',
         html: `
-            <div style="position:relative;">
-                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:rgba(239,68,68,0.4);border-radius:50%;animation:pulse 1.5s infinite;"></div>
-                <div style="position:relative;background:linear-gradient(135deg,#dc2626,#b91c1c);width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:5px solid white;box-shadow:0 6px 25px rgba(220,38,38,0.7);">
-                    <span style="font-size:35px;">🚚</span>
+            <div style="position:relative;opacity:${mapSettings.markerOpacity};">
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:${pulseSize}px;height:${pulseSize}px;background:rgba(239,68,68,0.4);border-radius:50%;animation:pulse 1.5s infinite;"></div>
+                <div style="position:relative;background:linear-gradient(135deg,${mapSettings.markerTruckColor},#b91c1c);width:${truckSize}px;height:${truckSize}px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:5px solid white;box-shadow:0 6px 25px rgba(220,38,38,0.7);">
+                    <span style="font-size:${truckFontSize}px;">🚚</span>
                 </div>
                 <div style="position:absolute;top:-12px;right:-12px;background:#22c55e;color:white;font-size:10px;padding:4px 10px;border-radius:14px;font-weight:bold;border:2px solid white;animation:blink 1s infinite;box-shadow:0 2px 8px rgba(0,0,0,0.3);">LIVE</div>
             </div>
         `,
-        iconSize: [60, 60],
-        iconAnchor: [30, 30]
+        iconSize: [truckSize, truckSize],
+        iconAnchor: [truckAnchor, truckAnchor]
     });
     
     // 📦 Package Icon for other statuses
     var packageIcon = L.divIcon({
         className: 'package-marker-animated',
         html: `
-            <div style="position:relative;">
+            <div style="position:relative;opacity:${mapSettings.markerOpacity};">
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(249,115,22,0.3);border-radius:50%;animation:pulse 2s infinite;"></div>
                 <div style="position:relative;background:linear-gradient(135deg,#f97316,#ea580c);width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 15px rgba(249,115,22,0.5);transform:rotate(-5deg);">
                     <span style="font-size:26px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.2));">📦</span>
@@ -454,7 +476,7 @@
     {% endif %}
     {% endfor %}
     
-    // Solid BLUE line showing completed/traveled route through waypoints
+    // Solid line showing completed/traveled route through waypoints
     var traveledPoints = [senderCoords];
     {% for event in tracking_history reversed %}
     {% if event.latitude and event.longitude %}
@@ -464,42 +486,46 @@
     
     if (traveledPoints.length > 1) {
         var traveledRoute = L.polyline(traveledPoints, {
-            color: '#3b82f6',
-            weight: 6,
-            opacity: 1
+            color: mapSettings.routeTraveledColor,
+            weight: mapSettings.routeTraveledWidth,
+            opacity: mapSettings.routeOpacity
         }).addTo(map);
     }
     
-    // Dashed RED line showing remaining route (from current position to destination)
-    // ROUTE: Zahedan → Kandahar → Kabul → Peshawar → Islamabad → Kashmir → Jammu → Pathankot → Lahore
-    var remainingWaypoints = [
-        [currentLat, currentLng],      // Zahedan, Iran (current)
-        [31.6289, 65.7372],            // Kandahar, Afghanistan
-        [34.5553, 69.2075],            // Kabul, Afghanistan
-        [34.0151, 71.5249],            // Peshawar, Pakistan
-        [33.6844, 73.0479],            // Islamabad, Pakistan
-        [34.0837, 74.7973],            // Srinagar, Kashmir
-        [32.7266, 74.8570],            // Jammu
-        [32.2746, 75.6421],            // Pathankot
-        [31.5497, 74.3436]             // Lahore, Pakistan (destination)
-    ];
+    // ===== ADMIN-DEFINED ROUTE WAYPOINTS =====
+    // Build remaining waypoints from admin-defined route OR fallback to destination
+    var remainingWaypoints = [[currentLat, currentLng]];
+    var remainingCities = [];
     
+    {% if route_waypoints %}
+    // Use admin-defined waypoints
+    {% for wp in route_waypoints %}
+    {% if not wp.is_passed %}
+    remainingWaypoints.push([{{ wp.latitude }}, {{ wp.longitude }}]);
+    remainingCities.push('{{ wp.city_name|escapejs }}');
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    
+    // Always add destination as final point
+    remainingWaypoints.push(receiverCoords);
+    
+    // Draw remaining route line
     var remainingRoute = L.polyline(remainingWaypoints, {
-        color: '#ef4444',
-        weight: 5,
+        color: mapSettings.routeRemainingColor,
+        weight: mapSettings.routeRemainingWidth,
         dashArray: '10, 6',
-        opacity: 0.85
+        opacity: mapSettings.routeOpacity * 0.85
     }).addTo(map);
     
-    // Add small red circle markers at remaining waypoints with city names
-    var remainingCities = ['Kandahar', 'Kabul', 'Peshawar', 'Islamabad', 'Kashmir', 'Jammu', 'Pathankot'];
+    // Add circle markers at remaining waypoints with city names
     for (var i = 1; i < remainingWaypoints.length - 1; i++) {
         L.circleMarker(remainingWaypoints[i], {
-            radius: 5,
-            fillColor: '#ef4444',
+            radius: mapSettings.markerWaypointSize,
+            fillColor: mapSettings.markerUpcomingColor,
             color: '#fff',
             weight: 2,
-            fillOpacity: 0.9
+            fillOpacity: mapSettings.markerOpacity * 0.9
         }).addTo(map).bindPopup('<div style="font-size:11px;"><strong>' + remainingCities[i-1] + '</strong><br>Upcoming stop</div>');
     }
     
@@ -508,7 +534,7 @@
         .bindPopup(`
             <div style="min-width:220px;padding:5px;">
                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                    <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                    <div style="background:linear-gradient(135deg,${mapSettings.markerTruckColor},#b91c1c);width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;">
                         <span style="font-size:26px;">🚚</span>
                     </div>
                     <div>
@@ -524,16 +550,16 @@
         `)
         .openPopup();
     
-    // Add tracking history points as simple GREEN DOTS
+    // Add tracking history points as GREEN DOTS (passed locations)
     {% for event in tracking_history reversed %}
     {% if event.latitude and event.longitude %}
     L.circleMarker([{{ event.latitude }}, {{ event.longitude }}], {
-        radius: 6,
-        fillColor: '#22c55e',
+        radius: mapSettings.markerPassedSize,
+        fillColor: mapSettings.markerPassedColor,
         color: '#ffffff',
         weight: 2,
-        opacity: 1,
-        fillOpacity: 1
+        opacity: mapSettings.markerOpacity,
+        fillOpacity: mapSettings.markerOpacity
     }).addTo(map).bindPopup(`
         <div style="font-size:12px;min-width:160px;">
             <div style="font-weight:bold;color:#16a34a;margin-bottom:6px;">✓ {{ event.status }}</div>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.cache import cache
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class SiteSettings(models.Model):
@@ -37,6 +38,67 @@ class SiteSettings(models.Model):
     # Coverage amounts
     coverage_standard = models.DecimalField(max_digits=8, decimal_places=2, default=50.00, help_text="Standard coverage amount (£)")
     coverage_next_day = models.DecimalField(max_digits=8, decimal_places=2, default=100.00, help_text="Next day coverage amount (£)")
+    
+    # ===== MAP CUSTOMIZATION SETTINGS =====
+    # Route line colors (hex)
+    map_route_traveled_color = models.CharField(
+        max_length=7, default='#3b82f6',
+        help_text="Color for traveled route line (hex, e.g. #3b82f6 = blue)"
+    )
+    map_route_remaining_color = models.CharField(
+        max_length=7, default='#ef4444',
+        help_text="Color for remaining route line (hex, e.g. #ef4444 = red)"
+    )
+    
+    # Route line thickness
+    map_route_traveled_width = models.PositiveIntegerField(
+        default=6, validators=[MinValueValidator(1), MaxValueValidator(20)],
+        help_text="Width of traveled route line (1-20 pixels)"
+    )
+    map_route_remaining_width = models.PositiveIntegerField(
+        default=5, validators=[MinValueValidator(1), MaxValueValidator(20)],
+        help_text="Width of remaining route line (1-20 pixels)"
+    )
+    
+    # Marker sizes
+    map_marker_truck_size = models.PositiveIntegerField(
+        default=60, validators=[MinValueValidator(30), MaxValueValidator(100)],
+        help_text="Truck marker size (30-100 pixels)"
+    )
+    map_marker_waypoint_size = models.PositiveIntegerField(
+        default=6, validators=[MinValueValidator(3), MaxValueValidator(15)],
+        help_text="Waypoint dot size (3-15 pixels)"
+    )
+    map_marker_passed_size = models.PositiveIntegerField(
+        default=6, validators=[MinValueValidator(3), MaxValueValidator(15)],
+        help_text="Passed checkpoint dot size (3-15 pixels)"
+    )
+    
+    # Marker colors
+    map_marker_passed_color = models.CharField(
+        max_length=7, default='#22c55e',
+        help_text="Color for passed waypoint dots (hex, e.g. #22c55e = green)"
+    )
+    map_marker_upcoming_color = models.CharField(
+        max_length=7, default='#ef4444',
+        help_text="Color for upcoming waypoint dots (hex, e.g. #ef4444 = red)"
+    )
+    map_marker_truck_color = models.CharField(
+        max_length=7, default='#dc2626',
+        help_text="Truck marker background color (hex)"
+    )
+    
+    # Opacity/brightness (0.1 to 1.0)
+    map_route_opacity = models.DecimalField(
+        max_digits=2, decimal_places=1, default=1.0,
+        validators=[MinValueValidator(0.1), MaxValueValidator(1.0)],
+        help_text="Route line opacity (0.1 = faint, 1.0 = full brightness)"
+    )
+    map_marker_opacity = models.DecimalField(
+        max_digits=2, decimal_places=1, default=1.0,
+        validators=[MinValueValidator(0.1), MaxValueValidator(1.0)],
+        help_text="Marker opacity (0.1 = faint, 1.0 = full brightness)"
+    )
     
     # Timestamps
     updated_at = models.DateTimeField(auto_now=True)

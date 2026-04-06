@@ -55,16 +55,23 @@ def home(request):
 
 def track(request):
     """Public tracking view - shows status and location only (no PII)"""
+    from consignment.models import SiteSettings
+    
     query = request.GET.get('q', '').strip()
     package = None
     tracking_history = []
     latest_location = None
+    route_waypoints = []
     
     if query:
         package = Package.objects.filter(tracking_number__iexact=query).first()
         if package:
             tracking_history = package.tracking_history.all()
             latest_location = tracking_history.filter(latitude__isnull=False).first()
+            # Get admin-defined route waypoints for the map
+            route_waypoints = list(package.route_waypoints.all().order_by('order').values(
+                'city_name', 'latitude', 'longitude', 'is_passed', 'order'
+            ))
     
     # Build safe package data (no PII exposed)
     safe_package = None
@@ -81,13 +88,18 @@ def track(request):
             'created_at': package.created_at,
         }
     
+    # Get map settings from admin
+    map_settings = SiteSettings.get_settings()
+    
     return render(request, 'track.html', {
         'query': query,
-        'package': package,  # Full package for authenticated owner only
-        'safe_package': safe_package,  # Safe data for public display
+        'package': package,
+        'safe_package': safe_package,
         'tracking_history': tracking_history,
         'latest_location': latest_location,
-        'city_coords': GLOBAL_CITY_COORDS,  # Pass global coords to template
+        'city_coords': GLOBAL_CITY_COORDS,
+        'route_waypoints': route_waypoints,
+        'map_settings': map_settings,
     })
 
 
