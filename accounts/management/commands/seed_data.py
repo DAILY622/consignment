@@ -5,7 +5,8 @@ import random
 
 from accounts.models import User
 from packages.models import Package
-from tracking.models import TrackingHistory
+from tracking.models import TrackingHistory, RouteWaypoint
+from consignment.models import SiteSettings
 
 
 class Command(BaseCommand):
@@ -13,6 +14,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write('Seeding database...')
+        
+        # Initialize SiteSettings
+        SiteSettings.objects.get_or_create(pk=1)
+        self.stdout.write(self.style.SUCCESS('✅ Site settings initialized'))
         
         # Create admin user
         admin, created = User.objects.get_or_create(
@@ -64,7 +69,103 @@ class Command(BaseCommand):
             driver.save()
             self.stdout.write(self.style.SUCCESS('Created driver user'))
         
-        # Sample UK cities with coordinates
+        # ============================================
+        # CREATE NORWAY → PAKISTAN DEMO PACKAGE
+        # ============================================
+        erik, created = User.objects.get_or_create(
+            username='erik.johansen',
+            defaults={
+                'email': 'erik@example.no',
+                'first_name': 'Erik',
+                'last_name': 'Johansen',
+            }
+        )
+        if created:
+            erik.set_password('demo123')
+            erik.save()
+        
+        demo_pkg, created = Package.objects.get_or_create(
+            tracking_number='DFX-2XWJFI8R',
+            defaults={
+                'sender': erik,
+                'sender_name': 'Erik Johansen',
+                'sender_address': 'Karl Johans gate 15',
+                'sender_phone': '+47 123 45 678',
+                'sender_city': 'Oslo',
+                'sender_country': 'Norway',
+                'sender_postcode': '0154',
+                'receiver_name': 'Ahmed Khan',
+                'receiver_address': '45 Mall Road, Gulberg III',
+                'receiver_phone': '+92 300 1234567',
+                'receiver_city': 'Lahore',
+                'receiver_country': 'Pakistan',
+                'receiver_postcode': '54000',
+                'weight': 2.5,
+                'description': 'Electronics and documents',
+                'status': 'in_transit',
+                'estimated_delivery': timezone.now().date() + timedelta(days=5),
+            }
+        )
+        
+        if created:
+            self.stdout.write(self.style.SUCCESS(f'✅ Created demo package: DFX-2XWJFI8R'))
+            
+            # Add tracking history
+            tracking_data = [
+                ('Package Created', 'Oslo, Norway', 59.9139, 10.7522),
+                ('In Transit', 'Gothenburg, Sweden', 57.7089, 11.9746),
+                ('In Transit', 'Copenhagen, Denmark', 55.6761, 12.5683),
+                ('In Transit', 'Hamburg, Germany', 53.5511, 9.9937),
+                ('In Transit', 'Prague, Czech Republic', 50.0755, 14.4378),
+                ('In Transit', 'Vienna, Austria', 48.2082, 16.3738),
+                ('In Transit', 'Budapest, Hungary', 47.4979, 19.0402),
+                ('In Transit', 'Bucharest, Romania', 44.4268, 26.1025),
+                ('In Transit', 'Sofia, Bulgaria', 42.6977, 23.3219),
+                ('In Transit', 'Istanbul, Turkey', 41.0082, 28.9784),
+                ('In Transit', 'Ankara, Turkey', 39.9334, 32.8597),
+                ('In Transit', 'Erzurum, Turkey', 39.9055, 41.2658),
+                ('In Transit', 'Tabriz, Iran', 38.0962, 46.2738),
+                ('In Transit', 'Tehran, Iran', 35.6892, 51.3890),
+                ('In Transit', 'Isfahan, Iran', 32.6546, 51.6680),
+                ('In Transit', 'Kerman, Iran', 30.2839, 57.0834),
+                ('In Transit', 'Zahedan, Iran', 29.4963, 60.8629),
+            ]
+            
+            for status, location, lat, lng in tracking_data:
+                TrackingHistory.objects.create(
+                    package=demo_pkg,
+                    status=status,
+                    location=location,
+                    latitude=lat,
+                    longitude=lng,
+                )
+            
+            # Add route waypoints
+            waypoints = [
+                (0, 'Kandahar', 31.6289, 65.7372),
+                (1, 'Kabul', 34.5553, 69.2075),
+                (2, 'Peshawar', 34.0151, 71.5249),
+                (3, 'Islamabad', 33.6844, 73.0479),
+                (4, 'Kashmir', 34.0837, 74.7973),
+                (5, 'Jammu', 32.7266, 74.8570),
+                (6, 'Pathankot', 32.2746, 75.6421),
+            ]
+            
+            for order, city, lat, lng in waypoints:
+                RouteWaypoint.objects.create(
+                    package=demo_pkg,
+                    city_name=city,
+                    latitude=lat,
+                    longitude=lng,
+                    order=order,
+                    is_passed=False,
+                )
+            
+            self.stdout.write(self.style.SUCCESS(f'✅ Added tracking history and route waypoints'))
+        
+        # ============================================
+        # SAMPLE UK PACKAGES
+        # ============================================
         cities = [
             ('London', 'SW1A 1AA', 51.5074, -0.1278),
             ('Manchester', 'M1 1AD', 53.4808, -2.2426),
@@ -80,7 +181,6 @@ class Command(BaseCommand):
         
         statuses = ['pending', 'processing', 'in_transit', 'out_for_delivery', 'delivered']
         
-        # Create sample packages
         for i in range(10):
             sender_city = random.choice(cities)
             receiver_city = random.choice([c for c in cities if c != sender_city])
@@ -108,7 +208,6 @@ class Command(BaseCommand):
             )
             
             if created:
-                # Add tracking history
                 TrackingHistory.objects.create(
                     package=package,
                     status='Package Created',
@@ -155,9 +254,12 @@ class Command(BaseCommand):
                         notes='Signed by recipient'
                     )
         
-        self.stdout.write(self.style.SUCCESS('Database seeded successfully!'))
+        self.stdout.write(self.style.SUCCESS('\n🎉 Database seeded successfully!'))
         self.stdout.write('')
         self.stdout.write('Demo accounts:')
         self.stdout.write('  Admin: admin / admin123')
         self.stdout.write('  User: user / password')
         self.stdout.write('  Driver: driver / driver123')
+        self.stdout.write('')
+        self.stdout.write('Demo package:')
+        self.stdout.write('  Track: /track/?q=DFX-2XWJFI8R')
