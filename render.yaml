@@ -3,7 +3,7 @@
 
 databases:
   - name: consignment-db
-    plan: starter
+    plan: basic
     databaseName: consignment
     user: consignment
 
