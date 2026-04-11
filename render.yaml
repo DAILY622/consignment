@@ -1,8 +1,5 @@
-databases:
-  - name: consignment-db
-    plan: free
-    databaseName: consignment
-    user: consignment
+# Render Blueprint for Consignment Site
+# WARNING: Keep repo private - contains secrets
 
 services:
   - type: web
@@ -13,11 +10,9 @@ services:
     startCommand: "gunicorn consignment.wsgi:application"
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: consignment-db
-          property: connectionString
+        value: postgresql://consignment:dbq9ZxDgEhT9Eoh7U3nFsJCSqxX7imCA@dpg-d6udviaa214c73d2pep0-a.oregon-postgres.render.com/consignment
       - key: SECRET_KEY
-        generateValue: true
+        value: django-insecure-x7k9m2p4q8r1s5t3u6v0w9y2z4a7b1c3d5e8f0g2h4j6
       - key: DEBUG
         value: "False"
       - key: PYTHON_VERSION
