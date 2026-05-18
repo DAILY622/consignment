@@ -140,6 +140,8 @@
                 <button class="map-btn" onclick="map.zoomOut()" title="Zoom Out">−</button>
                 <button class="map-btn" onclick="centerOnPackage()" title="Center Package">📦</button>
                 <button class="map-btn" onclick="fitAllMarkers()" title="Show All">🗺️</button>
+                <button class="map-btn" onclick="focusCurrentLocation()" title="Street View">🛣️</button>
+                <button class="map-btn" onclick="toggleAccessRoads()" title="Toggle Access Roads">📍</button>
                 <button class="map-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
             </div>
             <!-- Package Info Overlay -->
@@ -168,6 +170,114 @@
                 </div>
                 <div class="text-gray-500 text-xs">
                     <span id="distance-info">Calculating route...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- UPGRADED: Route Details Panel -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+            <span class="mr-2">🛣️</span> Route Details & Journey Information
+        </h3>
+        
+        <div class="grid md:grid-cols-3 gap-4">
+            <!-- Distance Card -->
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-blue-600 text-2xl">📏</span>
+                    <span class="text-xs text-blue-600 font-semibold">DISTANCE</span>
+                </div>
+                <div class="text-2xl font-bold text-blue-900" id="total-distance">--- km</div>
+                <div class="text-xs text-blue-600 mt-1">Total journey</div>
+                <div class="mt-2 pt-2 border-t border-blue-200">
+                    <div class="text-sm text-blue-700"><span class="font-semibold" id="completed-distance">---</span> completed</div>
+                    <div class="text-sm text-blue-700"><span class="font-semibold" id="remaining-distance">---</span> remaining</div>
+                </div>
+            </div>
+            
+            <!-- Progress Card -->
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-purple-600 text-2xl">📊</span>
+                    <span class="text-xs text-purple-600 font-semibold">PROGRESS</span>
+                </div>
+                <div class="text-2xl font-bold text-purple-900" id="journey-progress">---%</div>
+                <div class="text-xs text-purple-600 mt-1">Journey completed</div>
+                <div class="mt-2">
+                    <div class="w-full bg-purple-200 rounded-full h-2.5">
+                        <div class="bg-purple-600 h-2.5 rounded-full transition-all duration-500" id="progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="text-xs text-purple-600 mt-2">
+                    <span id="waypoints-passed">0</span> of <span id="total-waypoints">0</span> waypoints passed
+                </div>
+            </div>
+            
+            <!-- ETA Card -->
+            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-green-600 text-2xl">⏱️</span>
+                    <span class="text-xs text-green-600 font-semibold">ESTIMATED TIME</span>
+                </div>
+                <div class="text-2xl font-bold text-green-900" id="eta-hours">-- hrs</div>
+                <div class="text-xs text-green-600 mt-1">to destination</div>
+                <div class="mt-2 pt-2 border-t border-green-200">
+                    <div class="text-sm text-green-700">Avg speed: <span class="font-semibold">65 km/h</span></div>
+                    <div class="text-sm text-green-700 mt-1">ETA: <span class="font-semibold" id="arrival-time">Calculating...</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Route Segments -->
+        <div class="mt-6 bg-gray-50 rounded-lg p-4">
+            <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                <span class="mr-2">📍</span> Route Segments
+            </h4>
+            <div class="space-y-2" id="route-segments">
+                <div class="flex items-center gap-3 text-sm">
+                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div class="flex-1">
+                        <span class="font-semibold">{{ package.sender_city }}, {{ package.sender_country }}</span>
+                        <span class="text-gray-500 ml-2">→ Origin</span>
+                    </div>
+                </div>
+                {% for event in tracking_history reversed %}
+                {% if event.latitude and event.longitude %}
+                <div class="flex items-center gap-3 text-sm">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div class="flex-1">
+                        <span class="font-semibold">{{ event.location }}</span>
+                        <span class="text-gray-500 ml-2 text-xs">{{ event.timestamp|date:"M j, g:i A" }}</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <div class="flex items-center gap-3 text-sm">
+                    <div class="w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
+                    <div class="flex-1">
+                        <span class="font-semibold">{{ latest_location.location|default:"Current position" }}</span>
+                        <span class="text-gray-500 ml-2">→ Current Location</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 text-sm opacity-50">
+                    <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                    <div class="flex-1">
+                        <span class="font-semibold">{{ package.receiver_city }}, {{ package.receiver_country }}</span>
+                        <span class="text-gray-500 ml-2">→ Destination (Upcoming)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nearby Infrastructure Info -->
+        <div class="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <h4 class="font-semibold text-amber-800 mb-2 flex items-center">
+                <span class="mr-2">🗺️</span> Nearby Infrastructure (within 5km)
+            </h4>
+            <div class="text-sm text-amber-700">
+                <div id="infrastructure-info">
+                    <span class="opacity-60">Loading nearby facilities...</span>
                 </div>
             </div>
         </div>
@@ -346,11 +456,55 @@
         scrollWheelZoom: true
     }).setView([centerLat, centerLng], zoomLevel);
     
-    // Use a better looking map tile
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    // ===== UPGRADED: Multiple Tile Layers with Controls =====
+    
+    // Default: Voyager with roads (clean, modern look)
+    var voyagerTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         attribution: '© OpenStreetMap © CARTO',
         maxZoom: 19
-    }).addTo(map);
+    });
+    
+    // Detailed OpenStreetMap with all roads and labels
+    var osmDetailedTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap',
+        maxZoom: 19
+    });
+    
+    // Satellite/Aerial view
+    var satelliteTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '© Esri',
+        maxZoom: 19
+    });
+    
+    // Dark mode for night viewing
+    var darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap © CARTO',
+        maxZoom: 19
+    });
+    
+    // Add default layer
+    voyagerTiles.addTo(map);
+    
+    // Road overlay layer (shows roads on top of any base layer)
+    var roadsOverlay = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap',
+        maxZoom: 19,
+        opacity: 0.4
+    });
+    
+    // Layer control for switching
+    var baseMaps = {
+        "🗺️ Clean Map": voyagerTiles,
+        "🛣️ Detailed Roads": osmDetailedTiles,
+        "🛰️ Satellite": satelliteTiles,
+        "🌙 Dark Mode": darkTiles
+    };
+    
+    var overlayMaps = {
+        "📍 Road Overlay": roadsOverlay
+    };
+    
+    L.control.layers(baseMaps, overlayMaps, {position: 'topright'}).addTo(map);
     
     // Add zoom control to bottom right
     L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -529,26 +683,71 @@
         }).addTo(map).bindPopup('<div style="font-size:11px;"><strong>' + remainingCities[i-1] + '</strong><br>Upcoming stop</div>');
     }
     
-    // Add TRUCK marker at current location - always show truck for moving packages
-    var packageMarker = L.marker([currentLat, currentLng], {icon: truckIcon, zIndexOffset: 1000}).addTo(map)
-        .bindPopup(`
-            <div style="min-width:220px;padding:5px;">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                    <div style="background:linear-gradient(135deg,${mapSettings.markerTruckColor},#b91c1c);width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                        <span style="font-size:26px;">🚚</span>
-                    </div>
-                    <div>
-                        <div style="font-weight:bold;color:#333;">{{ safe_package.tracking_number }}</div>
-                        <div style="font-size:11px;color:#22c55e;font-weight:bold;">🟢 On the Road!</div>
-                    </div>
+    // ===== UPGRADED: Enhanced Current Location Marker with Address Lookup =====
+    var packageMarker = L.marker([currentLat, currentLng], {icon: truckIcon, zIndexOffset: 1000}).addTo(map);
+    
+    // Create enhanced popup with loading state
+    var popupContent = `
+        <div style="min-width:280px;padding:5px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <div style="background:linear-gradient(135deg,${mapSettings.markerTruckColor},#b91c1c);width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                    <span style="font-size:26px;">🚚</span>
                 </div>
-                <div style="background:#f3f4f6;padding:8px;border-radius:8px;font-size:12px;">
-                    <div>📍 {{ latest_location.location|default:"En route" }}</div>
-                    <div style="color:#666;margin-top:4px;">Last update: {% now "M j, g:i A" %}</div>
+                <div>
+                    <div style="font-weight:bold;color:#333;">{{ safe_package.tracking_number }}</div>
+                    <div style="font-size:11px;color:#22c55e;font-weight:bold;">🟢 On the Road!</div>
                 </div>
             </div>
-        `)
-        .openPopup();
+            <div style="background:#f3f4f6;padding:10px;border-radius:8px;font-size:12px;margin-bottom:8px;">
+                <div style="font-weight:600;margin-bottom:4px;">📍 Current Location</div>
+                <div>{{ latest_location.location|default:"En route" }}</div>
+                <div style="color:#666;margin-top:4px;font-size:11px;">Last update: {% now "M j, g:i A" %}</div>
+                <div id="reverse-geocode" style="margin-top:6px;padding-top:6px;border-top:1px solid #ddd;color:#666;font-size:11px;">
+                    <span style="opacity:0.6;">🔍 Loading address...</span>
+                </div>
+            </div>
+            <div style="background:#e0f2fe;padding:8px;border-radius:6px;font-size:11px;">
+                <div style="font-weight:600;color:#0369a1;margin-bottom:4px;">🎯 Distance to Destination</div>
+                <div id="distance-to-dest" style="color:#0c4a6e;">Calculating...</div>
+            </div>
+            <div style="margin-top:8px;padding-top:8px;border-top:1px solid #e5e7eb;font-size:11px;">
+                <div style="color:#666;">GPS: ${currentLat.toFixed(6)}, ${currentLng.toFixed(6)}</div>
+            </div>
+        </div>
+    `;
+    
+    packageMarker.bindPopup(popupContent).openPopup();
+    
+    // Reverse geocoding - Get address from coordinates
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLat}&lon=${currentLng}&zoom=18&addressdetails=1`)
+        .then(response => response.json())
+        .then(data => {
+            var geocodeEl = document.getElementById('reverse-geocode');
+            if (geocodeEl && data.display_name) {
+                var parts = data.display_name.split(',').slice(0, 3).join(',');
+                geocodeEl.innerHTML = `<div style="color:#333;">🗺️ ${parts}</div>`;
+                
+                // Add nearby landmark if available
+                if (data.address && (data.address.amenity || data.address.tourism)) {
+                    var landmark = data.address.amenity || data.address.tourism;
+                    geocodeEl.innerHTML += `<div style="color:#666;margin-top:2px;">Near: ${landmark}</div>`;
+                }
+            }
+        })
+        .catch(err => {
+            var geocodeEl = document.getElementById('reverse-geocode');
+            if (geocodeEl) geocodeEl.innerHTML = '<div style="color:#999;">Address unavailable</div>';
+        });
+    
+    // Calculate and display distance to destination
+    var distToDest = calcDistance(currentLat, currentLng, receiverCoords[0], receiverCoords[1]);
+    var estimatedHours = (distToDest / 65).toFixed(1); // Assuming 65 km/h average
+    setTimeout(function() {
+        var distEl = document.getElementById('distance-to-dest');
+        if (distEl) {
+            distEl.innerHTML = `<strong>${distToDest.toFixed(1)} km</strong> (≈ ${estimatedHours}h at 65 km/h avg)`;
+        }
+    }, 500);
     
     // Add tracking history points as GREEN DOTS (passed locations)
     {% for event in tracking_history reversed %}
@@ -572,6 +771,78 @@
     {% endif %}
     {% endfor %}
     
+    // ===== UPGRADED: Highlight Access Roads & Infrastructure =====
+    // Add a circle around current location to show nearby area
+    var accessRadiusCircle = L.circle([currentLat, currentLng], {
+        color: '#f59e0b',
+        fillColor: '#fef3c7',
+        fillOpacity: 0.15,
+        weight: 2,
+        opacity: 0.4,
+        radius: 5000, // 5km radius
+        dashArray: '5, 5'
+    }).addTo(map);
+    
+    // Fetch nearby POIs (Points of Interest) - roads, gas stations, rest stops
+    var infrastructureCount = {fuel: 0, parking: 0, rest_area: 0, roads: 0};
+    
+    fetch(`https://overpass-api.de/api/interpreter?data=[out:json];(node(around:5000,${currentLat},${currentLng})[amenity~"fuel|parking|rest_area"];way(around:5000,${currentLat},${currentLng})[highway~"motorway|trunk|primary"];);out center 20;`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.elements) {
+                data.elements.forEach(function(element) {
+                    var lat = element.lat || element.center.lat;
+                    var lon = element.lon || element.center.lon;
+                    var icon = '⛽';
+                    var name = 'Service Area';
+                    var color = '#3b82f6';
+                    
+                    if (element.tags) {
+                        if (element.tags.amenity === 'fuel') { 
+                            icon = '⛽'; name = 'Gas Station'; color = '#ef4444'; 
+                            infrastructureCount.fuel++;
+                        }
+                        else if (element.tags.amenity === 'parking') { 
+                            icon = '🅿️'; name = 'Parking'; color = '#6366f1'; 
+                            infrastructureCount.parking++;
+                        }
+                        else if (element.tags.amenity === 'rest_area') { 
+                            icon = '🛑'; name = 'Rest Stop'; color = '#10b981'; 
+                            infrastructureCount.rest_area++;
+                        }
+                        else if (element.tags.highway) { 
+                            icon = '🛣️'; name = element.tags.highway + ' road'; color = '#8b5cf6'; 
+                            infrastructureCount.roads++;
+                        }
+                    }
+                    
+                    L.circleMarker([lat, lon], {
+                        radius: 4,
+                        fillColor: color,
+                        color: '#fff',
+                        weight: 1,
+                        fillOpacity: 0.7
+                    }).addTo(map).bindPopup(`<div style="font-size:11px;"><strong>${icon} ${name}</strong><br>${element.tags?.name || 'Nearby facility'}</div>`);
+                });
+                
+                // Update infrastructure info panel
+                var infoHtml = '';
+                if (infrastructureCount.fuel > 0) infoHtml += `⛽ ${infrastructureCount.fuel} Gas Station(s) • `;
+                if (infrastructureCount.parking > 0) infoHtml += `🅿️ ${infrastructureCount.parking} Parking Area(s) • `;
+                if (infrastructureCount.rest_area > 0) infoHtml += `🛑 ${infrastructureCount.rest_area} Rest Stop(s) • `;
+                if (infrastructureCount.roads > 0) infoHtml += `🛣️ ${infrastructureCount.roads} Major Road(s)`;
+                
+                if (infoHtml === '') infoHtml = 'No major facilities detected in immediate area';
+                else infoHtml = infoHtml.replace(/ • $/, ''); // Remove trailing separator
+                
+                document.getElementById('infrastructure-info').innerHTML = infoHtml;
+            }
+        })
+        .catch(err => {
+            console.log('POI fetch failed (optional feature):', err);
+            document.getElementById('infrastructure-info').innerHTML = 'Infrastructure data unavailable (using fallback map)';
+        });
+    
     // Fit bounds to show all markers
     var bounds = L.latLngBounds([senderCoords, receiverCoords, [currentLat, currentLng]]);
     map.fitBounds(bounds, {padding: [60, 60], maxZoom: 12});
@@ -590,10 +861,37 @@
     
     var totalDist = calcDistance(senderCoords[0], senderCoords[1], receiverCoords[0], receiverCoords[1]);
     var remainingDist = calcDistance(currentLat, currentLng, receiverCoords[0], receiverCoords[1]);
-    document.getElementById('distance-info').innerHTML = 
-        `Total: ${totalDist.toFixed(1)} km | Remaining: ${remainingDist.toFixed(1)} km | Progress: ${Math.round((1 - remainingDist/totalDist) * 100)}%`;
+    var completedDist = totalDist - remainingDist;
+    var progressPercent = Math.round((completedDist / totalDist) * 100);
+    var estimatedHoursRemaining = (remainingDist / 65).toFixed(1);
     
-    // Helper functions for controls
+    // Update distance info in footer
+    document.getElementById('distance-info').innerHTML = 
+        `Total: ${totalDist.toFixed(1)} km | Remaining: ${remainingDist.toFixed(1)} km | Progress: ${progressPercent}%`;
+    
+    // ===== UPGRADED: Populate Route Details Cards =====
+    document.getElementById('total-distance').textContent = totalDist.toFixed(1) + ' km';
+    document.getElementById('completed-distance').textContent = completedDist.toFixed(1) + ' km';
+    document.getElementById('remaining-distance').textContent = remainingDist.toFixed(1) + ' km';
+    document.getElementById('journey-progress').textContent = progressPercent + '%';
+    document.getElementById('progress-bar').style.width = progressPercent + '%';
+    document.getElementById('eta-hours').textContent = estimatedHoursRemaining + ' hrs';
+    
+    // Calculate ETA
+    var now = new Date();
+    var etaMillis = now.getTime() + (parseFloat(estimatedHoursRemaining) * 60 * 60 * 1000);
+    var etaDate = new Date(etaMillis);
+    var etaFormatted = etaDate.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}) + ' at ' + 
+                       etaDate.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+    document.getElementById('arrival-time').textContent = etaFormatted;
+    
+    // Count waypoints
+    var totalWaypoints = traveledPoints.length + remainingWaypoints.length - 1;
+    var passedWaypoints = traveledPoints.length - 1;
+    document.getElementById('waypoints-passed').textContent = passedWaypoints;
+    document.getElementById('total-waypoints').textContent = totalWaypoints;
+    
+    // ===== UPGRADED: Enhanced Controls with Road View Toggle =====
     function centerOnPackage() {
         map.setView([currentLat, currentLng], 12, {animate: true});
         packageMarker.openPopup();
@@ -613,6 +911,26 @@
             document.getElementById('map').style.height = '450px';
         }
         setTimeout(function() { map.invalidateSize(); }, 100);
+    }
+    
+    // NEW: Toggle access roads circle
+    function toggleAccessRoads() {
+        if (map.hasLayer(accessRadiusCircle)) {
+            map.removeLayer(accessRadiusCircle);
+        } else {
+            accessRadiusCircle.addTo(map);
+        }
+    }
+    
+    // NEW: Focus on current location with street-level zoom
+    function focusCurrentLocation() {
+        map.setView([currentLat, currentLng], 16, {animate: true});
+        packageMarker.openPopup();
+        // Temporarily add roads overlay for street view
+        if (!map.hasLayer(roadsOverlay)) {
+            roadsOverlay.addTo(map);
+            setTimeout(() => map.removeLayer(roadsOverlay), 5000);
+        }
     }
     
     // Responsive map resize
