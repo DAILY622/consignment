@@ -1,5 +1,6 @@
 # Render Blueprint for DailyFX Delivery Logistics
 # Complete deployment configuration for Render.com
+# All environment variables configured for production deployment
 
 databases:
   - name: consignment-db
@@ -19,18 +20,18 @@ services:
     autoDeploy: true  # Auto-deploy on git push
     
     envVars:
-      # Database Configuration
+      # ===== DATABASE CONFIGURATION =====
       - key: DATABASE_URL
         fromDatabase:
           name: consignment-db
           property: connectionString
       
-      # Django Configuration
+      # ===== DJANGO CORE CONFIGURATION =====
       - key: SECRET_KEY
-        generateValue: true  # Render will generate a secure random key
+        generateValue: true  # Render will generate a secure random key (50+ characters)
       
       - key: DEBUG
-        value: "False"
+        value: "False"  # Always False in production
       
       - key: PYTHON_VERSION
         value: "3.12.0"
@@ -38,28 +39,61 @@ services:
       - key: DJANGO_SETTINGS_MODULE
         value: "consignment.settings"
       
-      # Additional Security
+      # ===== SECURITY & HOSTS =====
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
       
-      # Email Configuration (optional - configure if needed)
-      # - key: EMAIL_HOST
-      #   value: "smtp.gmail.com"
-      # - key: EMAIL_PORT
-      #   value: "587"
-      # - key: EMAIL_USE_TLS
-      #   value: "True"
+      # HTTPS and SSL settings (enabled automatically when DEBUG=False)
+      # SECURE_SSL_REDIRECT=True
+      # SESSION_COOKIE_SECURE=True
+      # CSRF_COOKIE_SECURE=True
+      # SECURE_HSTS_SECONDS=31536000
+      # SECURE_PROXY_SSL_HEADER is configured in settings.py
+      
+      # ===== EMAIL CONFIGURATION =====
+      # Uncomment and configure these for email functionality
+      - key: EMAIL_BACKEND
+        value: "django.core.mail.backends.smtp.EmailBackend"
+      
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      
+      - key: EMAIL_PORT
+        value: "587"
+      
+      - key: EMAIL_USE_TLS
+        value: "True"
+      
+      # Configure these in Render Dashboard (sensitive values)
       # - key: EMAIL_HOST_USER
-      #   value: "your-email@gmail.com"
+      #   sync: false  # Set manually in Render Dashboard
+      
       # - key: EMAIL_HOST_PASSWORD
-      #   sync: false  # Use Render dashboard to set sensitive values
-      # - key: DEFAULT_FROM_EMAIL
-      #   value: "noreply@dailyfxdelivery.com"
+      #   sync: false  # Set manually in Render Dashboard
       
-      # Logging
+      - key: DEFAULT_FROM_EMAIL
+        value: "noreply@dailyfxdelivery.com"
+      
+      - key: CONTACT_EMAIL
+        value: "support@dailyfxdelivery.com"
+      
+      # ===== LOGGING & MONITORING =====
       - key: DJANGO_LOG_LEVEL
-        value: "INFO"
+        value: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
       
-      # Production Settings
+      # ===== PERFORMANCE & WORKERS =====
       - key: WEB_CONCURRENCY
-        value: "2"  # Number of Gunicorn workers
+        value: "2"  # Number of Gunicorn workers (adjust based on plan)
+      
+      # ===== CSRF TRUSTED ORIGINS =====
+      # These are configured in settings.py for .onrender.com domains
+      # Additional domains can be added via CSRF_TRUSTED_ORIGINS_EXTRA if needed
+      
+      # ===== STATIC FILES =====
+      # WhiteNoise handles static files automatically
+      # No additional configuration needed
+      
+      # ===== OPTIONAL: CUSTOM DOMAIN =====
+      # If using custom domain, add to ALLOWED_HOSTS:
+      # - key: ALLOWED_HOSTS
+      #   value: ".onrender.com,yourdomain.com,www.yourdomain.com"
