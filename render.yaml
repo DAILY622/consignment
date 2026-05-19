@@ -2,11 +2,12 @@
 # Complete deployment configuration for Render.com
 # All environment variables configured for production deployment
 
-databases:
-  - name: consignment-db
-    databaseName: consignment
-    user: consignment
-    plan: free  # Free tier PostgreSQL (or use external Neon DB)
+# No database creation needed - using external Neon PostgreSQL
+# databases:
+#   - name: consignment-db
+#     databaseName: consignment
+#     user: consignment
+#     plan: free  # Commented out - using Neon instead
 
 services:
   - type: web
@@ -21,16 +22,16 @@ services:
     
     envVars:
       # ===== DATABASE CONFIGURATION =====
-      # Option 1: Use Render's built-in PostgreSQL (default)
+      # Using External Neon Database (Serverless PostgreSQL)
       - key: DATABASE_URL
-        fromDatabase:
-          name: consignment-db
-          property: connectionString
+        value: postgresql://neondb_owner:npg_Hm6oMiXSaTc1@ep-soft-queen-ap4bqkwz-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       
-      # Option 2: Use External Neon Database (uncomment to use instead)
-      # - key: DATABASE_URL
-      #   value: postgresql://neondb_owner:npg_Hm6oMiXSaTc1@ep-soft-queen-ap4bqkwz-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
-      #   sync: false  # Set manually in Render Dashboard for security
+      # Note: Neon database benefits:
+      # - Serverless with auto-scaling
+      # - Built-in connection pooling
+      # - Database branching for dev/staging
+      # - No 90-day expiration (unlike Render free tier)
+      # - Better free tier storage (512 MB vs 1 GB)
       
       # ===== DJANGO CORE CONFIGURATION =====
       - key: SECRET_KEY
