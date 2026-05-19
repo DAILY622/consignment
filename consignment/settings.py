@@ -325,6 +325,11 @@ LOGGING = {
 
 # Security settings for production
 if not DEBUG:
+    # Proxy headers for Railway/Heroku/Render
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+    USE_X_FORWARDED_PORT = True
+    
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
