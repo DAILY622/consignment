@@ -6,13 +6,13 @@ databases:
   - name: consignment-db
     databaseName: consignment
     user: consignment
-    plan: starter  # Free tier PostgreSQL (or use external Neon DB)
+    plan: free  # Free tier PostgreSQL (or use external Neon DB)
 
 services:
   - type: web
     name: dailyfx-delivery
     runtime: python
-    plan: starter  # Free tier (starter) or paid (standard/pro)
+    plan: free  # Free tier or paid (starter/standard/pro)
     region: oregon  # Choose: oregon, frankfurt, singapore, ohio
     buildCommand: "chmod +x build.sh && ./build.sh"
     startCommand: "gunicorn consignment.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 --access-logfile - --error-logfile -"
