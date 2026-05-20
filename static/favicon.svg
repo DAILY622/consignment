@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#4f46e5"/>
-  <text x="16" y="22" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">E</text>
+<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Favicon version -->
+  <rect width="32" height="32" rx="4" fill="#2563eb"/>
+  <path d="M 10 16 L 22 16 L 16 10 Z" fill="#ffffff"/>
+  <circle cx="16" cy="20" r="1.5" fill="#ffffff"/>
 </svg>
