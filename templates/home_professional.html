@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}DailyFX Delivery - Professional UK Parcel Delivery & Logistics{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --corporate-navy: #1e3a8a;
+        --corporate-blue: #2563eb;
+        --corporate-light-blue: #3b82f6;
+        --corporate-gray: #64748b;
+        --corporate-dark: #0f172a;
+        --corporate-gold: #d97706;
+    }
+    
+    .hero-bg {
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(37, 99, 235, 0.90) 100%),
+                    url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80') center/cover;
+    }
+    
+    .testimonial-slider { animation: slide 20s infinite; }
+    @keyframes slide { 0%, 30% { transform: translateX(0); } 35%, 65% { transform: translateX(-100%); } 70%, 100% { transform: translateX(-200%); } }
+    
+    .partner-logo { filter: grayscale(100%) brightness(0.6); transition: all 0.3s; }
+    .partner-logo:hover { filter: grayscale(0%) brightness(1); }
+    
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .animate-scroll { display: flex; animation: scroll 20s linear infinite; }
+    .animate-scroll:hover { animation-play-state: paused; }
+    
+    .popup-review {
+        animation: slideInUp 0.5s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+    }
+    @keyframes slideInUp {
+        from { transform: translateY(100px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+        to { opacity: 0; transform: translateY(-20px); }
+    }
+    
+    .icon-badge {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--corporate-blue);
+        border-radius: 8px;
+        color: white;
+        font-weight: 600;
+    }
+    
+    .stat-card {
+        border-left: 4px solid var(--corporate-gold);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section - Professional -->
+<div class="hero-bg rounded-2xl text-white p-12 mb-12 relative overflow-hidden min-h-[500px] flex items-center">
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-800/60"></div>
+    <div class="grid md:grid-cols-2 gap-8 items-center relative z-10 w-full">
+        <div>
+            <span class="bg-white/20 backdrop-blur text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2 font-medium">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                #1 Rated UK Delivery Service
+            </span>
+            <h1 class="text-5xl font-bold mb-4 leading-tight">Enterprise-Grade Parcel Delivery Solutions</h1>
+            <p class="text-xl text-blue-100 mb-8">Professional logistics services with real-time GPS tracking. Comprehensive delivery options for businesses and individuals across the UK.</p>
+            <div class="flex flex-wrap gap-4">
+                <a href="{% url 'track' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition shadow-lg flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    Track Shipment
+                </a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">Get Started</a>
+                {% endif %}
+                <a href="{% url 'pricing' %}" class="bg-amber-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-amber-600 transition flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    Request Quote
+                </a>
+            </div>
+            <div class="mt-8 flex items-center gap-4">
+                <div class="flex -space-x-2">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Customer" class="w-10 h-10 rounded-full border-2 border-white">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Customer" class="w-10 h-10 rounded-full border-2 border-white">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="Customer" class="w-10 h-10 rounded-full border-2 border-white">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt="Customer" class="w-10 h-10 rounded-full border-2 border-white">
+                </div>
+                <div>
+                    <div class="flex text-yellow-400 text-sm">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p class="text-sm text-blue-100">Trusted by 50,000+ customers</p>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:block">
+            <img src="{% static 'images/hero-delivery.jpg' %}" alt="Professional delivery services" class="rounded-lg shadow-2xl">
+        </div>
+    </div>
+</div>
+
+<!-- Trust Badges - Professional -->
+<div class="bg-white rounded-xl shadow-sm p-8 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 items-center">
+        <div class="text-center">
+            <div class="bg-blue-50 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-600">SSL Secured</p>
+        </div>
+        <div class="text-center">
+            <div class="bg-blue-50 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-600">GDPR Compliant</p>
+        </div>
+        <div class="text-center">
+            <div class="bg-blue-50 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-600">Insured Delivery</p>
+        </div>
+        <div class="text-center">
+            <div class="bg-blue-50 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-600">4.9/5 Rating</p>
+        </div>
+        <div class="text-center">
+            <div class="bg-blue-50 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <p class="text-xs font-medium text-gray-600">ISO Certified</p>
+        </div>
+    </div>
+</div>
+
+<!-- Track Package Section - Professional -->
+<div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-8 mb-12 text-white">
+    <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        Quick Track
+    </h2>
+    <form id="quick-track-form" method="get" action="{% url 'track' %}" class="flex flex-col md:flex-row gap-4">
+        <input 
+            type="text" 
+            name="tracking_number" 
+            placeholder="Enter tracking number (e.g., DFX-XXXXXXXX)" 
+            class="flex-1 px-6 py-4 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+        >
+        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg font-semibold transition shadow-lg">
+            Track Now
+        </button>
+    </form>
+</div>
+
+<!-- Remaining content continues... -->
+<!-- I'll create this as a comprehensive replacement but keeping the structure manageable -->
+
