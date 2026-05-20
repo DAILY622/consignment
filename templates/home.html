@@ -79,14 +79,14 @@
 </div>
 
 <!-- Quick Track -->
-<div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 mb-12 border border-primary-100">
-    <h2 class="text-2xl font-bold text-primary-800 mb-4 flex items-center gap-2">
-        <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+<div class="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-slate-800 dark:to-slate-700 rounded-xl shadow-lg p-8 mb-12 border border-primary-100 dark:border-slate-600">
+    <h2 class="text-2xl font-bold text-primary-800 dark:text-white mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-primary-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         Quick Track
     </h2>
     <form action="{% url 'track' %}" method="GET" class="flex flex-col md:flex-row gap-4">
         <input type="text" name="q" placeholder="Enter tracking number (e.g., DFX-XXXXXXXX)" 
-               class="flex-1 px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white">
+               class="flex-1 px-4 py-3 border border-primary-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-slate-700 dark:text-white">
         <button type="submit" class="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition">
             Track Now
         </button>
@@ -94,7 +94,7 @@
 </div>
 
 <!-- Trust Badges with Real Icons -->
-<div class="bg-white rounded-xl p-6 mb-12 shadow-lg border border-gray-100">
+<div class="bg-white dark:bg-slate-800 rounded-xl p-6 mb-12 shadow-lg border border-gray-100 dark:border-slate-700">
     <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
         <div class="flex items-center gap-3">
             <img src="{% static 'icons/icons8-color-48-ssl-security.svg' %}" alt="SSL" class="w-10 h-10">
@@ -134,40 +134,40 @@
 <!-- How It Works with Real Images -->
 <div class="mb-16">
     <div class="text-center mb-10">
-        <h2 class="text-3xl font-bold text-gray-800 mb-2">How It Works</h2>
-        <p class="text-gray-600 text-lg">Send your parcels in 3 simple steps - from booking to delivery in minutes</p>
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">How It Works</h2>
+        <p class="text-gray-600 dark:text-gray-300 text-lg">Send your parcels in 3 simple steps - from booking to delivery in minutes</p>
     </div>
     <div class="grid md:grid-cols-3 gap-8">
         <div class="relative">
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100">
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100 dark:border-slate-700">
                 <img src="{% static 'images/feature-tracking.jpg' %}" alt="Person booking delivery online" class="w-full h-48 object-cover">
                 <div class="p-6 text-center">
                     <div class="absolute top-4 left-4 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">1</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Book Online in Seconds</h3>
-                    <p class="text-gray-600 mb-3">Enter your pickup and delivery addresses, package dimensions, and weight. Our intelligent pricing system calculates the best rate instantly.</p>
-                    <p class="text-sm text-gray-500">Choose from same-day, next-day, or standard delivery options based on your urgency and budget.</p>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Book Online in Seconds</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3">Enter your pickup and delivery addresses, package dimensions, and weight. Our intelligent pricing system calculates the best rate instantly.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Choose from same-day, next-day, or standard delivery options based on your urgency and budget.</p>
                 </div>
             </div>
         </div>
         <div class="relative">
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100">
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100 dark:border-slate-700">
                 <img src="{% static 'images/career-driver.jpg' %}" alt="Delivery driver collecting package" class="w-full h-48 object-cover">
                 <div class="p-6 text-center">
                     <div class="absolute top-4 left-4 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">2</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Professional Collection</h3>
-                    <p class="text-gray-600 mb-3">Our uniformed driver arrives at your specified time window to collect your parcel. Real-time GPS tracking activates immediately.</p>
-                    <p class="text-sm text-gray-500">Receive SMS and email notifications at every stage of the journey, from collection to final delivery.</p>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Professional Collection</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3">Our uniformed driver arrives at your specified time window to collect your parcel. Real-time GPS tracking activates immediately.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Receive SMS and email notifications at every stage of the journey, from collection to final delivery.</p>
                 </div>
             </div>
         </div>
         <div class="relative">
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100">
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100 dark:border-slate-700">
                 <img src="{% static 'images/feature-secure.jpg' %}" alt="Happy customer receiving package" class="w-full h-48 object-cover">
                 <div class="p-6 text-center">
                     <div class="absolute top-4 left-4 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">3</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Secure Delivery & Proof</h3>
-                    <p class="text-gray-600 mb-3">Package delivered safely to the recipient with photo proof of delivery and electronic signature capture.</p>
-                    <p class="text-sm text-gray-500">Both sender and recipient receive instant confirmation with timestamp, location, and delivery photograph.</p>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Secure Delivery & Proof</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3">Package delivered safely to the recipient with photo proof of delivery and electronic signature capture.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Both sender and recipient receive instant confirmation with timestamp, location, and delivery photograph.</p>
                 </div>
             </div>
         </div>
@@ -177,7 +177,7 @@
 <!-- Services & Pricing -->
 <div class="mb-16" id="services">
     <div class="text-center mb-10">
-        <h2 class="text-3xl font-bold text-gray-800 mb-2">Our Services</h2>
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Our Services</h2>
         <p class="text-gray-600">Choose the delivery speed that suits your needs</p>
     </div>
     <div class="grid md:grid-cols-3 gap-8">

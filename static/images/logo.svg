@@ -1,14 +1,14 @@
 ﻿<svg width="200" height="60" xmlns="http://www.w3.org/2000/svg">
-  <!-- Clean geometric accent -->
-  <rect x="10" y="20" width="4" height="20" fill="#2563eb"/>
-  <rect x="16" y="15" width="4" height="25" fill="#2563eb"/>
-  <rect x="22" y="18" width="4" height="22" fill="#2563eb"/>
+  <!-- Solid box/package icon -->
+  <rect x="10" y="15" width="30" height="30" rx="3" fill="#2563eb" stroke="#1e40af" stroke-width="2"/>
+  <line x1="10" y1="30" x2="40" y2="30" stroke="#1e40af" stroke-width="2"/>
+  <line x1="25" y1="15" x2="25" y2="45" stroke="#1e40af" stroke-width="2"/>
   
-  <!-- Company name in professional font -->
-  <text x="35" y="35" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#1e3a8a">
+  <!-- Company name -->
+  <text x="50" y="32" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#1e3a8a">
     DailyFX Delivery
   </text>
-  <text x="35" y="50" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#64748b">
-    PROFESSIONAL LOGISTICS
+  <text x="50" y="48" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="500" fill="#64748b" letter-spacing="2">
+    LOGISTICS SOLUTIONS
   </text>
 </svg>
