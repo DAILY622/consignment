@@ -1,145 +1,146 @@
-{% extends 'base.html' %}
-
-{% block title %}Privacy Policy - DailyFX Delivery{% endblock %}
-
-{% block content %}
-<!-- Navigation -->
-<div class="flex justify-between items-center mb-8">
-    <a href="{% url 'terms' %}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
-        <span class="mr-2">←</span> Terms of Service
-    </a>
-    <a href="{% url 'home' %}" class="flex items-center text-primary-600 hover:text-primary-800 transition">
-        Home <span class="ml-2">→</span>
-    </a>
-</div>
-
-<div class="max-w-4xl mx-auto">
-    <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-8 md:p-12 border border-primary-100">
-        <h1 class="text-4xl font-bold text-primary-800 mb-2">Privacy Policy</h1>
-        <p class="text-primary-500 mb-8">Last updated: March 2026 | GDPR Compliant</p>
-        
-        <div class="prose prose-primary max-w-none space-y-8">
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">1. Introduction</h2>
-                <p class="text-primary-600">
-                    DailyFX Delivery Services ("we", "our", "us") is committed to protecting your privacy. This policy explains how we collect, use, and protect your personal data in compliance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
-                </p>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">2. Data Controller</h2>
-                <p class="text-primary-600">
-                    DailyFX Delivery Services Ltd is the data controller for your personal information.<br>
-                    Registered Address: 123 Logistics Way, London, EC1A 1BB<br>
-                    Data Protection Officer: dpo@dailyfxdelivery.co.uk
-                </p>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">3. Information We Collect</h2>
-                <p class="text-primary-600 mb-4">We collect and process the following personal data:</p>
-                <ul class="list-disc pl-6 text-primary-600 space-y-2">
-                    <li><strong>Account Information:</strong> Name, email address, phone number, password</li>
-                    <li><strong>Shipping Information:</strong> Sender and recipient names, addresses, phone numbers</li>
-                    <li><strong>Payment Information:</strong> Card details (processed securely via payment providers)</li>
-                    <li><strong>Tracking Data:</strong> GPS coordinates, delivery timestamps, proof of delivery photos</li>
-                    <li><strong>Communication Data:</strong> Messages sent through our contact forms</li>
-                    <li><strong>Technical Data:</strong> IP address, browser type, device information</li>
-                </ul>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">4. Legal Basis for Processing</h2>
-                <p class="text-primary-600 mb-4">We process your data based on:</p>
-                <ul class="list-disc pl-6 text-primary-600 space-y-2">
-                    <li><strong>Contract Performance:</strong> To fulfill our delivery services</li>
-                    <li><strong>Legitimate Interests:</strong> To improve our services and prevent fraud</li>
-                    <li><strong>Consent:</strong> For marketing communications (you can opt out anytime)</li>
-                    <li><strong>Legal Obligation:</strong> To comply with laws and regulations</li>
-                </ul>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">5. How We Use Your Data</h2>
-                <ul class="list-disc pl-6 text-primary-600 space-y-2">
-                    <li>Process and deliver your shipments</li>
-                    <li>Provide real-time tracking information</li>
-                    <li>Send delivery notifications and updates</li>
-                    <li>Process payments and refunds</li>
-                    <li>Respond to your enquiries</li>
-                    <li>Improve our services and user experience</li>
-                    <li>Comply with legal requirements</li>
-                </ul>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">6. Data Sharing</h2>
-                <p class="text-primary-600 mb-4">We may share your data with:</p>
-                <ul class="list-disc pl-6 text-primary-600 space-y-2">
-                    <li>Our delivery drivers (for package delivery)</li>
-                    <li>Payment processors (for secure transactions)</li>
-                    <li>Cloud service providers (for data storage)</li>
-                    <li>Law enforcement (when legally required)</li>
-                </ul>
-                <p class="text-primary-600 mt-4">We never sell your personal data to third parties.</p>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">7. Data Retention</h2>
-                <p class="text-primary-600">
-                    We retain your personal data for as long as necessary to provide our services and comply with legal obligations. Typically:<br>
-                    • Account data: Until account deletion + 6 years<br>
-                    • Shipping records: 6 years for tax purposes<br>
-                    • Marketing data: Until you unsubscribe
-                </p>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">8. Your Rights</h2>
-                <p class="text-primary-600 mb-4">Under UK GDPR, you have the right to:</p>
-                <ul class="list-disc pl-6 text-primary-600 space-y-2">
-                    <li><strong>Access:</strong> Request a copy of your personal data</li>
-                    <li><strong>Rectification:</strong> Correct inaccurate data</li>
-                    <li><strong>Erasure:</strong> Request deletion of your data</li>
-                    <li><strong>Portability:</strong> Receive your data in a portable format</li>
-                    <li><strong>Object:</strong> Object to certain processing activities</li>
-                    <li><strong>Withdraw Consent:</strong> Withdraw previously given consent</li>
-                </ul>
-                <p class="text-primary-600 mt-4">To exercise these rights, contact: privacy@dailyfxdelivery.co.uk</p>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">9. Cookies</h2>
-                <p class="text-primary-600">
-                    We use essential cookies for site functionality and optional analytics cookies to improve our services. You can manage cookie preferences in your browser settings.
-                </p>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">10. Security</h2>
-                <p class="text-primary-600">
-                    We implement appropriate technical and organisational measures to protect your data, including encryption, secure servers, and access controls.
-                </p>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">11. Complaints</h2>
-                <p class="text-primary-600">
-                    If you're unhappy with how we handle your data, you can complain to the Information Commissioner's Office (ICO):<br>
-                    Website: ico.org.uk<br>
-                    Phone: 0303 123 1113
-                </p>
-            </section>
-            
-            <section>
-                <h2 class="text-2xl font-bold text-primary-800 mb-4">12. Contact Us</h2>
-                <p class="text-primary-600">
-                    For privacy-related enquiries:<br>
-                    Email: privacy@dailyfxdelivery.co.uk<br>
-                    Post: Data Protection Officer, DailyFX Delivery, 123 Logistics Way, London, EC1A 1BB
-                </p>
-            </section>
-        </div>
-    </div>
-</div>
-{% endblock %}
+﻿kr {kr %kr  kr ekr xkr tkr ekr nkr dkr skr  kr 'kr bkr akr skr ekr .kr hkr tkr mkr lkr 'kr  kr %kr }kr kr 
+kr kr 
+kr {kr %kr  kr bkr lkr okr ckr kkr  kr tkr ikr tkr lkr ekr  kr %kr }kr Pkr rkr ikr vkr akr ckr ykr  kr Pkr okr lkr ikr ckr ykr  kr -kr  kr Dkr akr ikr lkr ykr Fkr Xkr  kr Dkr ekr lkr ikr vkr ekr rkr ykr {kr %kr  kr ekr nkr dkr bkr lkr okr ckr kkr  kr %kr }kr kr 
+kr kr 
+kr {kr %kr  kr bkr lkr okr ckr kkr  kr ckr okr nkr tkr ekr nkr tkr  kr %kr }kr kr 
+kr <kr !kr -kr -kr  kr Nkr akr vkr ikr gkr akr tkr ikr okr nkr  kr -kr -kr >kr kr 
+kr <kr dkr ikr vkr  kr ckr lkr akr skr skr =kr "kr fkr lkr ekr xkr  kr jkr ukr skr tkr ikr fkr ykr -kr bkr ekr tkr wkr ekr ekr nkr  kr ikr tkr ekr mkr skr -kr ckr ekr nkr tkr ekr rkr  kr mkr bkr -kr 8kr "kr >kr kr 
+kr  kr  kr  kr  kr <kr akr  kr hkr rkr ekr fkr =kr "kr {kr %kr  kr ukr rkr lkr  kr 'kr tkr ekr rkr mkr skr 'kr  kr %kr }kr "kr  kr ckr lkr akr skr skr =kr "kr fkr lkr ekr xkr  kr ikr tkr ekr mkr skr -kr ckr ekr nkr tkr ekr rkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr hkr okr vkr ekr rkr :kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr tkr rkr akr nkr skr ikr tkr ikr okr nkr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr pkr akr nkr  kr ckr lkr akr skr skr =kr "kr mkr rkr -kr 2kr "kr >kr ←kr <kr /kr skr pkr akr nkr >kr  kr Tkr ekr rkr mkr skr  kr okr fkr  kr Skr ekr rkr vkr ikr ckr ekr kr 
+kr  kr  kr  kr  kr <kr /kr akr >kr kr 
+kr  kr  kr  kr  kr <kr akr  kr hkr rkr ekr fkr =kr "kr {kr %kr  kr ukr rkr lkr  kr 'kr hkr okr mkr ekr 'kr  kr %kr }kr "kr  kr ckr lkr akr skr skr =kr "kr fkr lkr ekr xkr  kr ikr tkr ekr mkr skr -kr ckr ekr nkr tkr ekr rkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr hkr okr vkr ekr rkr :kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr tkr rkr akr nkr skr ikr tkr ikr okr nkr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr Hkr okr mkr ekr  kr <kr skr pkr akr nkr  kr ckr lkr akr skr skr =kr "kr mkr lkr -kr 2kr "kr >kr →kr <kr /kr skr pkr akr nkr >kr kr 
+kr  kr  kr  kr  kr <kr /kr akr >kr kr 
+kr <kr /kr dkr ikr vkr >kr kr 
+kr kr 
+kr <kr dkr ikr vkr  kr ckr lkr akr skr skr =kr "kr mkr akr xkr -kr wkr -kr 4kr xkr lkr  kr mkr xkr -kr akr ukr tkr okr "kr >kr kr 
+kr  kr  kr  kr  kr <kr dkr ikr vkr  kr ckr lkr akr skr skr =kr "kr bkr gkr -kr gkr rkr akr dkr ikr ekr nkr tkr -kr tkr okr -kr bkr rkr  kr fkr rkr okr mkr -kr pkr rkr ikr mkr akr rkr ykr -kr 5kr 0kr  kr tkr okr -kr akr ckr ckr ekr nkr tkr -kr 5kr 0kr  kr rkr okr ukr nkr dkr ekr dkr -kr 2kr xkr lkr  kr pkr -kr 8kr  kr mkr dkr :kr pkr -kr 1kr 2kr  kr bkr okr rkr dkr ekr rkr  kr bkr okr rkr dkr ekr rkr -kr pkr rkr ikr mkr akr rkr ykr -kr 1kr 0kr 0kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 1kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 4kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 2kr "kr >kr Pkr rkr ikr vkr akr ckr ykr  kr Pkr okr lkr ikr ckr ykr <kr /kr hkr 1kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 5kr 0kr 0kr  kr mkr bkr -kr 8kr "kr >kr Lkr akr skr tkr  kr ukr pkr dkr akr tkr ekr dkr :kr  kr Mkr akr rkr ckr hkr  kr 2kr 0kr 2kr 6kr  kr |kr  kr Gkr Dkr Pkr Rkr  kr Ckr okr mkr pkr lkr ikr akr nkr tkr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr <kr dkr ikr vkr  kr ckr lkr akr skr skr =kr "kr pkr rkr okr skr ekr  kr pkr rkr okr skr ekr -kr pkr rkr ikr mkr akr rkr ykr  kr mkr akr xkr -kr wkr -kr nkr okr nkr ekr  kr skr pkr akr ckr ekr -kr ykr -kr 8kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 1kr .kr  kr Ikr nkr tkr rkr okr dkr ukr ckr tkr ikr okr nkr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Dkr akr ikr lkr ykr Fkr Xkr  kr Dkr ekr lkr ikr vkr ekr rkr ykr  kr Skr ekr rkr vkr ikr ckr ekr skr  kr (kr "kr wkr ekr "kr ,kr  kr "kr okr ukr rkr "kr ,kr  kr "kr ukr skr "kr )kr  kr ikr skr  kr ckr okr mkr mkr ikr tkr tkr ekr dkr  kr tkr okr  kr pkr rkr okr tkr ekr ckr tkr ikr nkr gkr  kr ykr okr ukr rkr  kr pkr rkr ikr vkr akr ckr ykr .kr  kr Tkr hkr ikr skr  kr pkr okr lkr ikr ckr ykr  kr ekr xkr pkr lkr akr ikr nkr skr  kr hkr okr wkr  kr wkr ekr  kr ckr okr lkr lkr ekr ckr tkr ,kr  kr ukr skr ekr ,kr  kr akr nkr dkr  kr pkr rkr okr tkr ekr ckr tkr  kr ykr okr ukr rkr  kr pkr ekr rkr skr okr nkr akr lkr  kr dkr akr tkr akr  kr ikr nkr  kr ckr okr mkr pkr lkr ikr akr nkr ckr ekr  kr wkr ikr tkr hkr  kr tkr hkr ekr  kr Nkr okr rkr wkr akr ykr  kr Gkr ekr nkr ekr rkr akr lkr  kr Dkr akr tkr akr  kr Pkr rkr okr tkr ekr ckr tkr ikr okr nkr  kr Rkr ekr gkr ukr lkr akr tkr ikr okr nkr  kr (kr Nkr okr rkr wkr akr ykr  kr Gkr Dkr Pkr Rkr )kr  kr akr nkr dkr  kr tkr hkr ekr  kr Dkr akr tkr akr  kr Pkr rkr okr tkr ekr ckr tkr ikr okr nkr  kr Akr ckr tkr  kr 2kr 0kr 1kr 8kr .kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 2kr .kr  kr Dkr akr tkr akr  kr Ckr okr nkr tkr rkr okr lkr lkr ekr rkr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Dkr akr ikr lkr ykr Fkr Xkr  kr Dkr ekr lkr ikr vkr ekr rkr ykr  kr Skr ekr rkr vkr ikr ckr ekr skr  kr Lkr tkr dkr  kr ikr skr  kr tkr hkr ekr  kr dkr akr tkr akr  kr ckr okr nkr tkr rkr okr lkr lkr ekr rkr  kr fkr okr rkr  kr ykr okr ukr rkr  kr pkr ekr rkr skr okr nkr akr lkr  kr ikr nkr fkr okr rkr mkr akr tkr ikr okr nkr .kr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Rkr ekr gkr ikr skr tkr ekr rkr ekr dkr  kr Akr dkr dkr rkr ekr skr skr :kr  kr 1kr 2kr 3kr  kr Lkr okr gkr ikr skr tkr ikr ckr skr  kr Wkr akr ykr ,kr  kr Lkr okr nkr dkr okr nkr ,kr  kr Ekr Ckr 1kr Akr  kr 1kr Bkr Bkr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Dkr akr tkr akr  kr Pkr rkr okr tkr ekr ckr tkr ikr okr nkr  kr Okr fkr fkr ikr ckr ekr rkr :kr  kr dkr pkr okr @kr dkr akr ikr lkr ykr fkr xkr dkr ekr lkr ikr vkr ekr rkr ykr .kr ckr okr .kr Nkr okr rkr wkr akr ykr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 3kr .kr  kr Ikr nkr fkr okr rkr mkr akr tkr ikr okr nkr  kr Wkr ekr  kr Ckr okr lkr lkr ekr ckr tkr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr Wkr ekr  kr ckr okr lkr lkr ekr ckr tkr  kr akr nkr dkr  kr pkr rkr okr ckr ekr skr skr  kr tkr hkr ekr  kr fkr okr lkr lkr okr wkr ikr nkr gkr  kr pkr ekr rkr skr okr nkr akr lkr  kr dkr akr tkr akr :kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr ukr lkr  kr ckr lkr akr skr skr =kr "kr lkr ikr skr tkr -kr dkr ikr skr ckr  kr pkr lkr -kr 6kr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr skr pkr akr ckr ekr -kr ykr -kr 2kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Akr ckr ckr okr ukr nkr tkr  kr Ikr nkr fkr okr rkr mkr akr tkr ikr okr nkr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Nkr akr mkr ekr ,kr  kr ekr mkr akr ikr lkr  kr akr dkr dkr rkr ekr skr skr ,kr  kr pkr hkr okr nkr ekr  kr nkr ukr mkr bkr ekr rkr ,kr  kr pkr akr skr skr wkr okr rkr dkr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Skr hkr ikr pkr pkr ikr nkr gkr  kr Ikr nkr fkr okr rkr mkr akr tkr ikr okr nkr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Skr ekr nkr dkr ekr rkr  kr akr nkr dkr  kr rkr ekr ckr ikr pkr ikr ekr nkr tkr  kr nkr akr mkr ekr skr ,kr  kr akr dkr dkr rkr ekr skr skr ekr skr ,kr  kr pkr hkr okr nkr ekr  kr nkr ukr mkr bkr ekr rkr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Pkr akr ykr mkr ekr nkr tkr  kr Ikr nkr fkr okr rkr mkr akr tkr ikr okr nkr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Ckr akr rkr dkr  kr dkr ekr tkr akr ikr lkr skr  kr (kr pkr rkr okr ckr ekr skr skr ekr dkr  kr skr ekr ckr ukr rkr ekr lkr ykr  kr vkr ikr akr  kr pkr akr ykr mkr ekr nkr tkr  kr pkr rkr okr vkr ikr dkr ekr rkr skr )kr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Tkr rkr akr ckr kkr ikr nkr gkr  kr Dkr akr tkr akr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Gkr Pkr Skr  kr ckr okr okr rkr dkr ikr nkr akr tkr ekr skr ,kr  kr dkr ekr lkr ikr vkr ekr rkr ykr  kr tkr ikr mkr ekr skr tkr akr mkr pkr skr ,kr  kr pkr rkr okr okr fkr  kr okr fkr  kr dkr ekr lkr ikr vkr ekr rkr ykr  kr pkr hkr okr tkr okr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Ckr okr mkr mkr ukr nkr ikr ckr akr tkr ikr okr nkr  kr Dkr akr tkr akr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Mkr ekr skr skr akr gkr ekr skr  kr skr ekr nkr tkr  kr tkr hkr rkr okr ukr gkr hkr  kr okr ukr rkr  kr ckr okr nkr tkr akr ckr tkr  kr fkr okr rkr mkr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Tkr ekr ckr hkr nkr ikr ckr akr lkr  kr Dkr akr tkr akr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Ikr Pkr  kr akr dkr dkr rkr ekr skr skr ,kr  kr bkr rkr okr wkr skr ekr rkr  kr tkr ykr pkr ekr ,kr  kr dkr ekr vkr ikr ckr ekr  kr ikr nkr fkr okr rkr mkr akr tkr ikr okr nkr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr ukr lkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 4kr .kr  kr Lkr ekr gkr akr lkr  kr Bkr akr skr ikr skr  kr fkr okr rkr  kr Pkr rkr okr ckr ekr skr skr ikr nkr gkr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr Wkr ekr  kr pkr rkr okr ckr ekr skr skr  kr ykr okr ukr rkr  kr dkr akr tkr akr  kr bkr akr skr ekr dkr  kr okr nkr :kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr ukr lkr  kr ckr lkr akr skr skr =kr "kr lkr ikr skr tkr -kr dkr ikr skr ckr  kr pkr lkr -kr 6kr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr skr pkr akr ckr ekr -kr ykr -kr 2kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Ckr okr nkr tkr rkr akr ckr tkr  kr Pkr ekr rkr fkr okr rkr mkr akr nkr ckr ekr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Tkr okr  kr fkr ukr lkr fkr ikr lkr lkr  kr okr ukr rkr  kr dkr ekr lkr ikr vkr ekr rkr ykr  kr skr ekr rkr vkr ikr ckr ekr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Lkr ekr gkr ikr tkr ikr mkr akr tkr ekr  kr Ikr nkr tkr ekr rkr ekr skr tkr skr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Tkr okr  kr ikr mkr pkr rkr okr vkr ekr  kr okr ukr rkr  kr skr ekr rkr vkr ikr ckr ekr skr  kr akr nkr dkr  kr pkr rkr ekr vkr ekr nkr tkr  kr fkr rkr akr ukr dkr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Ckr okr nkr skr ekr nkr tkr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Fkr okr rkr  kr mkr akr rkr kkr ekr tkr ikr nkr gkr  kr ckr okr mkr mkr ukr nkr ikr ckr akr tkr ikr okr nkr skr  kr (kr ykr okr ukr  kr ckr akr nkr  kr okr pkr tkr  kr okr ukr tkr  kr akr nkr ykr tkr ikr mkr ekr )kr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Lkr ekr gkr akr lkr  kr Okr bkr lkr ikr gkr akr tkr ikr okr nkr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Tkr okr  kr ckr okr mkr pkr lkr ykr  kr wkr ikr tkr hkr  kr lkr akr wkr skr  kr akr nkr dkr  kr rkr ekr gkr ukr lkr akr tkr ikr okr nkr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr ukr lkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 5kr .kr  kr Hkr okr wkr  kr Wkr ekr  kr Ukr skr ekr  kr Ykr okr ukr rkr  kr Dkr akr tkr akr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr ukr lkr  kr ckr lkr akr skr skr =kr "kr lkr ikr skr tkr -kr dkr ikr skr ckr  kr pkr lkr -kr 6kr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr skr pkr akr ckr ekr -kr ykr -kr 2kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Pkr rkr okr ckr ekr skr skr  kr akr nkr dkr  kr dkr ekr lkr ikr vkr ekr rkr  kr ykr okr ukr rkr  kr skr hkr ikr pkr mkr ekr nkr tkr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Pkr rkr okr vkr ikr dkr ekr  kr rkr ekr akr lkr -kr tkr ikr mkr ekr  kr tkr rkr akr ckr kkr ikr nkr gkr  kr ikr nkr fkr okr rkr mkr akr tkr ikr okr nkr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Skr ekr nkr dkr  kr dkr ekr lkr ikr vkr ekr rkr ykr  kr nkr okr tkr ikr fkr ikr ckr akr tkr ikr okr nkr skr  kr akr nkr dkr  kr ukr pkr dkr akr tkr ekr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Pkr rkr okr ckr ekr skr skr  kr pkr akr ykr mkr ekr nkr tkr skr  kr akr nkr dkr  kr rkr ekr fkr ukr nkr dkr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Rkr ekr skr pkr okr nkr dkr  kr tkr okr  kr ykr okr ukr rkr  kr ekr nkr qkr ukr ikr rkr ikr ekr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Ikr mkr pkr rkr okr vkr ekr  kr okr ukr rkr  kr skr ekr rkr vkr ikr ckr ekr skr  kr akr nkr dkr  kr ukr skr ekr rkr  kr ekr xkr pkr ekr rkr ikr ekr nkr ckr ekr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Ckr okr mkr pkr lkr ykr  kr wkr ikr tkr hkr  kr lkr ekr gkr akr lkr  kr rkr ekr qkr ukr ikr rkr ekr mkr ekr nkr tkr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr ukr lkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 6kr .kr  kr Dkr akr tkr akr  kr Skr hkr akr rkr ikr nkr gkr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr Wkr ekr  kr mkr akr ykr  kr skr hkr akr rkr ekr  kr ykr okr ukr rkr  kr dkr akr tkr akr  kr wkr ikr tkr hkr :kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr ukr lkr  kr ckr lkr akr skr skr =kr "kr lkr ikr skr tkr -kr dkr ikr skr ckr  kr pkr lkr -kr 6kr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr skr pkr akr ckr ekr -kr ykr -kr 2kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Okr ukr rkr  kr dkr ekr lkr ikr vkr ekr rkr ykr  kr dkr rkr ikr vkr ekr rkr skr  kr (kr fkr okr rkr  kr pkr akr ckr kkr akr gkr ekr  kr dkr ekr lkr ikr vkr ekr rkr ykr )kr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Pkr akr ykr mkr ekr nkr tkr  kr pkr rkr okr ckr ekr skr skr okr rkr skr  kr (kr fkr okr rkr  kr skr ekr ckr ukr rkr ekr  kr tkr rkr akr nkr skr akr ckr tkr ikr okr nkr skr )kr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Ckr lkr okr ukr dkr  kr skr ekr rkr vkr ikr ckr ekr  kr pkr rkr okr vkr ikr dkr ekr rkr skr  kr (kr fkr okr rkr  kr dkr akr tkr akr  kr skr tkr okr rkr akr gkr ekr )kr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr Lkr akr wkr  kr ekr nkr fkr okr rkr ckr ekr mkr ekr nkr tkr  kr (kr wkr hkr ekr nkr  kr lkr ekr gkr akr lkr lkr ykr  kr rkr ekr qkr ukr ikr rkr ekr dkr )kr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr ukr lkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr mkr tkr -kr 4kr "kr >kr Wkr ekr  kr nkr ekr vkr ekr rkr  kr skr ekr lkr lkr  kr ykr okr ukr rkr  kr pkr ekr rkr skr okr nkr akr lkr  kr dkr akr tkr akr  kr tkr okr  kr tkr hkr ikr rkr dkr  kr pkr akr rkr tkr ikr ekr skr .kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 7kr .kr  kr Dkr akr tkr akr  kr Rkr ekr tkr ekr nkr tkr ikr okr nkr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Wkr ekr  kr rkr ekr tkr akr ikr nkr  kr ykr okr ukr rkr  kr pkr ekr rkr skr okr nkr akr lkr  kr dkr akr tkr akr  kr fkr okr rkr  kr akr skr  kr lkr okr nkr gkr  kr akr skr  kr nkr ekr ckr ekr skr skr akr rkr ykr  kr tkr okr  kr pkr rkr okr vkr ikr dkr ekr  kr okr ukr rkr  kr skr ekr rkr vkr ikr ckr ekr skr  kr akr nkr dkr  kr ckr okr mkr pkr lkr ykr  kr wkr ikr tkr hkr  kr lkr ekr gkr akr lkr  kr okr bkr lkr ikr gkr akr tkr ikr okr nkr skr .kr  kr Tkr ykr pkr ikr ckr akr lkr lkr ykr :kr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr •kr  kr Akr ckr ckr okr ukr nkr tkr  kr dkr akr tkr akr :kr  kr Ukr nkr tkr ikr lkr  kr akr ckr ckr okr ukr nkr tkr  kr dkr ekr lkr ekr tkr ikr okr nkr  kr +kr  kr 6kr  kr ykr ekr akr rkr skr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr •kr  kr Skr hkr ikr pkr pkr ikr nkr gkr  kr rkr ekr ckr okr rkr dkr skr :kr  kr 6kr  kr ykr ekr akr rkr skr  kr fkr okr rkr  kr tkr akr xkr  kr pkr ukr rkr pkr okr skr ekr skr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr •kr  kr Mkr akr rkr kkr ekr tkr ikr nkr gkr  kr dkr akr tkr akr :kr  kr Ukr nkr tkr ikr lkr  kr ykr okr ukr  kr ukr nkr skr ukr bkr skr ckr rkr ikr bkr ekr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 8kr .kr  kr Ykr okr ukr rkr  kr Rkr ikr gkr hkr tkr skr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr Ukr nkr dkr ekr rkr  kr Nkr okr rkr wkr akr ykr  kr Gkr Dkr Pkr Rkr ,kr  kr ykr okr ukr  kr hkr akr vkr ekr  kr tkr hkr ekr  kr rkr ikr gkr hkr tkr  kr tkr okr :kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr ukr lkr  kr ckr lkr akr skr skr =kr "kr lkr ikr skr tkr -kr dkr ikr skr ckr  kr pkr lkr -kr 6kr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr skr pkr akr ckr ekr -kr ykr -kr 2kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Akr ckr ckr ekr skr skr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Rkr ekr qkr ukr ekr skr tkr  kr akr  kr ckr okr pkr ykr  kr okr fkr  kr ykr okr ukr rkr  kr pkr ekr rkr skr okr nkr akr lkr  kr dkr akr tkr akr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Rkr ekr ckr tkr ikr fkr ikr ckr akr tkr ikr okr nkr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Ckr okr rkr rkr ekr ckr tkr  kr ikr nkr akr ckr ckr ukr rkr akr tkr ekr  kr dkr akr tkr akr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Ekr rkr akr skr ukr rkr ekr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Rkr ekr qkr ukr ekr skr tkr  kr dkr ekr lkr ekr tkr ikr okr nkr  kr okr fkr  kr ykr okr ukr rkr  kr dkr akr tkr akr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Pkr okr rkr tkr akr bkr ikr lkr ikr tkr ykr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Rkr ekr ckr ekr ikr vkr ekr  kr ykr okr ukr rkr  kr dkr akr tkr akr  kr ikr nkr  kr akr  kr pkr okr rkr tkr akr bkr lkr ekr  kr fkr okr rkr mkr akr tkr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Okr bkr jkr ekr ckr tkr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Okr bkr jkr ekr ckr tkr  kr tkr okr  kr ckr ekr rkr tkr akr ikr nkr  kr pkr rkr okr ckr ekr skr skr ikr nkr gkr  kr akr ckr tkr ikr vkr ikr tkr ikr ekr skr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr lkr ikr >kr <kr skr tkr rkr okr nkr gkr >kr Wkr ikr tkr hkr dkr rkr akr wkr  kr Ckr okr nkr skr ekr nkr tkr :kr <kr /kr skr tkr rkr okr nkr gkr >kr  kr Wkr ikr tkr hkr dkr rkr akr wkr  kr pkr rkr ekr vkr ikr okr ukr skr lkr ykr  kr gkr ikr vkr ekr nkr  kr ckr okr nkr skr ekr nkr tkr <kr /kr lkr ikr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr ukr lkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr  kr mkr tkr -kr 4kr "kr >kr Tkr okr  kr ekr xkr ekr rkr ckr ikr skr ekr  kr tkr hkr ekr skr ekr  kr rkr ikr gkr hkr tkr skr ,kr  kr ckr okr nkr tkr akr ckr tkr :kr  kr pkr rkr ikr vkr akr ckr ykr @kr dkr akr ikr lkr ykr fkr xkr dkr ekr lkr ikr vkr ekr rkr ykr .kr ckr okr .kr Nkr okr rkr wkr akr ykr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 9kr .kr  kr Ckr okr okr kkr ikr ekr skr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Wkr ekr  kr ukr skr ekr  kr ekr skr skr ekr nkr tkr ikr akr lkr  kr ckr okr okr kkr ikr ekr skr  kr fkr okr rkr  kr skr ikr tkr ekr  kr fkr ukr nkr ckr tkr ikr okr nkr akr lkr ikr tkr ykr  kr akr nkr dkr  kr okr pkr tkr ikr okr nkr akr lkr  kr akr nkr akr lkr ykr tkr ikr ckr skr  kr ckr okr okr kkr ikr ekr skr  kr tkr okr  kr ikr mkr pkr rkr okr vkr ekr  kr okr ukr rkr  kr skr ekr rkr vkr ikr ckr ekr skr .kr  kr Ykr okr ukr  kr ckr akr nkr  kr mkr akr nkr akr gkr ekr  kr ckr okr okr kkr ikr ekr  kr pkr rkr ekr fkr ekr rkr ekr nkr ckr ekr skr  kr ikr nkr  kr ykr okr ukr rkr  kr bkr rkr okr wkr skr ekr rkr  kr skr ekr tkr tkr ikr nkr gkr skr .kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 1kr 0kr .kr  kr Skr ekr ckr ukr rkr ikr tkr ykr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Wkr ekr  kr ikr mkr pkr lkr ekr mkr ekr nkr tkr  kr akr pkr pkr rkr okr pkr rkr ikr akr tkr ekr  kr tkr ekr ckr hkr nkr ikr ckr akr lkr  kr akr nkr dkr  kr okr rkr gkr akr nkr ikr skr akr tkr ikr okr nkr akr lkr  kr mkr ekr akr skr ukr rkr ekr skr  kr tkr okr  kr pkr rkr okr tkr ekr ckr tkr  kr ykr okr ukr rkr  kr dkr akr tkr akr ,kr  kr ikr nkr ckr lkr ukr dkr ikr nkr gkr  kr ekr nkr ckr rkr ykr pkr tkr ikr okr nkr ,kr  kr skr ekr ckr ukr rkr ekr  kr skr ekr rkr vkr ekr rkr skr ,kr  kr akr nkr dkr  kr akr ckr ckr ekr skr skr  kr ckr okr nkr tkr rkr okr lkr skr .kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 1kr 1kr .kr  kr Ckr okr mkr pkr lkr akr ikr nkr tkr skr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Ikr fkr  kr ykr okr ukr 'kr rkr ekr  kr ukr nkr hkr akr pkr pkr ykr  kr wkr ikr tkr hkr  kr hkr okr wkr  kr wkr ekr  kr hkr akr nkr dkr lkr ekr  kr ykr okr ukr rkr  kr dkr akr tkr akr ,kr  kr ykr okr ukr  kr ckr akr nkr  kr ckr okr mkr pkr lkr akr ikr nkr  kr tkr okr  kr tkr hkr ekr  kr Ikr nkr fkr okr rkr mkr akr tkr ikr okr nkr  kr Ckr okr mkr mkr ikr skr skr ikr okr nkr ekr rkr 'kr skr  kr Okr fkr fkr ikr ckr ekr  kr (kr Ikr Ckr Okr )kr :kr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Wkr ekr bkr skr ikr tkr ekr :kr  kr ikr ckr okr .kr okr rkr gkr .kr Nkr okr rkr wkr akr ykr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Pkr hkr okr nkr ekr :kr  kr 0kr 3kr 0kr 3kr  kr 1kr 2kr 3kr  kr 1kr 1kr 1kr 3kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr hkr 2kr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr 2kr xkr lkr  kr fkr okr nkr tkr -kr bkr okr lkr dkr  kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 8kr 0kr 0kr  kr mkr bkr -kr 4kr "kr >kr 1kr 2kr .kr  kr Ckr okr nkr tkr akr ckr tkr  kr Ukr skr <kr /kr hkr 2kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr pkr  kr ckr lkr akr skr skr =kr "kr tkr ekr xkr tkr -kr pkr rkr ikr mkr akr rkr ykr -kr 6kr 0kr 0kr "kr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Fkr okr rkr  kr pkr rkr ikr vkr akr ckr ykr -kr rkr ekr lkr akr tkr ekr dkr  kr ekr nkr qkr ukr ikr rkr ikr ekr skr :kr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Ekr mkr akr ikr lkr :kr  kr pkr rkr ikr vkr akr ckr ykr @kr dkr akr ikr lkr ykr fkr xkr dkr ekr lkr ikr vkr ekr rkr ykr .kr ckr okr .kr Nkr okr rkr wkr akr ykr <kr bkr rkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr Pkr okr skr tkr :kr  kr Dkr akr tkr akr  kr Pkr rkr okr tkr ekr ckr tkr ikr okr nkr  kr Okr fkr fkr ikr ckr ekr rkr ,kr  kr Dkr akr ikr lkr ykr Fkr Xkr  kr Dkr ekr lkr ikr vkr ekr rkr ykr ,kr  kr 1kr 2kr 3kr  kr Lkr okr gkr ikr skr tkr ikr ckr skr  kr Wkr akr ykr ,kr  kr Lkr okr nkr dkr okr nkr ,kr  kr Ekr Ckr 1kr Akr  kr 1kr Bkr Bkr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr pkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr skr ekr ckr tkr ikr okr nkr >kr kr 
+kr  kr  kr  kr  kr  kr  kr  kr  kr <kr /kr dkr ikr vkr >kr kr 
+kr  kr  kr  kr  kr <kr /kr dkr ikr vkr >kr kr 
+kr <kr /kr dkr ikr vkr >kr kr 
+kr {kr %kr  kr ekr nkr dkr bkr lkr okr ckr kkr  kr %kr }kr kr 
+kr 
