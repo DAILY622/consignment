@@ -6,7 +6,7 @@
 {% block extra_head %}
 <style>
     .hero-bg {
-        background: linear-gradient(135deg, rgba(249, 115, 22, 0.95) 0%, rgba(234, 88, 12, 0.95) 100%),
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(37, 99, 235, 0.92) 100%),
                     url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80') center/cover;
     }
     .testimonial-slider { animation: slide 20s infinite; }
@@ -38,20 +38,22 @@
     <div class="grid md:grid-cols-2 gap-8 items-center relative z-10 w-full">
         <div>
             <span class="bg-white/20 backdrop-blur text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2">
-                🏆 #1 Rated UK Delivery Service
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                #1 Rated UK Delivery Service
             </span>
             <h1 class="text-5xl font-bold mb-4 leading-tight">Fast, Reliable Parcel Delivery Across the UK</h1>
-            <p class="text-xl text-orange-100 mb-8">Track your packages in real-time with GPS. Same-day, next-day, and standard delivery options available.</p>
+            <p class="text-xl text-blue-100 mb-8">Track your packages in real-time with GPS. Same-day, next-day, and standard delivery options available.</p>
             <div class="flex flex-wrap gap-4">
-                <a href="{% url 'track' %}" class="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-100 transition shadow-lg flex items-center gap-2">
-                    📍 Track Package
+                <a href="{% url 'track' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-100 transition shadow-lg flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    Track Package
                 </a>
                 {% if not user.is_authenticated %}
-                    <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition">Get Started Free</a>
+                    <a href="{% url 'register' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">Get Started Free</a>
                 {% else %}
-                    <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition">+ Send Package</a>
+                    <a href="{% url 'create_package' %}" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">+ Send Package</a>
                 {% endif %}
-                <a href="#quote" class="bg-orange-500 px-8 py-3 rounded-lg font-semibold hover:bg-orange-400 transition flex items-center gap-2">
+                <a href="#quote" class="bg-blue-500 px-8 py-3 rounded-lg font-semibold hover:bg-blue-400 transition flex items-center gap-2">
                     💷 Get a Quote
                 </a>
             </div>
@@ -65,7 +67,7 @@
                 </div>
                 <div>
                     <div class="flex text-yellow-400 text-sm">★★★★★</div>
-                    <p class="text-sm text-orange-200">Trusted by 50,000+ customers</p>
+                    <p class="text-sm text-blue-200">Trusted by 50,000+ customers</p>
                 </div>
             </div>
         </div>
@@ -77,7 +79,10 @@
 
 <!-- Quick Track -->
 <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl shadow-lg p-8 mb-12 border border-primary-100">
-    <h2 class="text-2xl font-bold text-primary-800 mb-4">🔍 Quick Track</h2>
+    <h2 class="text-2xl font-bold text-primary-800 mb-4 flex items-center gap-3">
+        <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        Quick Track
+    </h2>
     <form action="{% url 'track' %}" method="GET" class="flex flex-col md:flex-row gap-4">
         <input type="text" name="q" placeholder="Enter tracking number (e.g., DFX-XXXXXXXX)" 
                class="flex-1 px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white">
@@ -136,7 +141,7 @@
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100">
                 <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=250&fit=crop" alt="Person booking delivery online" class="w-full h-48 object-cover">
                 <div class="p-6 text-center">
-                    <div class="absolute top-4 left-4 w-10 h-10 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">1</div>
+                    <div class="absolute top-4 left-4 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">1</div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Book Online</h3>
                     <p class="text-gray-600">Enter pickup & delivery details. Get instant pricing and choose your delivery speed.</p>
                 </div>
@@ -146,7 +151,7 @@
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100">
                 <img src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=400&h=250&fit=crop" alt="Delivery driver collecting package" class="w-full h-48 object-cover">
                 <div class="p-6 text-center">
-                    <div class="absolute top-4 left-4 w-10 h-10 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">2</div>
+                    <div class="absolute top-4 left-4 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">2</div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">We Collect</h3>
                     <p class="text-gray-600">Our driver picks up your parcel from your door. Track every step in real-time.</p>
                 </div>
@@ -156,7 +161,7 @@
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition border border-gray-100">
                 <img src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=400&h=250&fit=crop" alt="Happy customer receiving package" class="w-full h-48 object-cover">
                 <div class="p-6 text-center">
-                    <div class="absolute top-4 left-4 w-10 h-10 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">3</div>
+                    <div class="absolute top-4 left-4 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">3</div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Delivered</h3>
                     <p class="text-gray-600">Package delivered with photo proof & signature. You'll get instant confirmation.</p>
                 </div>
@@ -320,7 +325,7 @@
     <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1920&h=400&fit=crop" alt="Warehouse" class="absolute inset-0 w-full h-full object-cover -z-10">
     <div class="grid md:grid-cols-4 gap-8 text-center relative z-10">
         <div>
-            <div class="text-4xl font-bold text-orange-400">50K+</div>
+            <div class="text-4xl font-bold text-blue-400">50K+</div>
             <div class="text-gray-300">Packages Delivered</div>
         </div>
         <div>
@@ -402,7 +407,7 @@
     <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1920&h=600&fit=crop" alt="Business Warehouse" class="absolute inset-0 w-full h-full object-cover -z-10">
     <div class="grid md:grid-cols-2 gap-8 items-center relative z-10">
         <div>
-            <span class="bg-orange-500 text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2">
+            <span class="bg-blue-500 text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2">
                 💼 FOR BUSINESS
             </span>
             <h2 class="text-3xl font-bold mb-4">Corporate & Business Solutions</h2>
@@ -414,7 +419,7 @@
                 <li class="flex items-center">✅ Custom invoicing & reporting</li>
                 <li class="flex items-center">✅ Priority customer support</li>
             </ul>
-            <a href="mailto:business@dailyfxdelivery.co.uk" class="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition">
+            <a href="mailto:business@dailyfxdelivery.co.uk" class="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
                 📧 Contact Sales Team
             </a>
         </div>
@@ -477,7 +482,7 @@
 <div class="mb-16">
     <div class="grid md:grid-cols-2 gap-8 items-center">
         <div>
-            <span class="bg-orange-100 text-orange-600 text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2">
+            <span class="bg-blue-100 text-blue-600 text-sm px-4 py-2 rounded-full mb-4 inline-flex items-center gap-2">
                 📱 MOBILE APP
             </span>
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Track Anywhere with Our Mobile App</h2>
@@ -610,7 +615,7 @@
             <div class="p-5">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">E-commerce</h3>
                 <p class="text-gray-600 text-sm mb-4">Same-day delivery for online stores. Integration with Shopify, WooCommerce & more.</p>
-                <a href="{% url 'services' %}" class="text-orange-600 text-sm font-semibold hover:underline">Learn More →</a>
+                <a href="{% url 'services' %}" class="text-blue-600 text-sm font-semibold hover:underline">Learn More →</a>
             </div>
         </div>
         <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition group">
@@ -618,7 +623,7 @@
             <div class="p-5">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Healthcare</h3>
                 <p class="text-gray-600 text-sm mb-4">Temperature-controlled medical deliveries. Urgent medication & specimen transport.</p>
-                <a href="{% url 'services' %}" class="text-orange-600 text-sm font-semibold hover:underline">Learn More →</a>
+                <a href="{% url 'services' %}" class="text-blue-600 text-sm font-semibold hover:underline">Learn More →</a>
             </div>
         </div>
         <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition group">
@@ -626,7 +631,7 @@
             <div class="p-5">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Food & Beverage</h3>
                 <p class="text-gray-600 text-sm mb-4">Fresh food delivery with cold chain. Restaurant supplies & catering logistics.</p>
-                <a href="{% url 'services' %}" class="text-orange-600 text-sm font-semibold hover:underline">Learn More →</a>
+                <a href="{% url 'services' %}" class="text-blue-600 text-sm font-semibold hover:underline">Learn More →</a>
             </div>
         </div>
         <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition group">
@@ -634,7 +639,7 @@
             <div class="p-5">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Legal & Finance</h3>
                 <p class="text-gray-600 text-sm mb-4">Secure document delivery with chain of custody. Same-day contracts & filings.</p>
-                <a href="{% url 'services' %}" class="text-orange-600 text-sm font-semibold hover:underline">Learn More →</a>
+                <a href="{% url 'services' %}" class="text-blue-600 text-sm font-semibold hover:underline">Learn More →</a>
             </div>
         </div>
     </div>
@@ -672,7 +677,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{% url 'track' %}" class="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-700 transition">
+            <a href="{% url 'track' %}" class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
                 📍 Track Your Package
             </a>
         </div>
@@ -742,8 +747,8 @@
                 <span class="text-sm">Delivered to <strong>Birmingham</strong></span>
                 <span class="text-xs text-gray-500">8 min ago</span>
             </div>
-            <div class="flex items-center gap-3 bg-orange-50 px-4 py-2 rounded-lg whitespace-nowrap">
-                <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+            <div class="flex items-center gap-3 bg-blue-50 px-4 py-2 rounded-lg whitespace-nowrap">
+                <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
                 <span class="text-sm">Out for delivery in <strong>Leeds</strong></span>
                 <span class="text-xs text-gray-500">12 min ago</span>
             </div>
@@ -896,7 +901,7 @@ function calculateQuote() {
     // Display result
     document.getElementById('quote-result').innerHTML = `
         <p class="text-sm text-gray-500">Estimated Price</p>
-        <p class="text-3xl font-bold text-orange-600">£${total.toFixed(2)}</p>
+        <p class="text-3xl font-bold text-blue-600">£${total.toFixed(2)}</p>
         <p class="text-xs text-gray-400">${weight}kg via ${service}</p>
     `;
 }
