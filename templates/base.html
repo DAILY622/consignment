@@ -205,6 +205,9 @@
     <link rel="preload" href="{% static 'css/tailwind.min.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}"></noscript>
     
+    <!-- Mobile Optimizations CSS -->
+    <link rel="stylesheet" href="{% static 'css/mobile-optimizations.css' %}">
+    
     <!-- Leaflet CSS - only load when needed -->
     {% block map_css %}{% endblock %}
     {% block extra_head %}{% endblock %}
