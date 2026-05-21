@@ -1,4 +1,4 @@
-﻿﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Track Package - DailyFX Delivery{% endblock %}
@@ -64,7 +64,7 @@
             <div class="flex items-center justify-between mb-6 px-4">
                 <div class="text-center">
                     <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <span class="text-2xl">≡ñ</span>
+                        <span class="text-2xl">📍</span>
                     </div>
                     <p class="font-semibold text-gray-800">{{ package.sender_city }}</p>
                     <p class="text-xs text-gray-500">Origin</p>
@@ -77,7 +77,7 @@
                         <div class="absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 transition-all duration-500"
                              style="left: {% if package.status == 'pending' %}10{% elif package.status == 'processing' %}25{% elif package.status == 'in_transit' %}50{% elif package.status == 'out_for_delivery' %}75{% elif package.status == 'delivered' %}100{% else %}0{% endif %}%">
                             <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-                                <span class="text-white text-sm">≡Ü</span>
+                                <span class="text-white text-sm">🚚</span>
                             </div>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                 
                 <div class="text-center">
                     <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <span class="text-2xl">≡Ñ</span>
+                        <span class="text-2xl">🏁</span>
                     </div>
                     <p class="font-semibold text-gray-800">{{ package.receiver_city }}</p>
                     <p class="text-xs text-gray-500">Destination</p>
@@ -94,12 +94,12 @@
             
             <div class="grid md:grid-cols-2 gap-6 mb-6">
                 <div class="bg-gray-50 rounded-lg p-4">
-                    <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">≡ñ Origin</h3>
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">📍 Origin</h3>
                     <p class="font-semibold text-gray-800">{{ safe_package.sender_city }}</p>
                     <p class="text-gray-600">{{ safe_package.sender_country }}</p>
                 </div>
                 <div class="bg-gray-50 rounded-lg p-4">
-                    <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">≡Ñ Destination</h3>
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">🏁 Destination</h3>
                     <p class="font-semibold text-gray-800">{{ safe_package.receiver_city }}</p>
                     <p class="text-gray-600">{{ safe_package.receiver_country }}</p>
                 </div>
@@ -107,7 +107,7 @@
             
             {% if safe_package.estimated_delivery %}
             <div class="bg-indigo-50 rounded-lg p-4 flex items-center">
-                <span class="text-2xl mr-3">≡à</span>
+                <span class="text-2xl mr-3">📅</span>
                 <div>
                     <p class="text-sm text-indigo-600">Estimated Delivery</p>
                     <p class="text-lg font-bold text-indigo-800">{{ safe_package.estimated_delivery|date:"l, F j, Y" }}</p>
@@ -128,7 +128,7 @@
             <div class="flex items-center gap-4">
                 <span class="text-sm text-gray-500">Last updated: {% now "M j, g:i A" %}</span>
                 <button onclick="centerOnPackage()" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full hover:bg-indigo-200 transition">
-                    ≡ì Center on Package
+                    📍 Center on Package
                 </button>
             </div>
         </div>
@@ -138,10 +138,10 @@
             <div class="map-controls">
                 <button class="map-btn" onclick="map.zoomIn()" title="Zoom In">+</button>
                 <button class="map-btn" onclick="map.zoomOut()" title="Zoom Out"></button>
-                <button class="map-btn" onclick="centerOnPackage()" title="Center Package">≡ª</button>
-                <button class="map-btn" onclick="fitAllMarkers()" title="Show All">≡ƒù║∩╕Å</button>
-                <button class="map-btn" onclick="focusCurrentLocation()" title="Street View">≡ƒ¢∩╕Å</button>
-                <button class="map-btn" onclick="toggleAccessRoads()" title="Toggle Access Roads">≡ì</button>
+                <button class="map-btn" onclick="centerOnPackage()" title="Center Package">📦</button>
+                <button class="map-btn" onclick="fitAllMarkers()" title="Show All">🗺️</button>
+                <button class="map-btn" onclick="focusCurrentLocation()" title="Street View">🛣️</button>
+                <button class="map-btn" onclick="toggleAccessRoads()" title="Toggle Access Roads">📍</button>
                 <button class="map-btn" onclick="toggleFullscreen()" title="Fullscreen">Γ¢╢</button>
             </div>
             <!-- Package Info Overlay -->
@@ -149,7 +149,7 @@
                 <div class="flex items-center gap-3">
                     <div class="relative">
                         <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
-                            <span class="text-2xl">≡ª</span>
+                            <span class="text-2xl">📦</span>
                         </div>
                         <span class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></span>
                     </div>
@@ -178,14 +178,14 @@
     <!-- UPGRADED: Route Details Panel -->
     <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
         <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
-            <span class="mr-2">≡ƒ¢∩╕Å</span> Route Details & Journey Information
+            <span class="mr-2">🛣️</span> Route Details & Journey Information
         </h3>
         
         <div class="grid md:grid-cols-3 gap-4">
             <!-- Distance Card -->
             <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-blue-600 text-2xl">≡Å</span>
+                    <span class="text-blue-600 text-2xl">📏</span>
                     <span class="text-xs text-blue-600 font-semibold">DISTANCE</span>
                 </div>
                 <div class="text-2xl font-bold text-blue-900" id="total-distance">--- km</div>
@@ -199,7 +199,7 @@
             <!-- Progress Card -->
             <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-purple-600 text-2xl">≡è</span>
+                    <span class="text-purple-600 text-2xl">📊</span>
                     <span class="text-xs text-purple-600 font-semibold">PROGRESS</span>
                 </div>
                 <div class="text-2xl font-bold text-purple-900" id="journey-progress">---%</div>
@@ -232,7 +232,7 @@
         <!-- Route Segments -->
         <div class="mt-6 bg-gray-50 rounded-lg p-4">
             <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
-                <span class="mr-2">≡ì</span> Route Segments
+                <span class="mr-2">📍</span> Route Segments
             </h4>
             <div class="space-y-2" id="route-segments">
                 <div class="flex items-center gap-3 text-sm">
@@ -273,7 +273,7 @@
         <!-- Nearby Infrastructure Info -->
         <div class="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-4">
             <h4 class="font-semibold text-amber-800 mb-2 flex items-center">
-                <span class="mr-2">≡ƒù║∩╕Å</span> Nearby Infrastructure (within 5km)
+                <span class="mr-2">🗺️</span> Nearby Infrastructure (within 5km)
             </h4>
             <div class="text-sm text-amber-700">
                 <div id="infrastructure-info">
@@ -286,7 +286,7 @@
     <!-- Tracking Timeline -->
     <div class="bg-white rounded-xl shadow-lg p-6">
         <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-            <span class="mr-2">≡ï</span> Tracking History
+            <span class="mr-2">📜</span> Tracking History
         </h3>
         
         <div class="space-y-1">
@@ -304,7 +304,7 @@
                             <div>
                                 <p class="font-semibold text-gray-800">{{ event.status }}</p>
                                 <p class="text-gray-600 flex items-center">
-                                    <span class="mr-1">≡ì</span> {{ event.location }}
+                                    <span class="mr-1">📍</span> {{ event.location }}
                                 </p>
                             </div>
                             <p class="text-sm text-gray-400">{{ event.timestamp|date:"M j, g:i A" }}</p>
@@ -320,7 +320,7 @@
             </div>
             {% empty %}
             <div class="text-center py-8 text-gray-500">
-                <span class="text-4xl">≡¡</span>
+                <span class="text-4xl">📭</span>
                 <p class="mt-2">No tracking history available yet.</p>
             </div>
             {% endfor %}
@@ -336,18 +336,18 @@
     </div>
     {% else %}
     <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-12 text-center">
-        <div class="text-7xl mb-4">≡ª</div>
+        <div class="text-7xl mb-4">📦</div>
         <h3 class="text-2xl font-bold text-gray-800 mb-2">Enter a Tracking Number</h3>
         <p class="text-gray-600 max-w-md mx-auto">Enter your tracking number above to see real-time location and status updates for your package.</p>
         
         <div class="mt-8 grid md:grid-cols-3 gap-4 max-w-2xl mx-auto">
             <div class="bg-white rounded-lg p-4 shadow">
-                <span class="text-2xl">≡ƒù║∩╕Å</span>
+                <span class="text-2xl">🗺️</span>
                 <p class="font-semibold mt-2">Live Map</p>
                 <p class="text-sm text-gray-500">Real-time GPS tracking</p>
             </div>
             <div class="bg-white rounded-lg p-4 shadow">
-                <span class="text-2xl">≡▒</span>
+                <span class="text-2xl">📱</span>
                 <p class="font-semibold mt-2">Status Updates</p>
                 <p class="text-sm text-gray-500">Every step of the way</p>
             </div>
@@ -494,14 +494,14 @@
     
     // Layer control for switching
     var baseMaps = {
-        "≡ƒù║∩╕Å Clean Map": voyagerTiles,
-        "≡ƒ¢∩╕Å Detailed Roads": osmDetailedTiles,
+        "🗺️ Clean Map": voyagerTiles,
+        "🛣️ Detailed Roads": osmDetailedTiles,
         "≡ƒ¢░∩╕Å Satellite": satelliteTiles,
         "≡Ö Dark Mode": darkTiles
     };
     
     var overlayMaps = {
-        "≡ì Road Overlay": roadsOverlay
+        "📍 Road Overlay": roadsOverlay
     };
     
     L.control.layers(baseMaps, overlayMaps, {position: 'topright'}).addTo(map);
@@ -515,14 +515,14 @@
     var truckFontSize = Math.round(truckSize * 0.58);
     var truckAnchor = Math.round(truckSize / 2);
     
-    // ≡Ü TRUCK ICON - uses admin-defined size and color
+    // 🚚 TRUCK ICON - uses admin-defined size and color
     var truckIcon = L.divIcon({
         className: 'truck-marker',
         html: `
             <div style="position:relative;opacity:${mapSettings.markerOpacity};">
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:${pulseSize}px;height:${pulseSize}px;background:rgba(239,68,68,0.4);border-radius:50%;animation:pulse 1.5s infinite;"></div>
                 <div style="position:relative;background:linear-gradient(135deg,${mapSettings.markerTruckColor},#b91c1c);width:${truckSize}px;height:${truckSize}px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:5px solid white;box-shadow:0 6px 25px rgba(220,38,38,0.7);">
-                    <span style="font-size:${truckFontSize}px;">≡Ü</span>
+                    <span style="font-size:${truckFontSize}px;">🚚</span>
                 </div>
                 <div style="position:absolute;top:-12px;right:-12px;background:#22c55e;color:white;font-size:10px;padding:4px 10px;border-radius:14px;font-weight:bold;border:2px solid white;animation:blink 1s infinite;box-shadow:0 2px 8px rgba(0,0,0,0.3);">LIVE</div>
             </div>
@@ -531,14 +531,14 @@
         iconAnchor: [truckAnchor, truckAnchor]
     });
     
-    // ≡ª Package Icon for other statuses
+    // 📦 Package Icon for other statuses
     var packageIcon = L.divIcon({
         className: 'package-marker-animated',
         html: `
             <div style="position:relative;opacity:${mapSettings.markerOpacity};">
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(249,115,22,0.3);border-radius:50%;animation:pulse 2s infinite;"></div>
                 <div style="position:relative;background:linear-gradient(135deg,#f97316,#ea580c);width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 15px rgba(249,115,22,0.5);transform:rotate(-5deg);">
-                    <span style="font-size:26px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.2));">≡ª</span>
+                    <span style="font-size:26px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.2));">📦</span>
                 </div>
                 <div style="position:absolute;top:-8px;right:-8px;background:#ef4444;color:white;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:bold;border:2px solid white;">LIVE</div>
             </div>
@@ -552,7 +552,7 @@
         className: 'origin-marker',
         html: `
             <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 3px 10px rgba(59,130,246,0.4);">
-                <span style="font-size:20px;">≡ñ</span>
+                <span style="font-size:20px;">📍</span>
             </div>
         `,
         iconSize: [40, 40],
@@ -566,7 +566,7 @@
             <div style="position:relative;">
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(34,197,94,0.3);border-radius:50%;animation:pulse 2s infinite;"></div>
                 <div style="background:linear-gradient(135deg,#22c55e,#16a34a);width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid white;box-shadow:0 4px 15px rgba(34,197,94,0.5);">
-                    <span style="font-size:26px;">≡Ñ</span>
+                    <span style="font-size:26px;">🏁</span>
                 </div>
                 <div style="position:absolute;top:54px;left:50%;transform:translateX(-50%);background:#16a34a;color:white;font-size:10px;padding:4px 10px;border-radius:6px;white-space:nowrap;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.2);">DESTINATION</div>
             </div>
@@ -581,7 +581,7 @@
         html: `
             <div style="position:relative;">
                 <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid white;box-shadow:0 4px 15px rgba(59,130,246,0.5);">
-                    <span style="font-size:26px;">≡ñ</span>
+                    <span style="font-size:26px;">📍</span>
                 </div>
                 <div style="position:absolute;top:54px;left:50%;transform:translateX(-50%);background:#1d4ed8;color:white;font-size:10px;padding:4px 10px;border-radius:6px;white-space:nowrap;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.2);">ORIGIN</div>
             </div>
@@ -594,7 +594,7 @@
     var originMarker = L.marker(senderCoords, {icon: originIconBig}).addTo(map)
         .bindPopup(`
             <div style="min-width:180px;">
-                <div style="font-weight:bold;color:#3b82f6;margin-bottom:5px;">≡ñ Origin</div>
+                <div style="font-weight:bold;color:#3b82f6;margin-bottom:5px;">📍 Origin</div>
                 <div style="font-weight:bold;">${senderCity}</div>
                 <div style="font-size:12px;color:#666;">${senderCountry}</div>
             </div>
@@ -604,7 +604,7 @@
     var destMarker = L.marker(receiverCoords, {icon: destIcon, zIndexOffset: 1000}).addTo(map)
         .bindPopup(`
             <div style="min-width:180px;">
-                <div style="font-weight:bold;color:#22c55e;margin-bottom:5px;">≡Ñ Destination</div>
+                <div style="font-weight:bold;color:#22c55e;margin-bottom:5px;">🏁 Destination</div>
                 <div style="font-weight:bold;">${receiverCity}</div>
                 <div style="font-size:12px;color:#666;">${receiverCountry}</div>
             </div>
@@ -691,7 +691,7 @@
         <div style="min-width:280px;padding:5px;">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
                 <div style="background:linear-gradient(135deg,${mapSettings.markerTruckColor},#b91c1c);width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                    <span style="font-size:26px;">≡Ü</span>
+                    <span style="font-size:26px;">🚚</span>
                 </div>
                 <div>
                     <div style="font-weight:bold;color:#333;">{{ safe_package.tracking_number }}</div>
@@ -699,7 +699,7 @@
                 </div>
             </div>
             <div style="background:#f3f4f6;padding:10px;border-radius:8px;font-size:12px;margin-bottom:8px;">
-                <div style="font-weight:600;margin-bottom:4px;">≡ì Current Location</div>
+                <div style="font-weight:600;margin-bottom:4px;">📍 Current Location</div>
                 <div>{{ latest_location.location|default:"En route" }}</div>
                 <div style="color:#666;margin-top:4px;font-size:11px;">Last update: {% now "M j, g:i A" %}</div>
                 <div id="reverse-geocode" style="margin-top:6px;padding-top:6px;border-top:1px solid #ddd;color:#666;font-size:11px;">
@@ -725,7 +725,7 @@
             var geocodeEl = document.getElementById('reverse-geocode');
             if (geocodeEl && data.display_name) {
                 var parts = data.display_name.split(',').slice(0, 3).join(',');
-                geocodeEl.innerHTML = `<div style="color:#333;">≡ƒù║∩╕Å ${parts}</div>`;
+                geocodeEl.innerHTML = `<div style="color:#333;">🗺️ ${parts}</div>`;
                 
                 // Add nearby landmark if available
                 if (data.address && (data.address.amenity || data.address.tourism)) {
@@ -763,7 +763,7 @@
         <div style="font-size:12px;min-width:160px;">
             <div style="font-weight:bold;color:#16a34a;margin-bottom:6px;">Γ£ô {{ event.status }}</div>
             <div style="background:#f0fdf4;padding:8px;border-radius:6px;">
-                <div>≡ì {{ event.location }}</div>
+                <div>📍 {{ event.location }}</div>
                 <div style="color:#666;font-size:11px;margin-top:4px;">{{ event.timestamp|date:"M j, g:i A" }}</div>
             </div>
         </div>
@@ -811,7 +811,7 @@
                             infrastructureCount.rest_area++;
                         }
                         else if (element.tags.highway) { 
-                            icon = '≡ƒ¢∩╕Å'; name = element.tags.highway + ' road'; color = '#8b5cf6'; 
+                            icon = '🛣️'; name = element.tags.highway + ' road'; color = '#8b5cf6'; 
                             infrastructureCount.roads++;
                         }
                     }
@@ -830,7 +830,7 @@
                 if (infrastructureCount.fuel > 0) infoHtml += `Γ¢╜ ${infrastructureCount.fuel} Gas Station(s)  `;
                 if (infrastructureCount.parking > 0) infoHtml += `≡ƒà┐∩╕Å ${infrastructureCount.parking} Parking Area(s)  `;
                 if (infrastructureCount.rest_area > 0) infoHtml += `≡ƒ¢æ ${infrastructureCount.rest_area} Rest Stop(s)  `;
-                if (infrastructureCount.roads > 0) infoHtml += `≡ƒ¢∩╕Å ${infrastructureCount.roads} Major Road(s)`;
+                if (infrastructureCount.roads > 0) infoHtml += `🛣️ ${infrastructureCount.roads} Major Road(s)`;
                 
                 if (infoHtml === '') infoHtml = 'No major facilities detected in immediate area';
                 else infoHtml = infoHtml.replace(/  $/, ''); // Remove trailing separator
