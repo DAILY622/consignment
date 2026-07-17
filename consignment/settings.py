@@ -279,17 +279,58 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # WhiteNoise for serving static files
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-    },
-}
+# Cloudflare R2 for media files
+USE_R2 = os.environ.get('USE_R2', 'False').lower() == 'true'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+if USE_R2:
+    # Cloudflare R2 Configuration
+    AWS_ACCESS_KEY_ID = os.environ.get('R2_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('R2_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('R2_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = os.environ.get('R2_ENDPOINT_URL')
+    AWS_S3_REGION_NAME = 'auto'  # R2 uses 'auto' for region
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
+    
+    # Optional: Use custom domain for R2
+    R2_CUSTOM_DOMAIN = os.environ.get('R2_CUSTOM_DOMAIN', '')
+    if R2_CUSTOM_DOMAIN:
+        AWS_S3_CUSTOM_DOMAIN = R2_CUSTOM_DOMAIN
+    
+    # Security and performance settings
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+    AWS_QUERYSTRING_AUTH = False  # Don't add auth query params to URLs
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',  # 1 day cache
+    }
+    
+    # Use R2 for media files
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
+    
+    # Media URL
+    if R2_CUSTOM_DOMAIN:
+        MEDIA_URL = f'https://{R2_CUSTOM_DOMAIN}/'
+    else:
+        MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/'
+else:
+    # Local file storage (default)
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'accounts.User'
 
