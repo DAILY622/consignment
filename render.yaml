@@ -48,7 +48,11 @@ services:
       
       # ===== SECURITY & HOSTS =====
       - key: ALLOWED_HOSTS
-        value: ".onrender.com"
+        value: ".onrender.com,dailyfx-delivery-8ej1.onrender.com"
+      
+      # Add exact Render URL to CSRF trusted origins
+      - key: CSRF_TRUSTED_ORIGINS_EXTRA
+        value: "https://dailyfx-delivery-8ej1.onrender.com"
       
       # For custom domain, add: ".onrender.com,yourdomain.com,www.yourdomain.com"
       

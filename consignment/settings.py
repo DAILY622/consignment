@@ -47,10 +47,20 @@ ALLOWED_HOSTS = _default_allowed_hosts + _extra_hosts
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://localhost:8000',
+    'https://dailyfx-delivery-8ej1.onrender.com',  # Your Render URL
+]
+
+# Add support for additional CSRF origins from environment
+_extra_origins = os.environ.get('CSRF_TRUSTED_ORIGINS_EXTRA', '')
+if _extra_origins:
+    CSRF_TRUSTED_ORIGINS.extend([o.strip() for o in _extra_origins.split(',') if o.strip()])
+
+# Add wildcard support for common platforms (if on older Django, use exact URLs above)
+CSRF_TRUSTED_ORIGINS.extend([
     'https://*.herokuapp.com',
     'https://*.onrender.com',
     'https://*.railway.app',
-]
+])
 
 
 # Application definition
