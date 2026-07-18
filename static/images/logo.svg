@@ -1,14 +1,1 @@
-﻿<svg width="200" height="60" xmlns="http://www.w3.org/2000/svg">
-  <!-- Solid box/package icon -->
-  <rect x="10" y="15" width="30" height="30" rx="3" fill="#2563eb" stroke="#1e40af" stroke-width="2"/>
-  <line x1="10" y1="30" x2="40" y2="30" stroke="#1e40af" stroke-width="2"/>
-  <line x1="25" y1="15" x2="25" y2="45" stroke="#1e40af" stroke-width="2"/>
-  
-  <!-- Company name -->
-  <text x="50" y="32" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#1e3a8a">
-    DailyFX Delivery
-  </text>
-  <text x="50" y="48" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="500" fill="#64748b" letter-spacing="2">
-    NORWAY LOGISTICS
-  </text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60"><rect width="30" height="30" x="10" y="15" fill="#2563eb" stroke="#1e40af" stroke-width="2" rx="3"/><line x1="10" x2="40" y1="30" y2="30" stroke="#1e40af" stroke-width="2"/><line x1="25" x2="25" y1="15" y2="45" stroke="#1e40af" stroke-width="2"/><text x="50" y="32" fill="#1e3a8a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">DailyFX Delivery</text><text x="50" y="48" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="500" letter-spacing="2">NORWAY LOGISTICS</text></svg>
