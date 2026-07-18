@@ -291,6 +291,9 @@ if USE_R2:
     AWS_S3_REGION_NAME = 'auto'  # R2 uses 'auto' for region
     AWS_S3_SIGNATURE_VERSION = 's3v4'
     
+    # Optional: Prefix for organizing files in shared bucket (e.g., 'consignment/')
+    AWS_LOCATION = os.environ.get('R2_PREFIX', '')
+    
     # Optional: Use custom domain for R2
     R2_CUSTOM_DOMAIN = os.environ.get('R2_CUSTOM_DOMAIN', '')
     if R2_CUSTOM_DOMAIN:
