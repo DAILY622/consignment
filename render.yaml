@@ -116,10 +116,33 @@ services:
       # ===== MEDIA FILES =====
       # Media files uploaded by users (e.g., proof of delivery images)
       # Stored in /media/ directory on Render disk
-      # Note: Render disk storage is ephemeral - consider S3/Cloudinary for persistence
+      # Note: Render disk storage is ephemeral - consider S3/Cloudinary/R2 for persistence
       
-      # ===== OPTIONAL: CLOUDINARY (for persistent media storage) =====
-      # If you want to use Cloudinary instead of local media storage:
+      # ===== CLOUDFLARE R2 STORAGE (Recommended for persistent media) =====
+      # R2 benefits: Free 10GB, zero egress fees, S3-compatible
+      # See CLOUDFLARE_R2_SETUP.md for detailed setup instructions
+      
+      - key: USE_R2
+        value: "False"  # Set to "True" to enable R2 storage
+      
+      # Configure these in Render Dashboard when USE_R2=True:
+      # - key: R2_ACCESS_KEY_ID
+      #   sync: false  # Set manually: your R2 access key
+      
+      # - key: R2_SECRET_ACCESS_KEY
+      #   sync: false  # Set manually: your R2 secret key
+      
+      # - key: R2_BUCKET_NAME
+      #   sync: false  # Set manually: your-bucket-name
+      
+      # - key: R2_ENDPOINT_URL
+      #   sync: false  # Set manually: https://account-id.r2.cloudflarestorage.com
+      
+      # - key: R2_CUSTOM_DOMAIN
+      #   sync: false  # Optional: media.yourdomain.com
+      
+      # ===== OPTIONAL: CLOUDINARY (Alternative to R2) =====
+      # If you want to use Cloudinary instead of R2:
       # - key: CLOUDINARY_CLOUD_NAME
       #   sync: false  # Set manually in Render Dashboard
       
