@@ -39,6 +39,13 @@ media/
 # Static files (collected)
 staticfiles/
 
+# Cloudflare
+.wrangler/
+node_modules/
+package-lock.json
+.dev.vars
+wrangler.toml.backup
+
 # IDE
 .idea/
 .vscode/

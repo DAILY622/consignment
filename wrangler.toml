@@ -1,0 +1,38 @@
+name = "consignment-delivery"
+main = "worker.py"
+compatibility_date = "2026-07-18"
+workers_dev = true
+
+# Django app configuration
+[vars]
+DEBUG = "False"
+ALLOWED_HOSTS = ".workers.dev,.pages.dev"
+DJANGO_SETTINGS_MODULE = "consignment.settings"
+
+# Cloudflare D1 Database (SQLite)
+[[d1_databases]]
+binding = "DB"  # Accessible as env.DB in code
+database_name = "consignment-delivery-db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"  # Get from: wrangler d1 create consignment-delivery-db
+
+# Cloudflare R2 Storage (for media files)
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"  # Accessible as env.MEDIA_BUCKET
+bucket_name = "consignment-media"  # Change if using existing bucket
+
+# Environment variables (non-sensitive)
+# Secrets should be set with: wrangler secret put SECRET_NAME
+
+# Observability
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+# Build configuration
+[build]
+command = "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+
+# Routes (optional - if using custom domain)
+# [[routes]]
+# pattern = "delivery.yourdomain.com/*"
+# custom_domain = true
