@@ -1,0 +1,4 @@
+# Migration to create Durable Object namespaces
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["PackageTracker", "DeliveryRoom"]

@@ -1,0 +1,83 @@
+name = "consignment-delivery"
+main = "src/index.ts"
+compatibility_date = "2026-07-18"
+compatibility_flags = ["nodejs_compat"]
+
+# ========================================
+# CLOUDFLARE FULL STACK CONFIGURATION
+# R2 + D1 + Queues + Durable Objects + KV
+# ========================================
+
+[vars]
+DEBUG = "False"
+ENVIRONMENT = "production"
+
+# ===== CLOUDFLARE D1 DATABASE (SQLite) =====
+# ✅ Already Created: f1f78eb9-e992-42cf-a30e-9b74970babe1
+[[d1_databases]]
+binding = "DB"  # Access in code: env.DB
+database_name = "consignment-delivery-db"
+database_id = "f1f78eb9-e992-42cf-a30e-9b74970babe1"
+
+# ===== CLOUDFLARE R2 STORAGE (Media Files) =====
+# Using existing bucket: mysite
+[[r2_buckets]]
+binding = "MEDIA"  # Access in code: env.MEDIA
+bucket_name = "mysite"
+
+# ===== CLOUDFLARE QUEUES (Async Tasks) =====
+# For: Email notifications, SMS, webhooks, background jobs
+
+# Producer - Send messages to queue
+[[queues.producers]]
+binding = "DELIVERY_QUEUE"  # Access in code: env.DELIVERY_QUEUE
+queue = "delivery-notifications"
+
+# Consumer - Process messages from queue
+[[queues.consumers]]
+queue = "delivery-notifications"
+max_batch_size = 10
+max_batch_timeout = 30
+max_retries = 3
+dead_letter_queue = "delivery-dlq"
+
+# ===== DURABLE OBJECTS (Real-time State) =====
+# For: Live package tracking, WebSocket connections, real-time updates
+
+[[durable_objects.bindings]]
+name = "PACKAGE_TRACKER"  # Access in code: env.PACKAGE_TRACKER
+class_name = "PackageTracker"
+
+[[durable_objects.bindings]]
+name = "DELIVERY_ROOM"  # For real-time tracking rooms
+class_name = "DeliveryRoom"
+
+# Durable Objects migrations
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["PackageTracker", "DeliveryRoom"]
+
+# ===== KV NAMESPACE (Fast Key-Value Cache) =====
+# For: Session data, rate limiting, temporary data
+
+[[kv_namespaces]]
+binding = "CACHE"  # Access in code: env.CACHE
+id = "d4e27370e54a4fa9850c3a8bcf667b0a"  # ✅ Created
+
+# ===== OBSERVABILITY =====
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+# ===== BUILD CONFIGURATION =====
+[build]
+command = "npm run build"
+
+# ===== CUSTOM DOMAINS (Optional) =====
+# Uncomment and configure when adding custom domain
+# [[routes]]
+# pattern = "delivery.yourdomain.com/*"
+# custom_domain = true
+
+# ===== NODE.JS COMPATIBILITY =====
+node_compat = true
