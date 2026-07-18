@@ -13,7 +13,7 @@ DJANGO_SETTINGS_MODULE = "consignment.settings"
 [[d1_databases]]
 binding = "DB"  # Accessible as env.DB in code
 database_name = "consignment-delivery-db"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"  # Get from: wrangler d1 create consignment-delivery-db
+database_id = "f1f78eb9-e992-42cf-a30e-9b74970babe1"  # ✅ Created successfully!
 
 # Cloudflare R2 Storage (for media files)
 [[r2_buckets]]

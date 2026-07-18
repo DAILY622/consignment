@@ -1,0 +1,13 @@
+name = "consignment-delivery"
+compatibility_date = "2026-07-18"
+
+# Cloudflare D1 Database (SQLite)
+[[d1_databases]]
+binding = "DB"
+database_name = "consignment-delivery-db"
+database_id = "f1f78eb9-e992-42cf-a30e-9b74970babe1"
+
+# Cloudflare R2 Storage (for media files)
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "consignment-media"
