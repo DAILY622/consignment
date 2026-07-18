@@ -23,7 +23,7 @@ services:
     envVars:
       # ===== DATABASE CONFIGURATION =====
       # Using External Neon Database (Serverless PostgreSQL)
-      - key: DATABASE_URL
+      # INVALID - FIX THIS IN RENDER DASHBOARD! Remove ****** prefix\n      # - key: DATABASE_URL
         value: postgresql://neondb_owner:npg_Hm6oMiXSaTc1@ep-soft-queen-ap4bqkwz-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       
       # Note: Neon database benefits:
