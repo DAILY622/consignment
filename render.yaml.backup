@@ -1,0 +1,186 @@
+# Render Blueprint for DailyFX Delivery Logistics
+# Complete deployment configuration for Render.com
+# All environment variables configured for production deployment
+
+# No database creation needed - using external Neon PostgreSQL
+# databases:
+#   - name: consignment-db
+#     databaseName: consignment
+#     user: consignment
+#     plan: free  # Commented out - using Neon instead
+
+services:
+  - type: web
+    name: dailyfx-delivery
+    runtime: python
+    plan: free  # Free tier or paid (starter/standard/pro)
+    region: oregon  # Choose: oregon, frankfurt, singapore, ohio
+    buildCommand: "chmod +x build.sh && ./build.sh"
+    startCommand: "gunicorn consignment.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 --access-logfile - --error-logfile -"
+    healthCheckPath: /
+    autoDeploy: true  # Auto-deploy on git push
+    
+    envVars:
+      # ===== DATABASE CONFIGURATION =====
+      # Using External Neon Database (Serverless PostgreSQL)
+      # INVALID - FIX THIS IN RENDER DASHBOARD! Remove ****** prefix\n      # - key: DATABASE_URL
+        value: postgresql://neondb_owner:npg_Hm6oMiXSaTc1@ep-soft-queen-ap4bqkwz-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+      
+      # Note: Neon database benefits:
+      # - Serverless with auto-scaling
+      # - Built-in connection pooling
+      # - Database branching for dev/staging
+      # - No 90-day expiration (unlike Render free tier)
+      # - Better free tier storage (512 MB vs 1 GB)
+      
+      # ===== DJANGO CORE CONFIGURATION =====
+      - key: SECRET_KEY
+        generateValue: true  # Render will generate a secure random key (50+ characters)
+      
+      - key: DEBUG
+        value: "False"  # Always False in production
+      
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      
+      - key: DJANGO_SETTINGS_MODULE
+        value: "consignment.settings"
+      
+      # ===== SECURITY & HOSTS =====
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com,dailyfx-delivery-8ej1.onrender.com"
+      
+      # Add exact Render URL to CSRF trusted origins
+      - key: CSRF_TRUSTED_ORIGINS_EXTRA
+        value: "https://dailyfx-delivery-8ej1.onrender.com"
+      
+      # For custom domain, add: ".onrender.com,yourdomain.com,www.yourdomain.com"
+      
+      # HTTPS and SSL settings (enabled automatically when DEBUG=False)
+      # SECURE_SSL_REDIRECT=True
+      # SESSION_COOKIE_SECURE=True
+      # CSRF_COOKIE_SECURE=True
+      # SECURE_HSTS_SECONDS=31536000
+      # SECURE_PROXY_SSL_HEADER is configured in settings.py
+      
+      # ===== EMAIL CONFIGURATION =====
+      # Email backend for production
+      - key: EMAIL_BACKEND
+        value: "django.core.mail.backends.smtp.EmailBackend"
+      
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      
+      - key: EMAIL_PORT
+        value: "587"
+      
+      - key: EMAIL_USE_TLS
+        value: "True"
+      
+      # Configure these in Render Dashboard (sensitive values)
+      # For Gmail: Use App Password, not regular password
+      # - key: EMAIL_HOST_USER
+      #   sync: false  # Set manually: your-email@gmail.com
+      
+      # - key: EMAIL_HOST_PASSWORD
+      #   sync: false  # Set manually: your-app-password
+      
+      - key: DEFAULT_FROM_EMAIL
+        value: "noreply@dailyfxdelivery.com"
+      
+      - key: CONTACT_EMAIL
+        value: "support@dailyfxdelivery.com"
+      
+      # ===== LOGGING & MONITORING =====
+      - key: DJANGO_LOG_LEVEL
+        value: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+      
+      # ===== PERFORMANCE & WORKERS =====
+      - key: WEB_CONCURRENCY
+        value: "2"  # Number of Gunicorn workers (adjust based on plan)
+      
+      # ===== TAWK.TO LIVE CHAT =====
+      # Tawk.to is hardcoded in base.html template
+      # Widget ID: tawk_69c1f2a729e9681c3d64de5d
+      # Property ID: 1jov3selv
+      # No environment variables needed - automatically active on all pages
+      # Dashboard: https://dashboard.tawk.to
+      
+      # ===== CSRF TRUSTED ORIGINS =====
+      # Configured in settings.py for .onrender.com domains
+      # For custom domains, add via CSRF_TRUSTED_ORIGINS_EXTRA if needed
+      # - key: CSRF_TRUSTED_ORIGINS_EXTRA
+      #   value: "https://yourdomain.com,https://www.yourdomain.com"
+      
+      # ===== STATIC FILES =====
+      # WhiteNoise handles static files automatically
+      # No additional configuration needed
+      # Static files served from /staticfiles/ directory
+      
+      # ===== MEDIA FILES =====
+      # Media files uploaded by users (e.g., proof of delivery images)
+      # Stored in /media/ directory on Render disk
+      # Note: Render disk storage is ephemeral - consider S3/Cloudinary/R2 for persistence
+      
+      # ===== CLOUDFLARE R2 STORAGE (Recommended for persistent media) =====
+      # R2 benefits: Free 10GB, zero egress fees, S3-compatible
+      # See CLOUDFLARE_R2_SETUP.md for detailed setup instructions
+      
+      - key: USE_R2
+        value: "False"  # Set to "True" to enable R2 storage
+      
+      # Configure these in Render Dashboard when USE_R2=True:
+      # - key: R2_ACCESS_KEY_ID
+      #   sync: false  # Set manually: your R2 access key
+      
+      # - key: R2_SECRET_ACCESS_KEY
+      #   sync: false  # Set manually: your R2 secret key
+      
+      # - key: R2_BUCKET_NAME
+      #   sync: false  # Set manually: your-bucket-name
+      
+      # - key: R2_ENDPOINT_URL
+      #   sync: false  # Set manually: https://account-id.r2.cloudflarestorage.com
+      
+      # - key: R2_CUSTOM_DOMAIN
+      #   sync: false  # Optional: media.yourdomain.com
+      
+      # ===== OPTIONAL: CLOUDINARY (Alternative to R2) =====
+      # If you want to use Cloudinary instead of R2:
+      # - key: CLOUDINARY_CLOUD_NAME
+      #   sync: false  # Set manually in Render Dashboard
+      
+      # - key: CLOUDINARY_API_KEY
+      #   sync: false  # Set manually in Render Dashboard
+      
+      # - key: CLOUDINARY_API_SECRET
+      #   sync: false  # Set manually in Render Dashboard
+      
+      # ===== OPTIONAL: CUSTOM DOMAIN =====
+      # If using custom domain:
+      # 1. Update ALLOWED_HOSTS above
+      # 2. Add CSRF_TRUSTED_ORIGINS_EXTRA
+      # 3. Configure domain in Render Dashboard
+      # 4. Update DNS records (CNAME to onrender.com)
+      
+      # ===== OPTIONAL: SENTRY ERROR TRACKING =====
+      # - key: SENTRY_DSN
+      #   sync: false  # Set manually if using Sentry
+      
+      # ===== OPTIONAL: REDIS CACHING =====
+      # - key: REDIS_URL
+      #   sync: false  # Add if you set up Redis service
+      
+      # ===== ADMIN CUSTOMIZATION =====
+      # Admin interface uses Jazzmin theme (configured in settings.py)
+      # No additional environment variables needed
+      
+      # ===== MAP FEATURES =====
+      # Leaflet map integration is configured via SiteSettings model
+      # Access admin panel to configure:
+      # - Map provider (OpenStreetMap, Mapbox, etc.)
+      # - Marker opacity
+      # - Route opacity
+      # - Route line color
+      # - Zoom level
+      # No environment variables needed

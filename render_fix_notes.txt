@@ -1,0 +1,3 @@
+# YAML is indentation-sensitive. Each line matters!
+# Fixed DATABASE_URL by removing invalid ****** prefix
+# Set proper connection string in Render Dashboard instead
